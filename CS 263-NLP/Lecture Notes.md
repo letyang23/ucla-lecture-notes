@@ -87,7 +87,7 @@
 #### Named Entity Recognition (NER) and Ambiguity
 
 - Type ambiguity
-  - Example: ![image-20240930144728140](Lecture Notes.assets/image-20240930144728140.png)
+  - Example: <img src="Lecture Notes.assets/image-20240930144728140.png" alt="image-20240930144728140" style="zoom:80%;" />
 
 #### Syntactic Parsing and Ambiguity
 
@@ -117,7 +117,7 @@
 
   - What does *the speaker* mean? (context: in a stuffy room)
 
-    ![Screenshot 2024-09-30 at 3.05.47 PM](Lecture Notes.assets/Screenshot 2024-09-30 at 3.05.47 PM.png)
+    <img src="Lecture Notes.assets/Screenshot 2024-09-30 at 3.05.47 PM.png" alt="Screenshot 2024-09-30 at 3.05.47 PM" style="zoom:80%;" />
 
     
 
@@ -173,13 +173,13 @@ peer review and class/TA/Piazza participation
   egg   student  talk  university   happy   buy   
 
    `egg = [1 0 0 0 0]`
-   
+  
    `student = [0 1 0 0 0]`
-   
+  
    `talk = [0 0 1 0 0]`
-   
+  
    `Insufficient and words have no connection with each other`
-   
+  
 - How large is (what’s the dimension of) this vector?
   - Vector dimension = number of words in vocabulary 
     - PTB data: ~50k, 
@@ -398,9 +398,9 @@ PPMI and Cosine similarity
 
 ##### Output: word-context matrix
 
-![image-20241004190911560](Lecture Notes.assets/image-20241004190911560.png)
+<img src="Lecture Notes.assets/image-20241004190911560.png" alt="image-20241004190911560" style="zoom:80%;" />
 
-![Screenshot 2024-10-02 at 3.10.27 PM](Lecture Notes.assets/Screenshot 2024-10-02 at 3.10.27 PM.png)
+<img src="Lecture Notes.assets/Screenshot 2024-10-02 at 3.10.27 PM.png" alt="Screenshot 2024-10-02 at 3.10.27 PM" style="zoom:80%;" />
 
 `We can represent the word by either vertical or horizontal vector`
 
@@ -494,7 +494,7 @@ $p(c=data) = 7/19 = 0.37$
 
 ###### Calculate for every one of them
 
-![image-20241004193040284](Lecture Notes.assets/image-20241004193040284.png)
+<img src="Lecture Notes.assets/image-20241004193040284.png" alt="image-20241004193040284" style="zoom:80%;" />
 
 #### Low-dimensional Representations
 
@@ -517,7 +517,7 @@ $p(c=data) = 7/19 = 0.37$
 
 `construct original matrix when you multiply three matrix together`
 
-![image-20241004193543439](Lecture Notes.assets/image-20241004193543439.png)
+<img src="Lecture Notes.assets/image-20241004193543439.png" alt="image-20241004193543439" style="zoom:80%;" />
 
 In our case, d == n
 
@@ -573,9 +573,9 @@ Why is this a problem for LSA?
 
 - Maximize the log likelihood (minimize the negative log likelihood) of context word $w_{t-m}, w_{t-1}, w_{t+1},..., w_{t+m}$ given center word $w_t$
 
-  $J(\theta) = \frac{-1}{T}\sum_{t=1} \sum _{-m\le j \le m, j\ne 0} logp(w_{t+j}|w_t)$
+  $$J(\theta) = \frac{-1}{T}\sum_{t=1} \sum _{-m\le j \le m, j\ne 0} logp(w_{t+j}|w_t)$$
 
-  ![image-20241004195924377](Lecture Notes.assets/image-20241004195924377.png)
+  <img src="Lecture Notes.assets/image-20241004195924377.png" alt="image-20241004195924377" style="zoom:80%;" />
 
   <img src="Lecture Notes.assets/image-20241004195734004.png" alt="image-20241004195734004" style="zoom:67%;" />
 
@@ -585,7 +585,7 @@ Why is this a problem for LSA?
 
   $p(w_{t+j} | w_t = \frac{exp(u_{w_{t+j}}\cdot v_{w_t}}{\sum_{w'\in V}exp(u_{w'}\cdot v_{w_t})})$ The soft max function, or normalized exponential function
 
-  - ![image-20241004200403849](Lecture Notes.assets/image-20241004200403849.png)
+  - <img src="Lecture Notes.assets/image-20241004200403849.png" alt="image-20241004200403849" style="zoom:80%;" />
 
 - Every word has 2 vectors
 
