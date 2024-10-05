@@ -573,7 +573,7 @@ Why is this a problem for LSA?
 
 - Maximize the log likelihood (minimize the negative log likelihood) of context word $w_{t-m}, w_{t-1}, w_{t+1},..., w_{t+m}$ given center word $w_t$
 
-  $$J(\theta) = \frac{-1}{T}\sum_{t=1} \sum _{-m\le j \le m, j\ne 0} logp(w_{t+j}|w_t)$$
+  $$J(\theta) = \frac{-1}{T}\sum_{t=1} \sum_{-m\le j \le m, j\ne 0} logp(w_{t+j}|w_t)$$
 
   <img src="Lecture Notes.assets/image-20241004195924377.png" alt="image-20241004195924377" style="zoom:80%;" />
 
