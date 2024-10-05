@@ -147,9 +147,15 @@
 
 # 10/2 Lecture
 
-2:16PM
+Assignment 1 and project description is released today.
 
-### How do we represent a word?
+Sign up for paper to present, reproduce the code and write a demo
+
+peer review and class/TA/Piazza participation
+
+### Introduction to lexical semantics
+
+#### How do we represent a word?
 
 - How do we “understand” a word?
 
@@ -157,15 +163,23 @@
 
   `In number? In vector? In Graph?`
 
-### Representing words as discrete symbols
+##### Representing words as discrete symbols
 
 - Naïve way: represent words as atomic symbols: student, talk, university (BoW)
 
-- Represent word as a “one-hot” vector 
+- Represent word as a **“one-hot”** vector (**独热**) 
    [ 0       0           0           1                 0  …     0 ]
 
   egg   student  talk  university   happy   buy   
 
+   `egg = [1 0 0 0 0]`
+   
+   `student = [0 1 0 0 0]`
+   
+   `talk = [0 0 1 0 0]`
+   
+   `Insufficient and words have no connection with each other`
+   
 - How large is (what’s the dimension of) this vector?
   - Vector dimension = number of words in vocabulary 
     - PTB data: ~50k, 
@@ -187,7 +201,7 @@
 - Only 30,000 word types occurred
   - Words not in the training data ⇒ no representation, 0 probability
 
-### What is Lexical Semantics
+#### What is Lexical Semantics
 
 Word meanings that can help decide:
 
@@ -221,13 +235,13 @@ Word meanings that can help decide:
 
 #### Validity of Semantic Similarity
 
-- Is semantic distance a valid linguistic phenomenon? è how would you approach this problem?
+- Is semantic distance `(how far apart word meanings are)` a valid linguistic phenomenon? -> how would you approach this problem?
 - Experiment (Rubenstein and Goodenough, 1965)
   - Compiled a list of word pairs
   - Subjects asked to judge semantic distance (from 0 to 4) for each pair
 - Results
   - Rank correlation between subjects is ~ 0.9
-  - People are consistent!
+  - People are **consistent**!
 
 - What can we use semantic similarity for? (discussion)
 
@@ -235,9 +249,13 @@ Word meanings that can help decide:
 
 <img src="Lecture Notes.assets/image-20241002143554129.png" alt="image-20241002143554129" style="zoom:30%;" />
 
+`Semantic similarity will help catch plagiarism`
+
 ###### Word similarity for historical linguistics: semantic change over time
 
 <img src="Lecture Notes.assets/image-20241002143614545.png" alt="image-20241002143614545" style="zoom:33%;" />
+
+`From start, gay means happy and until now gay means homosexual. Use semantic similarity help help us understand the semantic change over the time`
 
 ###### Word similarity reflects gender stereotype
 
@@ -251,13 +269,15 @@ Word meanings that can help decide:
 - Firth (1957): 
   - “You shall know a word by the company it keeps!”
 
-### Intuition for distributional word similarity
+`Theory: We can know the semantic similarity with the words comes with them.`
+
+###### Intuition for distributional word similarity
 
 - Words that occur in the same contexts tend to have similar meanings
 
   <img src="Lecture Notes.assets/image-20241002143730393.png" alt="image-20241002143730393" style="zoom:33%;" />
 
-### More intuition for distributional word similarity
+###### More intuition for distributional word similarity
 
 ```
 A bottle of tesgüino is on the table
@@ -271,7 +291,7 @@ We make tesgüino out of corn.
 - Intuition for algorithm:
   - Two words are similar if they have similar word contexts.
 
-#### Two classes of vector representation
+### Two classes of vector representation
 
 - Sparse vector representations
   1. Mutual-information weighted word co-occurrence matrices
@@ -281,15 +301,16 @@ We make tesgüino out of corn.
   3. Neural-network-inspired models (skip-grams, CBOW)
   4. *Brown clusters*
 
-#### Shared intuition
+##### Shared intuition
 
 - Model the meaning of a word by “embedding” in a vector space.
 - The meaning of a word is a vector of numbers
   - Vector models are also called “**embeddings**”.
+  - `Not a one hot vector`
 - Contrast: word meaning is represented by a vocabulary index (“word number 545”  ->  one hot vector)
   - The drawbacks of one-hot vector is discussed in the previous lecture.
 
-### Sparse Vector Representations
+#### Sparse Vector Representations
 
 Word-document matrix
 
@@ -297,18 +318,29 @@ Word-word matrix
 
 PPMI and Cosine similarity
 
-### Term-document matrix
+##### Term-document matrix
 
 - Each cell: count of term $t$ in a document $d:tf_{t,d}$ :
-  - <u>Each document</u> is a *count vector* in $ℕ^v$: a column below 
+  - <u>Each document</u> is a *count vector* in $ℕ^v$: a column below `As You Like It [1 2 37 6] (竖排)`
+  - Each word is a count vector in $ℕ^d$: a row below `Fool: [37 58 1 5] （横排）`
 
-<img src="Lecture Notes.assets/image-20241002144204953.png" alt="image-20241002144204953" style="zoom:33%;" />
+|         | As You Like It | Twelfth Night | Julius Caesar | Henry V |
+| ------- | -------------- | ------------- | ------------- | ------- |
+| battle  | 1              | 1             | 8             | 15      |
+| soldier | 2              | 2             | 12            | 36      |
+| fool    | 37             | 58            | 1             | 5       |
+| clown   | 6              | 117           | 0             | 0       |
 
-​					       ⬆️
+​	`From this matrix, we can see Battle and Soldier are closer to each other than Battle and Fool (Similarity of the words)`
 
-​					*count vector*
+- Two **documents** are similar if their vectors are similar
+  - `Example: Julius Caesar [8 12 1 0]` and `Henry V [15 36 5 0]`
+- Two **words** are similar if their vectors are similar
+  - Example: `fool [37 58 1 5]` and `clown [6 117 0 0]`
 
 ### Measuring similarity: cosine
+
+`cosine similarity over dot product (it's normalized!) `
 
 - Divide the dot product by the length of the two vectors!
 
@@ -320,17 +352,27 @@ PPMI and Cosine similarity
 
 ### Recap: Dot Product between Vectors
 
+- To calculate the dot product
+
 <img src="Lecture Notes.assets/Screenshot 2024-10-02 at 2.48.08 PM.png" alt="Screenshot 2024-10-02 at 2.48.08 PM" style="zoom:50%;" />
 
 ### Cosine for computing similarity
 
-![Screenshot 2024-10-02 at 2.48.08 PM](Lecture Notes.assets/Screenshot 2024-10-02 at 2.48.08 PM.png)
+- Recap for Cosine Similarity
 
-##### Visualizing vectors and angles
+![image-20241004184626719](Lecture Notes.assets/image-20241004184626719.png)
+
+![image-20241004184736504](Lecture Notes.assets/image-20241004184736504.png)
+
+
+
+###### Visualizing vectors and angles
 
 ![image-20241002144856197](Lecture Notes.assets/image-20241002144856197.png)
 
-### Issues about the term-document matrix
+`Dimension 1 is DOC1, Dimension 2 is DOC2`
+
+##### Issues about the term-document matrix
 
 - Document can be very long
   - Some far-away words appear in the same documents are no longer that relevant/similar.
@@ -352,7 +394,7 @@ PPMI and Cosine similarity
 
 ![image-20241002150804072](Lecture Notes.assets/image-20241002150804072.png)
 
-### Output: word-context matrix
+##### Output: word-context matrix
 
 ![Screenshot 2024-10-02 at 3.10.27 PM](Lecture Notes.assets/Screenshot 2024-10-02 at 3.10.27 PM.png)
 
