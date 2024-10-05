@@ -91,7 +91,7 @@
 
 #### Syntactic Parsing and Ambiguity
 
-<img src="Lecture Notes.assets/Screenshot 2024-09-30 at 2.48.07 PM.png" alt="Screenshot 2024-09-30 at 2.48.07 PM" style="zoom:50%;" />
+<img src="Lecture Notes.assets/Screenshot 2024-09-30 at 2.48.07 PM.png" alt="Screenshot 2024-09-30 at 2.48.07 PM" style="zoom:30%;" />
 
 ### Course Information
 
@@ -360,15 +360,15 @@ PPMI and Cosine similarity
 
 - Recap for Cosine Similarity
 
-![image-20241004184626719](Lecture Notes.assets/image-20241004184626719.png)
+<img src="Lecture Notes.assets/image-20241004184626719.png" alt="image-20241004184626719" style="zoom:50%;" />
 
-![image-20241004184736504](Lecture Notes.assets/image-20241004184736504.png)
+<img src="Lecture Notes.assets/image-20241004184736504.png" alt="image-20241004184736504" style="zoom:50%;" />
 
 
 
 ###### Visualizing vectors and angles
 
-![image-20241002144856197](Lecture Notes.assets/image-20241002144856197.png)
+<img src="Lecture Notes.assets/image-20241002144856197.png" alt="image-20241002144856197" style="zoom:30%;" />
 
 `Dimension 1 is DOC1, Dimension 2 is DOC2`
 
@@ -392,36 +392,47 @@ PPMI and Cosine similarity
 
 ##### Word-Word matrix Input: sample contexts ± 7 words
 
-![image-20241002150804072](Lecture Notes.assets/image-20241002150804072.png)
+<img src="Lecture Notes.assets/image-20241002150804072.png" alt="image-20241002150804072" style="zoom:50%;" />
+
+`total of 7 words before "apricot", and 7 words after "apricot"`
 
 ##### Output: word-context matrix
 
+![image-20241004190911560](Lecture Notes.assets/image-20241004190911560.png)
+
 ![Screenshot 2024-10-02 at 3.10.27 PM](Lecture Notes.assets/Screenshot 2024-10-02 at 3.10.27 PM.png)
 
-### Word-word matrix
+`We can represent the word by either vertical or horizontal vector`
 
-- We showed only 4x6, but the real matrix is 50,000 x 50,000
+#### Word-word matrix
+
+- We showed only 4x6, but the real matrix is 50,000 x 50,000 `vocabulary size x vocabulary size`
 
   - So it’s very **sparse** -- Most values (~98%) are 0.
 
 - The size of windows depends on your goals
 
-  - The shorter the windows , the more **syntactic** the representation
+  - The shorter the windows , the more **syntactic** the representation 
+    - `句法关系 example: "the" and noun`
     - ± 1-3 very syntactic
-
-  - The longer the windows, the more **semantic** the representation
+    
+  - The longer the windows, the more **semantic** the representation 
+    - `语义关系example: "doctor" and "hospital"`
     - ± 4-10 more semantic
-
+  
   - Even longer, you will get **topical** representations
+    -  `主题关系，example: climate and change`
     - ± 10+ more topical
+  
 
-### Problem with raw counts
+#### Problem with raw counts
 
 - Raw word frequency is not a great measure of association between words (why)?
   - It’s very skewed
     - “the” and “of” are very frequent, but maybe not the most discriminative
+    - `every word appear with "the" and "of"`
 - We’d rather have a measure that asks whether a context word is **particularly informative** about the target word.
-  - Positive Pointwise Mutual Information (PPMI)
+  - <u>Positive Pointwise Mutual Information (PPMI)</u>
 
 ### Pointwise Mutual Information
 
@@ -430,6 +441,10 @@ PPMI and Cosine similarity
 ​	Do events x and y co-occur more than if they were independent?
 
 <img src="Lecture Notes.assets/image-20241002151241748.png" alt="image-20241002151241748" style="zoom:33%;" />
+
+​	`P(x,y) = x和y一起出现的概率`
+
+​	`P(x) and P(y) = x和y单独出现的概率`
 
 **PMI between two words**:
 
@@ -450,11 +465,137 @@ PPMI and Cosine similarity
 
 ###### Exercise
 
+**Count(w,context)**
+
+|             | computer | data | pinch | result | sugar |
+| ----------- | -------- | ---- | ----- | ------ | ----- |
+| apricot     | 0        | 0    | 1     | 0      | 1     |
+| pineapple   | 0        | 0    | 1     | 0      | 1     |
+| digital     | 2        | 1    | 0     | 1      | 0     |
+| information | 1        | 6    | 0     | 4      | 0     |
+
 <img src="Lecture Notes.assets/image-20241002151623203.png" alt="image-20241002151623203" style="zoom:33%;" />
 
-$p(w=information, c=data)=6/19=0.32$
+`This is raw count`
+
+`Total of 19 counts`
+
+$p(w=information, c=data)$ 
+
+=Total times information and data appeared / total counts 
+
+$=6/19=0.32$
 
 $p(w=information) = 11/19 = 0.58$
 
 $p(c=data) = 7/19 = 0.37$
+
+- Answer = $pmi(information, data) = log_2\frac{P(x,y)}{P(x) P(y)} = log_2\frac{0.32}{0.37*0.58} = 0.57$
+
+###### Calculate for every one of them
+
+![image-20241004193040284](Lecture Notes.assets/image-20241004193040284.png)
+
+#### Low-dimensional Representations
+
+- Problem with W-W matrixes:
+  - Number of basis concepts is large (high-dimensional)
+  - Basis is not orthogonal 
+     (i.e., not linearly independent)
+- Some function words are too frequent (e.g., the, of, to) 
+  - Syntax has too much impact
+
+`We want low-dimensional and dense`
+
+#### Bonus: Latent Semantic Analysis
+
+- Factorization: Apply SVD (Singular Value Decomposition) to the matrix to find latent components
+  - Uncovers relationships not explicit in the corpora
+  - Term vectors projected to k-dim latent space
+
+`Matrix decomposition, from word-word matrix to k-dim small matrix`
+
+`construct original matrix when you multiply three matrix together`
+
+![image-20241004193543439](Lecture Notes.assets/image-20241004193543439.png)
+
+In our case, d == n
+
+### Dense Vector Representations
+
+- Word2Vec
+
+- Continuous Bag of Words (CBOW) and SkipGram
+
+#### Word2Vec
+
+- LSA `Latent Semantic Analysis`: a compact/low-dimensional representation of co-occurrence matrix `No longer use LSA`
+- Prediction-based models: Another way to get dense vectors
+  - Similar to using co-occurrence counts [Levy&Goldberg (2014), Pennington et al. (2014)]
+- Easy to incorporate new words or sentences
+
+`Use Neural Network to do the same thing`
+
+Why is this a problem for LSA?
+
+`When you have new documents, you have to reconstruct the matrix`
+
+#### Word2Vec
+
+- **Skip-gram** (Mikolov et al. 2013a) **CBOW** (Mikolov et al. 2013b)
+- Train a neural network to predict neighboring words
+  - Inspired by **neural net language models (will cover later in the quarter)**.
+  - In doing so, <u>*learn dense embeddings for the words*</u> in the training corpus.
+- Advantages:
+  - Fast, easy to train
+  - Available online in the **word2vec** package
+  - Including sets of pretrained embeddings!
+
+##### Skip-gram vs. Continuous bag-of-words
+
+<img src="Lecture Notes.assets/image-20241004194838151.png" alt="image-20241004194838151" style="zoom:80%;" />
+
+`skip-gram ends up being more popular, but the intuition is same between these two models`
+
+##### How to represent the words?
+
+- We want to obtain <u>*low-dimensional vector*</u> representations for the words.
+
+  - So all $w_{(t)}s$ will be represented as vectors
+
+  - How do we get these vectors?
+
+    - Randomly initialize and learn from the data 
+
+      `Randomly initialize vector representation for each of the word, and learn from the data (back propagation, gradient descendent)`
+
+### Objective of Word2Vec (Skip-gram)
+
+- Maximize the log likelihood (minimize the negative log likelihood) of context word $w_{t-m}, w_{t-1}, w_{t+1},..., w_{t+m}$ given center word $w_t$
+
+  $J(\theta) = \frac{-1}{T}\sum_{t=1} \sum _{-m\le j \le m, j\ne 0} logp(w_{t+j}|w_t)$
+
+  ![image-20241004195924377](Lecture Notes.assets/image-20241004195924377.png)
+
+  <img src="Lecture Notes.assets/image-20241004195734004.png" alt="image-20241004195734004" style="zoom:67%;" />
+
+  - m is usually 5-10
+
+- How to model $logP(w_{t+j})|w_t$?
+
+  $p(w_{t+j} | w_t = \frac{exp(u_{w_{t+j}}\cdot v_{w_t}}{\sum_{w'\in V}exp(u_{w'}\cdot v_{w_t})})$ The soft max function, or normalized exponential function
+
+  - ![image-20241004200403849](Lecture Notes.assets/image-20241004200403849.png)
+
+- Every word has 2 vectors
+
+  - $v_w$ : when w is the center word (also called input embeddings)
+
+  - $u_w$: when w is the context word (also called output embeddings)
+
+`We need to create two matrix S, with dimension V x D(or K)`
+
+`Optimize the objective function based on the data`
+
+Skip-gram walk through in next class
 
