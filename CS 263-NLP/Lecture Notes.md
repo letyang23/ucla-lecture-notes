@@ -720,3 +720,165 @@ S = For dinner I ate <u>pizza</u> (word being predicted)
 
 <img src="Lecture Notes.assets/Screenshot 2024-10-07 at 2.56.17 PM.png" alt="Screenshot 2024-10-07 at 2.56.17 PM" style="zoom:50%;" />
 
+##### Practical details (I)
+
+- Trigram model assumes two-word history
+
+- But consider these sentences:
+
+  | w1    | w2   | w3   | W4     |
+  | ----- | ---- | ---- | ------ |
+  | he    | saw  | the  | yellow |
+  | feeds | the  | cat  | daily  |
+
+- What's wrong?
+  - a sentence shouldn't end with 'yellow'
+  - a sentence shouldn't begin with 'feeds'
+- Does the model capture these problems?
+
+##### Beginning / end of sequence
+
+- To capture behavior at beginning/end of sequences, we can augment the input:
+
+  | $w_{-1}$ | w0    | W1    | w2   | w3   | w4     | w5    |
+  | -------- | ----- | ----- | ---- | ---- | ------ | ----- |
+  | <bos>    | <bos> | he    | saw  | the  | yellow | <eos> |
+  | <bos>    | <bos> | feeds | the  | cats | daily  | <eos> |
+
+   
+
+- That is, assume $w_{-1}=w_{0}=<bos>$ and $w_{n+1}=<eos>$ so:
+  - $P(w)=∏_{i=1}^{n+1}P(w_i | w_{i-2} w_{i-1})$
+
+- Now $P(<eos>|yellow, .)$ is low, indicating this is not a good sentence
+
+- $P(feeds|<bos>, <bos>)$ should also be low
+
+- Alternatively, we could model all sentences as one (very long) sequence, including punctuation
+
+  - two cats live in sam 's barn . sam feeds the cats daily . yesterday , he saw the yellow cat catch a mouse . [...]
+
+  - This is the standard practice for LLM training.
+
+- Now, trigram probabilities like P(. | cats daily) and P(, | . yesterday) tell us about behavior at sentence edges
+- Here, all tokens are lowercased. What are the pros/cons of <u>not</u> doing that?
+
+##### Practical details (II)
+
+- Word probabilities are typically very small.
+
+- Multiplying lots of small probabilities quickly gets so tiny we can't represent the numbers accurately. `Under-float problem`
+
+- So in practice, we typically use log probabilities
+
+  - Since probabilities range from 0 to 1, log probs range from -∞ to 0
+  - Instead of <u>multiplying</u> probabilities, we <u>add</u> log probs
+
+  - Often, negative log probs are used instead; these are often called "costs"; lower cost = higher prob
+
+### Neural Language Models
+
+#### Feedforward neural language model
+
+- Model $p(x_t |x_{t-n+1:t-1}) $with a neural network. 
+
+<img src="Lecture Notes.assets/image-20241007152234294.png" alt="image-20241007152234294" style="zoom:50%;" />
+
+##### Why?
+
+- Potentially generalize to unseen contexts
+
+  - Example: “the shoes are blue”
+
+  - This does not occurs in training corpus but 
+
+      “the glasses are red” does.
+
+  - If the word representations of “red” and “blue” are similar, and “shoes” and “glasses” are somewhat similar, then the model can generalize.
+
+- Why are “red” and “blue” similar?
+  - Because we saw “red skirt”, “blue skirt”, “red pen”, ”blue pen”, etc.
+  - Their word embeddings are similar.
+
+##### How to model word similarities?
+
+<img src="Lecture Notes.assets/Screenshot 2024-10-07 at 3.25.58 PM.png" alt="Screenshot 2024-10-07 at 3.25.58 PM" style="zoom:50%;" />
+
+### Neural Networks Recap 
+
+- Let’s consider a 3-layer neural network
+
+  <img src="Lecture Notes.assets/image-20241007152621385.png" alt="image-20241007152621385" style="zoom:50%;" />
+
+##### How NN Makes Predictions
+
+- forward pass: take input, and produce output
+
+- Just a bunch of linear transformation and applying the activation functions to introduce *non-linearity*
+
+<img src="Lecture Notes.assets/Screenshot 2024-10-07 at 3.27.10 PM.png" alt="Screenshot 2024-10-07 at 3.27.10 PM" style="zoom:50%;" />
+
+##### Learning the Parameters
+
+- Find parameters that minimize the loss (or maximizes the likelihood) of the training data L(x, y).
+- How to minimize the loss function?
+  - Gradient Descent – batch or mini batch or stochastic!
+
+- We need *gradients* of the loss function with respect to the parameters – what are our parameters? 
+
+- How to compute the gradients of the parameters?
+  - Backpropagation algorithm!
+
+(Skip for calculus)
+
+### Feedforward Neural language model
+
+- Model $p(x_{t+n} |x_{t:t+n-1})$ with a neural network. 
+
+<img src="Lecture Notes.assets/Screenshot 2024-10-07 at 3.31.41 PM.png" alt="Screenshot 2024-10-07 at 3.31.41 PM" style="zoom:50%;" />
+
+`1. put embeddings into vector/matrix 2. Pass it through a linear layer (Projection layer) 3. do a activiation and put it through another linear layer. 4. Then put it through softmax layer `
+
+##### Recall word embeddings
+
+- Word tokens map to vectors in a **low-dimensional space**
+
+- Conditional word probabilities are produced by **neural network models** on vectors of **word embeddings**
+
+- **Vector-space representation** enables semantic/syntactic **similarity** between words/sentences
+
+  - Use cosine similarity can measure word similarity
+
+  - Find nearest neighbours: synonyms, antonyms
+
+  - Algebra on words: {king} – {man} + {woman} = {queen}
+
+##### Vector-space representation of words
+
+<img src="Lecture Notes.assets/Screenshot 2024-10-07 at 3.42.07 PM.png" alt="Screenshot 2024-10-07 at 3.42.07 PM" style="zoom:50%;" />
+
+#### Learning continuous space language models
+
+- Input:
+  - N-gram word history (**low-dimensional vector representation**)
+- Output:
+  - target word (**1-hot vector representation**)
+- **Function** that **approximates** the conditional word likelihood $p(x_t | context)$:
+  - Similar mechanism in skip-gram -- $p(x_{t±m} | x_t)$
+  - Similar mechanism in CBOW -- $p(x_t|x_{t±m})$ `not in slide?`
+  - Feed-forward neural network -- $p(x_t | x_{t-n+1:t-1})$
+  - Recurrent neural network -- $p(x_t | x_{1:t-1})$
+  - …
+
+`all of them uses neighbors to determine the meaning`
+
+###### Learning continuous space language models
+
+- How do we **learn the word representations** for each word in the vocabulary?
+- How do we **learn the model** that predicts the next word or its representation $ẑ_t$ given a word history?
+- Simultaneous learning of **model** and **representation** 
+  - What are the parameters of the model?
+
+#### Objective function
+
+...
