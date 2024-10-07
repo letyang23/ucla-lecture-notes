@@ -580,6 +580,7 @@ Why is this a problem for LSA?
   <img src="Lecture Notes.assets/image-20241004195734004.png" alt="image-20241004195734004" style="zoom:67%;" />
 
   - m is usually 5-10
+  - `inner summation is to sum the context words, outer sum is to sum the center words`
 
 - How to model $logP(w_{t+j})|w_t$?
 
@@ -598,4 +599,124 @@ Why is this a problem for LSA?
 `Optimize the objective function based on the data`
 
 Skip-gram walk through in next class
+
+# 10/7 Lecture 3
+
+###### Recap for the dot product
+
+<img src="Lecture Notes.assets/image-20241007141111484.png" alt="image-20241007141111484" style="zoom:50%;" />
+
+`highlight is wrong at the last row`
+
+<img src="Lecture Notes.assets/image-20241007141152041.png" alt="image-20241007141152041" style="zoom:50%;" />
+
+<img src="Lecture Notes.assets/image-20241007141226641.png" alt="image-20241007141226641" style="zoom:50%;" />
+
+- The **mn** th element of the new matrix is the dot product of the $m^{th}$ row of the first matrix and the $n^{th}$ column of the second, and we simply do this for every combination of rows on the left and columns on the right.
+
+<img src="Lecture Notes.assets/image-20241007141306828.png" alt="image-20241007141306828" style="zoom:50%;" />
+
+### Skip-gram walk through
+
+https://aegis4048.github.io/demystifying_neural_network_in_skip_gram_language_modeling
+
+1. input layer one-hot encoded vector
+2. word-embedding matrix - a.k.a "Lookup table"
+3. Hidden (Projection) layer for center word (**passes**)
+4. word-embedding matrix for context words (the, who)
+5. Dot-product of center words with everything
+6. Softmax output Layer of range [0,1) Sum = 1
+
+- How to minimize $J(\theta)$
+  - Gradient descent
+  - Modern deep learning framework will do this automatically.
+    - All we need to do is the word embedding (in the skip-gram walk through)
+
+##### Intuition for learning
+
+- Start with some initial embeddings (e.g., random)
+- iteratively make the embeddings for a word 
+  - more like the embeddings of its neighbors 
+  - less like the embeddings of other words. 
+
+#### Summary
+
+- In order to support downstream applications like search, question answering, etc. we need ways to reason computationally about **meaning**. **Lexical semantics** addresses *meaning* at the word level.
+- Word similarity can be obtained by Characterizing a word by the other words it appears near
+  - Which can yield sparse count-based representations
+  - Or dense representations, which can be obtained by matrix factorization or neural network-inspired methods
+- Representations can be evaluated on human semantics tasks
+  - analogy
+  - synonym identification
+  - unrelated word identification
+
+### Natrual Language Models (Lecture Slide 3)
+
+##### What is a language model?
+
+S = For dinner I ate <u>pizza</u> (word being predicted)
+
+- Probability distributions over sentences (i.e., word sequences)
+
+  $P(W) = P(w_1w_2w_3...w_k) = \Pi^n_{k=1}P(w_k|w_1w_2w_3...w_{k-1})$
+
+- Can use them to **generate** strings
+
+  $P(w_k|w_1w_2w_3...w_{k-1})$
+
+- **Rank** possible sentences
+
+  - P(“Today is Tuesday”) > P(“Tuesday Today is”)
+
+  - P(“Today is Tuesday”) > P(“Today is UCLA”)
+
+#### Language model applications
+
+- Translation
+- AutoComplete
+- Correct Typo...
+
+###### Context-sensitive spelling correction
+
+- Which is most probable?
+  - … I think they’re okay …
+  - … I think there okay …
+  - … I think their okay …
+- Which is most probable?
+  - … by the way, are they’re likely to …
+  - … by the way, are there likely to …
+  - … by the way, are their likely to …
+
+###### Machine Translation
+
+<img src="Lecture Notes.assets/image-20241007144743637.png" alt="image-20241007144743637" style="zoom:50%;" />
+
+###### Smart reply
+
+###### Language generation for everything-GPT
+
+### N-Gram Language Model
+
+- N-grams: a contiguous sequence of n tokens from a given piece of text
+
+  <img src="Lecture Notes.assets/image-20241007145037924.png" alt="image-20241007145037924" style="zoom:50%;" />
+
+  N-gram LMs models $p(x_{t:t+n})$, or $p(x_{t+n}|x_{t:t+n-1})$.
+
+#### Independence (Markov) Assumption
+
+- Make an n-gram independence assumption: probability of a word only depends on a fixed number of previous words (history)
+  - **trigram model**: $P(w_i| w_1…w_{(i-1)}) ≈P(w_i | w_{i-2} w_{i-1})$
+  - **bigram model:**  $P(w_i| w_1…w{(i-1)}) ≈P(w_i | w_{i-1})$
+  - **unigram model:** $P(w_i| w_1…w{(i-1)}) ≈P(w_i)$
+
+#### Estimating Trigram Conditional Probabilities
+
+- P(mast | before the) = Count(before the mast)/Count(before the)
+- In general, for any trigram, we have
+  - $P(w_i | w_{i-2} w_{i-1})= \frac{Count (w_{i-2} w_{i-1} w_i)}{Count (w_{i-2} w_{i-1})}$
+
+##### An example
+
+<img src="Lecture Notes.assets/Screenshot 2024-10-07 at 2.56.17 PM.png" alt="Screenshot 2024-10-07 at 2.56.17 PM" style="zoom:50%;" />
 
