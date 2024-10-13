@@ -618,6 +618,20 @@ Skip-gram walk through in next class
 
 ### Skip-gram walk through
 
+For sentence:
+
+The man who passes the sentence should swing the sword.
+
+`We have context window with +-1, center word is "passes", context window "who", "the"`
+
+`Then we can have two training samples (passes, who), (passes, the)`
+
+`We can create 10 examples for training word2vec (since length = 10)`
+
+<img src="Lecture Notes.assets/quote_ned_stark.png" alt="img" style="zoom:50%;" />
+
+<img src="Lecture Notes.assets/word2vec_skip-gram.png" alt="img" style="zoom:50%;" />
+
 https://aegis4048.github.io/demystifying_neural_network_in_skip_gram_language_modeling
 
 1. input layer one-hot encoded vector
@@ -632,6 +646,8 @@ https://aegis4048.github.io/demystifying_neural_network_in_skip_gram_language_mo
   - Modern deep learning framework will do this automatically.
     - All we need to do is the word embedding (in the skip-gram walk through)
 
+`we start with randomly initialize embedding and during the training process, we will make the center word embedding more like its neighbors`
+
 ##### Intuition for learning
 
 - Start with some initial embeddings (e.g., random)
@@ -642,8 +658,11 @@ https://aegis4048.github.io/demystifying_neural_network_in_skip_gram_language_mo
 #### Summary
 
 - In order to support downstream applications like search, question answering, etc. we need ways to reason computationally about **meaning**. **Lexical semantics** addresses *meaning* at the word level.
+  - `We convert words into vectors to represent meaning`
+
 - Word similarity can be obtained by Characterizing a word by the other words it appears near
   - Which can yield sparse count-based representations
+    - `word-document` or `word-word` representation
   - Or dense representations, which can be obtained by matrix factorization or neural network-inspired methods
 - Representations can be evaluated on human semantics tasks
   - analogy
@@ -654,21 +673,26 @@ https://aegis4048.github.io/demystifying_neural_network_in_skip_gram_language_mo
 
 ##### What is a language model?
 
-S = For dinner I ate <u>pizza</u> (word being predicted)
+`Predict (probability of) the next words`
+
+<img src="Lecture Notes.assets/Screenshot 2024-10-12 at 10.45.26 PM.png" alt="Screenshot 2024-10-12 at 10.45.26 PM" style="zoom:33%;" />
 
 - Probability distributions over sentences (i.e., word sequences)
 
-  $P(W) = P(w_1w_2w_3...w_k) = \Pi^n_{k=1}P(w_k|w_1w_2w_3...w_{k-1})$
+  ​	$P(W) = P(w_1w_2w_3...w_k) = \Pi^n_{k=1}P(w_k|w_1w_2w_3...w_{k-1})$
 
 - Can use them to **generate** strings
 
-  $P(w_k|w_1w_2w_3...w_{k-1})$
+  ​	$P(w_k|w_1w_2w_3...w_{k-1})$
 
 - **Rank** possible sentences
 
   - P(“Today is Tuesday”) > P(“Tuesday Today is”)
 
   - P(“Today is Tuesday”) > P(“Today is UCLA”)
+
+
+`Lanugage model for 1. generation (now) 2. rank possiblity (before)`
 
 #### Language model applications
 
@@ -705,12 +729,16 @@ S = For dinner I ate <u>pizza</u> (word being predicted)
 
 #### Independence (Markov) Assumption
 
-- Make an n-gram independence assumption: probability of a word only depends on a fixed number of previous words (history)
+`Current word only depend on recent words`
+
+- Make an <u>n-gram</u> independence assumption: probability of a word only depends on a fixed number of previous words (<u>history</u>)
   - **trigram model**: $P(w_i| w_1…w_{(i-1)}) ≈P(w_i | w_{i-2} w_{i-1})$
   - **bigram model:**  $P(w_i| w_1…w{(i-1)}) ≈P(w_i | w_{i-1})$
   - **unigram model:** $P(w_i| w_1…w{(i-1)}) ≈P(w_i)$
 
 #### Estimating Trigram Conditional Probabilities
+
+`Count and Divide. Count how many time three words appear divided by count of two words appear.`
 
 - P(mast | before the) = Count(before the mast)/Count(before the)
 - In general, for any trigram, we have
@@ -722,7 +750,7 @@ S = For dinner I ate <u>pizza</u> (word being predicted)
 
 ##### Practical details (I)
 
-- Trigram model assumes two-word history
+- Trigram model assumes two-word history `P(wi|w_i-2, w_i-1)`
 
 - But consider these sentences:
 
@@ -754,16 +782,31 @@ S = For dinner I ate <u>pizza</u> (word being predicted)
 
 - $P(feeds|<bos>, <bos>)$ should also be low
 
+`we pad n-1 <bos> but only 1 <eos>, because we only need conditional probability of <eos> given all the previous context to decide whether we properly end the sentence or not. We don't need multiple of <eos> because they will render similar effect.`
+
+##### Beginning / end of sequence （第二部分）
+
 - Alternatively, we could model all sentences as one (very long) sequence, including punctuation
 
   - two cats live in sam 's barn . sam feeds the cats daily . yesterday , he saw the yellow cat catch a mouse . [...]
 
-  - This is the standard practice for LLM training.
+    - This is the standard practice for LLM training
+
+      `When we combine them to a long sentences, all of subsequent sentences now has beginning and end words, so we don't need <eos> and <bos> anymore`.
+
+      `we don't have upper cases because it will make the vocabulary size larger. But cons is we could miss the Capitalize (make it easier for model) and miss the different meaning`
 
 - Now, trigram probabilities like P(. | cats daily) and P(, | . yesterday) tell us about behavior at sentence edges
+
 - Here, all tokens are lowercased. What are the pros/cons of <u>not</u> doing that?
 
 ##### Practical details (II)
+
+​	$P(W) = P(w_1w_2w_3...w_k) = \Pi^n_{k=1}P(w_k|w_1w_2w_3...w_{k-1})$
+
+<img src="Lecture Notes.assets/Screenshot 2024-10-12 at 11.45.06 PM.png" alt="Screenshot 2024-10-12 at 11.45.06 PM" style="zoom:50%;" />
+
+`we have to multiply the probability to vocabulary size, therefore, it will become very small rapidly`
 
 - Word probabilities are typically very small.
 
@@ -774,13 +817,13 @@ S = For dinner I ate <u>pizza</u> (word being predicted)
   - Since probabilities range from 0 to 1, log probs range from -∞ to 0
   - Instead of <u>multiplying</u> probabilities, we <u>add</u> log probs
 
-  - Often, negative log probs are used instead; these are often called "costs"; lower cost = higher prob
+  - Often, negative log `negative log -> positive number` probs are used instead; these are often called "costs"; lower cost = higher prob
 
 ### Neural Language Models
 
 #### Feedforward neural language model
 
-- Model $p(x_t |x_{t-n+1:t-1}) $with a neural network. 
+- Model $p(x_t |x_{t-n+1:t-1}) $with a neural network. `model the n-gram probability using neural network` 
 
 <img src="Lecture Notes.assets/image-20241007152234294.png" alt="image-20241007152234294" style="zoom:50%;" />
 
@@ -809,10 +852,14 @@ S = For dinner I ate <u>pizza</u> (word being predicted)
 - Let’s consider a 3-layer neural network
 
   <img src="Lecture Notes.assets/image-20241007152621385.png" alt="image-20241007152621385" style="zoom:50%;" />
+  
+  `feedforward language model is just 3-layer neural network`
 
 ##### How NN Makes Predictions
 
 - forward pass: take input, and produce output
+
+  `another is backward pass: update your parameters such that it optimize your objective function.`
 
 - Just a bunch of linear transformation and applying the activation functions to introduce *non-linearity*
 
@@ -822,7 +869,7 @@ S = For dinner I ate <u>pizza</u> (word being predicted)
 
 - Find parameters that minimize the loss (or maximizes the likelihood) of the training data L(x, y).
 - How to minimize the loss function?
-  - Gradient Descent – batch or mini batch or stochastic!
+  - Gradient Descent – **batch** or **mini batch** or **stochastic**!
 
 - We need *gradients* of the loss function with respect to the parameters – what are our parameters? 
 
@@ -839,6 +886,14 @@ S = For dinner I ate <u>pizza</u> (word being predicted)
 
 `1. put embeddings into vector/matrix 2. Pass it through a linear layer (Projection layer) 3. do a activiation and put it through another linear layer. 4. Then put it through softmax layer `
 
+
+
+`Say if you have a trigram model representation, then you have previous two words as input, then you get two embeddings. In order to combine these two embeddings, you put it (concatenate) in a long vector (from 1 x n to 1 x 2n). Then you pass it through a linear layer. After linear layer, you get a hidden representation, then you do a activation (tanh). Then you get another linear layer (linear projection). Then you do the softmax on the linear layer. After this softmax you will get a {1 x v} vector. Each element of the vector is the probability distribution over all the vocabulary. `
+
+
+
+`What if we have a trigram with n=100 dimension of the word embedding? -Then we get 200 (2x100) word embedding -> become a 1x200 vector `
+
 ##### Recall word embeddings
 
 - Word tokens map to vectors in a **low-dimensional space**
@@ -846,12 +901,11 @@ S = For dinner I ate <u>pizza</u> (word being predicted)
 - Conditional word probabilities are produced by **neural network models** on vectors of **word embeddings**
 
 - **Vector-space representation** enables semantic/syntactic **similarity** between words/sentences
-
-  - Use cosine similarity can measure word similarity
-
-  - Find nearest neighbours: synonyms, antonyms
-
-  - Algebra on words: {king} – {man} + {woman} = {queen}
+- Use cosine similarity can measure word similarity
+  
+- Find nearest neighbours: synonyms, antonyms
+  
+- Algebra on words: {king} – {man} + {woman} = {queen}
 
 ##### Vector-space representation of words
 
@@ -864,21 +918,30 @@ S = For dinner I ate <u>pizza</u> (word being predicted)
 - Output:
   - target word (**1-hot vector representation**)
 - **Function** that **approximates** the conditional word likelihood $p(x_t | context)$:
-  - Similar mechanism in skip-gram -- $p(x_{t±m} | x_t)$
-  - Similar mechanism in CBOW -- $p(x_t|x_{t±m})$ `not in slide?`
-  - Feed-forward neural network -- $p(x_t | x_{t-n+1:t-1})$
-  - Recurrent neural network -- $p(x_t | x_{1:t-1})$
+  - Similar mechanism in skip-gram -- $p(x_{t±m} | x_t)$ `Estimate the probability of context word given center word`
+  - Similar mechanism in CBOW -- $p(x_t|x_{t±m})$ ` Use context word to predict the probability of center word`
+  - Feed-forward neural network -- $p(x_t | x_{t-n+1:t-1})$ `same mechanism, but we're using the previous N-word to predict the next word.`
+  - Recurrent neural network -- $p(x_t | x_{1:t-1})$ `we use all history of previous word to predict the next word.`
   - …
 
-`all of them uses neighbors to determine the meaning`
+`all of them uses neighbors to determine the meaning. just every step we going a little more complex`
 
 ###### Learning continuous space language models
 
 - How do we **learn the word representations** for each word in the vocabulary?
 - How do we **learn the model** that predicts the next word or its representation $ẑ_t$ given a word history?
+  - `What are the parameters of feedforward neural networks? (3-layer neural network)`
+  - `linear matrices, biases, word embediing.`
+
 - Simultaneous learning of **model** and **representation** 
   - What are the parameters of the model?
 
-#### Objective function
+##### Limitation of the Feedforward Neural Language Model
 
-...
+- Sparsity – Solved `No thing will have 0 probability as estimation`
+- Word Similarity – Solved `We can figure out red blue are similar, because their word embedding is similar`
+- Finite/fixed Context – Not solved yet `always a fix window`
+
+Next time:
+
+- RNN language models
