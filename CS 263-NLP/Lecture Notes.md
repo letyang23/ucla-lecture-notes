@@ -616,6 +616,8 @@ Skip-gram walk through in next class
 
 <img src="Lecture Notes.assets/image-20241007141306828.png" alt="image-20241007141306828" style="zoom:50%;" />
 
+`Looks like it calculated wrong in the first column`
+
 ### Skip-gram walk through
 
 https://aegis4048.github.io/demystifying_neural_network_in_skip_gram_language_modeling
