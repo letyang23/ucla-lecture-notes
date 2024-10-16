@@ -240,7 +240,97 @@
 
 
 
+# 10/14 Lecture 5 (1st half)
 
+### Decoding algorithms for LMs
 
+##### Decoding: selecting the word to generate at each time step
 
+- Greedy search: select word with the highest $p(x_t |x_{1:t-1})$ given by the softmax layer
+
+  <img src="Week 2.assets/image-20241015184328928.png" alt="image-20241015184328928" style="zoom:50%;" />
+
+  `2 issues: 1. it always give you only one response (highest probability one). 2. It's not guaranteed to give you the best.`
+
+- **Beam search**: explore several different hypotheses instead of just a single one
+
+  `we don't want be that greedy, in case later there is better solution.`
+
+  - keep track of k most probable partial translations at each decoder step instead of just one!  `instead of 1 best, take k best answers`
+  - choose *k* words with the highest $p(y_i)$ at each time step.
+  - k – beam size (typically 5-10)  `k^2 hypothesis`
+
+##### Beam search decoding: example
+
+- Beam size = 2. Showing log-likelihood:
+
+<img src="Week 2.assets/image-20241015185111356.png" alt="image-20241015185111356" style="zoom:33%;" />
+
+<img src="Week 2.assets/image-20241015185130859.png" alt="image-20241015185130859" style="zoom:33%;" />
+
+​	`Since beam size = 2, we will trim down (get rid of people -2.3 and person -3.2)`
+
+​	`P(poor|start, the) = -1.90`
+
+`you don't do it on the joint probability, instead, you prune using P(poor|start, the) * P(the|start)`
+
+`This is not the log probability. It's actually joint probability log P(poor|S, the) + log P(the|start) basically addition of the log probability. `
+
+<img src="Week 2.assets/image-20241015202707550.png" alt="image-20241015202707550" style="zoom:50%;" />
+
+`get rid of -3.12 and -3.53 (person and but)`
+
+<img src="Week 2.assets/image-20241015202815283.png" alt="image-20241015202815283" style="zoom:50%;" />
+
+##### Does beam search always return the most probable sequence?
+
+- `No. Beam Search is invented to solve the problem of the greedy algorithm to not find the most powerful sequence.`
+- `trade-off between the computational resources. Just a heuristic search algorithm.`
+
+##### What are the termination conditions of beam search?
+
+`end of sequence token`
+
+#### What’s the effect of changing beam size k?
+
+- Small k has similar problems to greedy decoding (k=1)
+  - Unnatural, incorrect (due to errors in earlier decoding stage), generic
+
+- Larger k means you consider more hypotheses 
+
+- Increasing k reduces some of the problems above 
+  - Larger k is more computationally expensive 
+  - Increasing k can also introduce other problems
+  - E.g., in open-ended tasks like chit-chat dialogue, large k can make output more generic
+    - `"I don't know"`
+
+#### Sampling-based decoding
+
+- Pure sampling
+  - at each step t, randomly sample from the probability distribution $p(x_t |x_{1:t-1})$ to obtain your next word. 
+  - Like greedy decoding, but sample instead of argmax. 
+- Top-k sampling 
+  - at each step t, instead of randomly sampling from $p(x_t |x_{1:t-1})$, restricted to just the top-k most probable words (k = number of words)
+  - Like pure sampling, but truncate the probability distribution 
+  - k=1 is greedy search, k=V is pure sampling 
+  - Increase k to get more diverse/risky output 
+  - Decrease k to get more generic/safe output
+
+​	`at each step, instead randomly sample one, we sample from top k`
+
+- Top-P sampling 
+  - at each step t, instead of randomly sampling from $p(x_t |x_{1:t-1})$, restricted to the most probable words up to the total probability mass of P.
+  - Like top-k sampling, truncate the probability distribution, but in a different way 
+  - P=1 is pure sampling 
+  - Increase P to get more diverse/risky output 
+  - Decrease P to get more generic/safe output
+
+#### Decoding algorithms: summary
+
+- **Greedy decoding** is a simple method; usually gives low quality output 
+- **Beam search** (especially with large beam size) searches for high probability output 
+  - Delivers better quality than greedy, but if beam size is too large, can return high-probability but unsuitable output (e.g. generic, short) 
+- **Sampling methods** are a way to get more diversity and randomness 
+  - Good for open-ended / creative generation (chit-chat, poetry, stories) 
+  - Top-k and top-p sampling allows you to control diversity
 
