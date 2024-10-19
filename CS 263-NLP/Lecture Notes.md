@@ -584,7 +584,7 @@ Why is this a problem for LSA?
 
 - How to model $logP(w_{t+j})|w_t$?
 
-  $p(w_{t+j} | w_t = \frac{exp(u_{w_{t+j}}\cdot v_{w_t}}{\sum_{w'\in V}exp(u_{w'}\cdot v_{w_t})})$ The soft max function, or normalized exponential function
+  $p(w_{t+j} | w_t) = \frac{exp(u_{w_{t+j}}\cdot v_{w_t}}{\sum_{w'\in V}exp(u_{w'}\cdot v_{w_t})})$ The soft max function, or normalized exponential function
 
   - <img src="Lecture Notes.assets/image-20241004200403849.png" alt="image-20241004200403849" style="zoom:80%;" />
 
