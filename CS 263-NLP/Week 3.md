@@ -111,6 +111,78 @@
 
 
 
+# 10/28 Lecture (after Quiz 1)
+
+- Project midterm report
+  - Literature review and baseline model you want to use!
+  - Papers in the project description (suggest reading). Every paper, literature review like the **related work** section in these research papers.
+
+#### RNN LM vs Seq2Seq, mathematically
+
+- LM
+  - $p(y_j|y_1, y_2,...,y_{j-1}) = softmax(Uh_j+b_U)_j$
+  - $h_j = f(W_hh_{j-1} + W_ee_j + b_w); e_j = E_{e_j}$
+  - $f$ is a nonlinear function (tanh, usually). $U, W, E$ are learned weight matrices; $b_W$ and $b_U$ are bias terms. $E$ is the 'embedding' matrix.
+
+- Seq2Seq
+  - $p(y_j|y_1, y_2, ... , y_{j-1}, x_1, ... , x_m) = softmax(U^{(d)}h_j^{d}+b_{U^{(d)}})_j$
+  - $ h_j^{(d)} = f(W_{h^{(d)}} h_{j-1}^{(d)} + W_{e^{(d)}} e_j^{(d)} + b_{W^{d}}); \, e_j^{(e)} = E _{e_j^{(d)}}$
+  - $$ h_0^{(d)} = h_m^{(e)}; h_j^{(e)} = f(W_{h^{(e)}} h_{j-1}^{(e)} + W_{e^{(e)}} e_j^{(e)} + b_{W^{(e)}}); \, e_j^{(e)} = E _{e_j^{(e)} }$$
+  - Where the superscription \((e), (d)\) denotes encoder and decoder, and the subscript denotes position. 
+  - **Note:** Separate weight matrices for output and input side, but basically one big RNN!
+
+#### From Language Model to Translation Model
+
+- An RNN LM estimates 
+  $$ p(\mathbf{y} = y_1, y_2, \dots, y_n) = p(y_1)p(y_2 | y_1) \dots p(y_n | y_1, y_2, \dots, y_{n-1}) $$
+
+- A seq2seq TM also estimates the probability of $\mathbf{y}$ but conditions it on an input sequence $\mathbf{x}$. It's a **conditional language model**:
+  $$ p(\mathbf{y} | \mathbf{x}) = p(y_1 | \mathbf{x})p(y_2 | y_1, \mathbf{x}) \dots p(y_n | y_1, y_2, \dots, y_{n-1}, \mathbf{x}) $$
+
+- Trained as one big RNN (with two sets of parameters switched in the middle), basically in the same way as RNN-LM.
+
+<img src="Week 3.assets/image-20241028175715570.png" alt="image-20241028175715570" style="zoom:50%;" />
+
+
+
+### Seq2Seq with Attention
+
+##### Motivated by the MT task
+
+NMT is the **flagship task** for NLP Deep Learning
+
+- **NMT research has pioneered many of the recent innovations of NLP Deep Learning**
+
+- In **2018**: NMT research continues to **thrive**
+  - Researchers have found **many, many improvements** to the "vanilla" seq2seq NMT system we've presented today
+  - But **one improvement** is so integral that it is the new vanilla...
+
+**ATTENTION**
+
+<img src="Week 3.assets/image-20241028180420929.png" alt="image-20241028180420929" style="zoom:50%;" />
+
+#### Attention
+
+- **Attention** provides a solution to the bottleneck problem.
+- **Core idea**: on each step of the decoder, _focus on a particular part_ of the source sequence.
+- First we will show via diagram (no equations), then we will show with equations.
+
+##### Seq2Seq with Attention
+
+<img src="Week 3.assets/image-20241028180651623.png" alt="image-20241028180651623" style="zoom:50%;" />
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
