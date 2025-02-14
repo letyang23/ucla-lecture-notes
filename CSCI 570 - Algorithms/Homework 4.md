@@ -69,13 +69,10 @@
       - From the line that this customer came from, insert the next customer (if any) into the min-heap.
    
    Correctness:
-   - Each insertion in the min-heap maintains that the root is always the earliest arrival among all front-line customers. 
-   - By repeatedly extracting the min, we guarantee an overall sorted (by arrival time) merged queue.
+   - Each insertion in the min-heap maintains that the root is always the earliest arrival among all front-line customers. By repeatedly extracting the min, we guarantee an overall sorted (by arrival time) merged queue.
    
    Time Complexity:
-   - Let $$n$$ be the total number of customers, and $$k$$ be the number of lines.
-   - Each customer is pushed and popped from the min-heap exactly once, incurring a cost of $$O(\log k)$$ for each operation.
-   - Therefore, the total time is $$O(n \log k)$$.
+   - Let $$n$$ be the total number of customers, and $$k$$ be the number of lines. Each customer is pushed and popped from the min-heap exactly once, incurring a cost of $$O(\log k)$$ for each operation. Therefore, the total time is $$O(n \log k)$$.
 
 
 
