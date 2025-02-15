@@ -96,11 +96,11 @@
    - Bucket or Deque Implementation:
      By maintaining two buckets (or a double-ended queue), we can process edges with weight 1 and 2 in constant time. This is similar to the idea behind 0-1 BFS. This modification yields an overall running time of $O(m)$.
    - Kruskal’s Algorithm with Counting Sort:
-     Since there are only two distinct weights, you can sort the edges in $O(m)$ time using counting sort, and then run union-find operations in nearly-linear time.
+     Since there are only two distinct weights, we can sort the edges in $O(m)$ time using counting sort, and then run union-find operations in nearly-linear time.
 
    Thus, in graphs with edge weights only 1 or 2, an MST can be found in $O(m)$ time, which is better than $O(n \log n)$ when the graph is sparse.
 
-   In conclusion, Prim’s algorithm always finds an MST and runs in $O(n \log n)$ with a binary heap. And by exploiting the fact that weights are only $1$ or $2$, we can implement the priority queue with buckets (or use counting sort in Kruskal’s) to achieve an $O(m)$-time algorithm.
+   In conclusion, Prim’s algorithm always finds an MST and runs in $O(n \log n)$ with a binary heap. And by exploiting the fact that weights are only 1 or 2, we can implement the priority queue with buckets (or use counting sort in Kruskal’s) to achieve an $O(m)$-time algorithm.
 
    
 
