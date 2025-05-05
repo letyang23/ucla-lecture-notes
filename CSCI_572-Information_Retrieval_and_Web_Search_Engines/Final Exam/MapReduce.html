@@ -1,0 +1,749 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; --title-bar-height: 20px; }
+.mac-os-11 { --title-bar-height: 28px; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4, h5 { white-space: pre-wrap; }
+body { margin: 0px; padding: 0px; height: auto; inset: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 36px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; position: relative; }
+#write svg h1, #write svg h2, #write svg h3, #write svg h4, #write svg h5, #write svg h6, #write svg p { position: static; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+thead, tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror-linenumber { user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-fences-adv-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+svg { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li blockquote { margin: 1rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; border-color: transparent !important; padding-top: 0px !important; padding-bottom: 0px !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+  #write > p:nth-child(1) { margin-top: 0px; }
+  .typora-export-show-outline .typora-export-sidebar { display: none; }
+  figure { overflow-x: visible; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+.MathJax_ref { fill: currentcolor; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.reversefootnote { font-family: ui-monospace, sans-serif; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.6; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+.md-expand mark .md-meta { opacity: 0.3 !important; }
+mark .md-meta { color: rgb(0, 0, 0); }
+@media print {
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+.md-diagram-panel .messageText { stroke: none !important; }
+.md-diagram-panel .start-state { fill: var(--node-fill); }
+.md-diagram-panel .edgeLabel rect { opacity: 1 !important; }
+.md-fences.md-fences-math { font-size: 1em; }
+.md-fences-advanced:not(.md-focus) { padding: 0px; white-space: nowrap; border: 0px; }
+.md-fences-advanced:not(.md-focus) { background: inherit; }
+.mermaid-svg { margin: auto; }
+.typora-export-show-outline .typora-export-content { max-width: 1440px; margin: auto; display: flex; flex-direction: row; }
+.typora-export-sidebar { width: 300px; font-size: 0.8rem; margin-top: 80px; margin-right: 18px; }
+.typora-export-show-outline #write { --webkit-flex: 2; flex: 2 1 0%; }
+.typora-export-sidebar .outline-content { position: fixed; top: 0px; max-height: 100%; overflow: hidden auto; padding-bottom: 30px; padding-top: 60px; width: 300px; }
+@media screen and (max-width: 1024px) {
+  .typora-export-sidebar, .typora-export-sidebar .outline-content { width: 240px; }
+}
+@media screen and (max-width: 800px) {
+  .typora-export-sidebar { display: none; }
+}
+.outline-content li, .outline-content ul { margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px; list-style: none; overflow-wrap: anywhere; }
+.outline-content ul { margin-top: 0px; margin-bottom: 0px; }
+.outline-content strong { font-weight: 400; }
+.outline-expander { width: 1rem; height: 1.42857rem; position: relative; display: table-cell; vertical-align: middle; cursor: pointer; padding-left: 4px; }
+.outline-expander::before { content: ""; position: relative; font-family: Ionicons; display: inline-block; font-size: 8px; vertical-align: middle; }
+.outline-item { padding-top: 3px; padding-bottom: 3px; cursor: pointer; }
+.outline-expander:hover::before { content: ""; }
+.outline-h1 > .outline-item { padding-left: 0px; }
+.outline-h2 > .outline-item { padding-left: 1em; }
+.outline-h3 > .outline-item { padding-left: 2em; }
+.outline-h4 > .outline-item { padding-left: 3em; }
+.outline-h5 > .outline-item { padding-left: 4em; }
+.outline-h6 > .outline-item { padding-left: 5em; }
+.outline-label { cursor: pointer; display: table-cell; vertical-align: middle; text-decoration: none; color: inherit; }
+.outline-label:hover { text-decoration: underline; }
+.outline-item:hover { border-color: rgb(245, 245, 245); background-color: var(--item-hover-bg-color); }
+.outline-item:hover { margin-left: -28px; margin-right: -28px; border-left: 28px solid transparent; border-right: 28px solid transparent; }
+.outline-item-single .outline-expander::before, .outline-item-single .outline-expander:hover::before { display: none; }
+.outline-item-open > .outline-item > .outline-expander::before { content: ""; }
+.outline-children { display: none; }
+.info-panel-tab-wrapper { display: none; }
+.outline-item-open > .outline-children { display: block; }
+.typora-export .outline-item { padding-top: 1px; padding-bottom: 1px; }
+.typora-export .outline-item:hover { margin-right: -8px; border-right: 8px solid transparent; }
+.typora-export .outline-expander::before { content: "+"; font-family: inherit; top: -1px; }
+.typora-export .outline-expander:hover::before, .typora-export .outline-item-open > .outline-item > .outline-expander::before { content: "−"; }
+.typora-export-collapse-outline .outline-children { display: none; }
+.typora-export-collapse-outline .outline-item-open > .outline-children, .typora-export-no-collapse-outline .outline-children { display: block; }
+.typora-export-no-collapse-outline .outline-expander::before { content: "" !important; }
+.typora-export-show-outline .outline-item-active > .outline-item .outline-label { font-weight: 700; }
+.md-inline-math-container mjx-container { zoom: 0.95; }
+mjx-container { break-inside: avoid; }
+.md-alert.md-alert-note { border-left-color: rgb(9, 105, 218); }
+.md-alert.md-alert-important { border-left-color: rgb(130, 80, 223); }
+.md-alert.md-alert-warning { border-left-color: rgb(154, 103, 0); }
+.md-alert.md-alert-tip { border-left-color: rgb(31, 136, 61); }
+.md-alert.md-alert-caution { border-left-color: rgb(207, 34, 46); }
+.md-alert { padding: 0px 1em; margin-bottom: 16px; color: inherit; border-left: 0.25em solid rgb(0, 0, 0); }
+.md-alert-text-note { color: rgb(9, 105, 218); }
+.md-alert-text-important { color: rgb(130, 80, 223); }
+.md-alert-text-warning { color: rgb(154, 103, 0); }
+.md-alert-text-tip { color: rgb(31, 136, 61); }
+.md-alert-text-caution { color: rgb(207, 34, 46); }
+.md-alert-text { font-size: 0.9rem; font-weight: 700; }
+.md-alert-text svg { fill: currentcolor; position: relative; top: 0.125em; margin-right: 1ch; overflow: visible; }
+.md-alert-text-container::after { content: attr(data-text); text-transform: capitalize; pointer-events: none; margin-right: 1ch; }
+
+
+.CodeMirror { height: auto; }
+.CodeMirror.cm-s-inner { background: inherit; }
+.CodeMirror-scroll { overflow: auto hidden; z-index: 3; }
+.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
+.CodeMirror-gutters { border-right: 1px solid rgb(221, 221, 221); background: inherit; white-space: nowrap; }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: 700; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: red; }
+.cm-invalidchar { color: red; }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background: inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background: inherit; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; outline: 0px; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: auto hidden; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 10px; z-index: 3; overflow-y: hidden; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; background: 0px 0px !important; border: none !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-radius: 0px; border-width: 0px; background: 0px 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; overflow-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; }
+.CodeMirror-wrap pre { overflow-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right: 30px solid transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; inset: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.cm-searching { background: rgba(255, 255, 0, 0.4); }
+span.cm-underlined { text-decoration: underline; }
+span.cm-strikethrough { text-decoration: line-through; }
+.cm-tw-syntaxerror { color: rgb(255, 255, 255); background-color: rgb(153, 0, 0); }
+.cm-tw-deleted { text-decoration: line-through; }
+.cm-tw-header5 { font-weight: 700; }
+.cm-tw-listitem:first-child { padding-left: 10px; }
+.cm-tw-box { border-style: solid; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-color: inherit; border-top-width: 0px !important; }
+.cm-tw-underline { text-decoration: underline; }
+@media print {
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+/* open-sans-regular - latin-ext_latin */
+  /* open-sans-italic - latin-ext_latin */
+    /* open-sans-700 - latin-ext_latin */
+    /* open-sans-700italic - latin-ext_latin */
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, 'Segoe UI Emoji', sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table th:first-child,
+table td:first-child {
+    margin-top: 0;
+}
+table th:last-child,
+table td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    pre {
+        page-break-inside: avoid;
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.mac-os #write{
+    caret-color: AccentColor;
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+/*.html-for-mac {
+    --item-hover-bg-color: #E6F0FE;
+}*/
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+    opacity: 0.4;
+}
+
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+.menu-item-container a.menu-style-btn {
+    background-color: #f5f8fa;
+    background-image: linear-gradient( 180deg , hsla(0, 0%, 100%, 0.8), hsla(0, 0%, 100%, 0)); 
+}
+
+
+
+</style><title>MapReduce</title>
+</head>
+<body class='typora-export os-windows'><div class='typora-export-content'>
+<div id='write'  class=''><h1 id='mapreduce'><span>MapReduce</span></h1><h6 id='mapcombineshufflereduce-data-processing-at-scale'><span>[MapCombineShuffleReduce] data processing &#39;at scale&#39;</span></h6><p><code>Too much data to crawl, too few computing power</code></p><h5 id='google-building-blocks-mapreduce-google-file-system-bigtable'><span>Google Building Blocks: MapReduce Google File System BigTable</span></h5><h3 id='google-specialized-software-systems'><span>Google Specialized Software Systems</span></h3><p><strong><span>Google has built several major software systems for their internal processing</span></strong></p><ol start='' ><li><p><strong><span>MapReduce - an easy way to write and run large-scale jobs on clusters of machines</span></strong></p><ul><li><p><span>generate production index data more quickly  </span></p></li><li><p><span>perform ad-hoc experiments rapidly  </span></p></li><li><p><span>Dean &amp; Ghemawat. </span><em><span>MapReduce: Simplified Data Processing on Large Clusters</span></em><span>, OSDI, 2004  </span></p></li></ul></li><li><p><strong><span>GFS (Google File System) a large-scale distributed file system</span></strong></p><ul><li><p><span>Ghemawat, Gobioff, &amp; Leung. </span><em><span>Google File System</span></em><span>, SOSP 2003  </span></p></li></ul></li><li><p><strong><span>BigTable - a semi-structured storage system</span></strong></p><ul><li><p><span>online, efficient access to per-document information at any time  </span></p></li><li><p><span>multiple processes can update per-doc info asynchronously  </span></p></li><li><p><span>critical for updating documents in minutes instead of hours  </span></p></li><li><p><span>Chang, Dean, Ghemawat, Hsieh, Wallach, Burrows, Chandra, Fikes, &amp; Gruber.</span><br/><em><span>Bigtable: A Distributed Storage System for Structured Data</span></em><span>, OSDI 2006  </span></p></li></ul></li></ol><h3 id='introduction-to-mapreduce'><strong><span>Introduction to MapReduce</span></strong></h3><ul><li><p><span>MapReduce is a methodology for exploiting parallelism in computing clouds (racks of interconnected processors)</span></p></li><li><p><span>It has become a common way to analyze very large amounts of data</span></p></li><li><p><span>MapReduce was initially developed at Google</span></p></li><li><p><span>In 2004 Google was using MapReduce to process 100TB/day of data</span></p></li><li><p><span>Today there are MapReduce Users Groups around the world, see </span><a href='https://www.meetup.com/topics/mapreduce/' target='_blank' class='url'>https://www.meetup.com/topics/mapreduce/</a></p></li></ul><h3 id='how-is-mapreduce-used-by-search-engines'><strong><span>How is MapReduce Used by Search Engines?</span></strong></h3><ul><li><p><strong><span>At Google:</span></strong>
+<span> – Building Google&#39;s Search Index</span>
+<span> – Article clustering for Google News</span>
+<span> – Statistical machine translation</span></p></li><li><p><strong><span>At Yahoo!:</span></strong>
+<span> – Building Yahoo!’s Search Index</span>
+<span> – Spam detection for Yahoo! Mail</span></p></li><li><p><strong><span>At Facebook:</span></strong>
+<span> – Data mining</span>
+<span> – Ad optimization</span>
+<span> – Spam detection</span></p></li></ul><h3 id='motivation-beyond-search-engines'><strong><span>Motivation Beyond Search Engines</span></strong></h3><ul><li><p><strong><span>Modern Internet applications have created a need to manage immense amounts of data quickly.</span></strong></p></li><li><p><strong><span>In many of these applications, the data is extremely regular, and there is ample opportunity to exploit parallelism.</span></strong></p></li><li><p><span>Some examples:</span></p></li></ul><ol><li><p><strong><span>Dish network collecting every click of the remote</span></strong>
+<span> – Dish network supplies TV reception via satellite; they collect data on their set top box and send it back to headquarters</span></p></li><li><p><strong><span>Tesla collecting every usage of the car</span></strong>
+<span> – Tesla&#39;s are connected to the cellular network; the car reports back all of its actions to Tesla</span></p></li></ol><h3 id='why-parallelization-is-hard'><strong><span>Why Parallelization is Hard</span></strong></h3><ul><li><p><strong><span>Parallelization is “easy” if processing can be cleanly split into </span><span>*</span><span>n</span><span>*</span><span> units:</span></strong></p><p><em><span>(Diagram showing &quot;work&quot; being split into w1, w2, w3 with a note about &quot;Partition problem&quot;)</span></em></p><p><img src="MapReduce.assets/image-20250503152634809.png" alt="image-20250503152634809" style="zoom:80%;" /></p></li><li><p><span>Assigned to </span><em><span>n</span></em><span> workers</span></p></li><li><p><span>And there is an easy way to combine the outputs</span></p></li></ul><h3 id='why-parallelization-is-hard-2'><strong><span>Why Parallelization is Hard</span></strong></h3><p><em><span>(Diagram shows W1, W2, W3, W4 and two threads; note: &quot;we would like to have as many threads as there are work units, but this may not be the case&quot;)</span></em></p><p><img src="MapReduce.assets/image-20250503152718050.png" alt="image-20250503152718050" style="zoom:80%;" /></p><p><strong><span>But there are complicated issues to deal with!</span></strong></p><ul><li><p><strong><span>What if we have more work units than threads?</span></strong></p></li><li><p><strong><span>How do we assign work units to worker threads?</span></strong></p></li><li><p><strong><span>How do we aggregate/combine the results at the end?</span></strong></p></li><li><p><strong><span>How do we know all the workers have finished?</span></strong></p></li><li><p><strong><span>What if the work cannot be divided into completely separate tasks?</span></strong></p></li></ul><p><em><span>MapReduce solves all of these problems so the programmer does not have to deal with them</span></em></p><h3 id='programming-with-multiple-threads-poses-challenges'><strong><span>Programming with Multiple Threads Poses Challenges</span></strong></h3><p><img src="MapReduce.assets/image-20250503152824979.png" alt="image-20250503152824979" style="zoom:80%;" /></p><p><strong><span>Thread 1:</span></strong></p><pre class="md-fences md-end-block ty-contain-cm modeLoaded" spellcheck="false" lang="c"><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang="c"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9.52344px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">foo</span>() {</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-variable">x</span><span class="cm-operator">++</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-variable">y</span> <span class="cm-operator">=</span> <span class="cm-variable">x</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 92px;"></div><div class="CodeMirror-gutters" style="display: none; height: 92px;"></div></div></div></pre><p><strong><span>Thread 2:</span></strong></p><pre class="md-fences md-end-block ty-contain-cm modeLoaded" spellcheck="false" lang="c"><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang="c"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9.52344px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">bar</span>() {</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-variable">y</span><span class="cm-operator">++</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-variable">x</span><span class="cm-operator">++</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 92px;"></div><div class="CodeMirror-gutters" style="display: none; height: 92px;"></div></div></div></pre><hr /><p><strong><span>If the initial state is x = 6, y = 0, what are the final values of x and y after the threads finish running?</span>
+<span> Possible solutions include: (8,8) and (8,7)</span></strong></p><h3 id='multithreaded-=-unpredictability'><strong><span>Multithreaded = Unpredictability</span></strong></h3><ul><li><p><strong><span>Many things that look like “one step” operations actually take several steps under the hood:</span></strong></p></li></ul><p><strong><span>Thread 1:</span></strong></p><pre class="md-fences md-end-block ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9.52344px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">void foo() {</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  eax = mem[x];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  inc eax;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  mem[x] = eax;</span></pre><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  ebx = mem[x];</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  mem[y] = ebx;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 161px;"></div><div class="CodeMirror-gutters" style="display: none; height: 161px;"></div></div></div></pre><p><strong><span>Thread 2:</span></strong></p><pre class="md-fences md-end-block ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9.52344px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre>x</pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">void bar() {</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  eax = mem[y];</span></pre><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  inc eax;</span></pre></div><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  mem[y] = eax;</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  eax = mem[x];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  inc eax;</span></pre><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  mem[x] = eax;</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 184px;"></div><div class="CodeMirror-gutters" style="display: none; height: 184px;"></div></div></div></pre><p><em><span>(the same programs, but at the assembly code level)</span></em></p><hr /><ul><li><p><strong><span>When we run a multithreaded program, we don’t know what order threads run in, nor do we know when they will interrupt one another.</span></strong></p></li></ul><h3 id='the-corrected-example'><strong><span>The “corrected” example</span></strong></h3><p><strong><span>Thread 1:</span></strong></p><pre class="md-fences md-end-block ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9.52344px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre>x</pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">void foo() {</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  sem.lock();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  x++;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  y = x;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  sem.unlock();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 138px;"></div><div class="CodeMirror-gutters" style="display: none; height: 138px;"></div></div></div></pre><p><strong><span>Thread 2:</span></strong></p><pre class="md-fences md-end-block ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9.52344px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre>x</pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">void bar() {</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  sem.lock();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  y++;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  x++;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  sem.unlock();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 138px;"></div><div class="CodeMirror-gutters" style="display: none; height: 138px;"></div></div></div></pre><p><span>The global variable </span><code>sem</code><span>, as defined by</span></p><pre class="md-fences md-end-block ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9.52344px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><span><span>​</span>x</span></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">c</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">CopyEdit</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Semaphore sem = new Semaphore();</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 115px;"></div><div class="CodeMirror-gutters" style="display: none; height: 115px;"></div></div></div></pre><p><span>guards access to </span><code>x</code><span> &amp; </span><code>y</code><span>; semaphores are generally integer variables that are shared between threads; the variable protects the “critical section” from being simultaneously accessed.</span></p><h3 id='processing-across-a-machine-cluster-introduces-unpredictability-on-many-levels'><strong><span>Processing Across a Machine Cluster Introduces Unpredictability on Many Levels</span></strong></h3><ul><li><p><strong><span>Synchronization problems apply to more than just low-level operations within a critical section of code</span></strong>
+<span> – Other issues include:</span>
+<span> – Pulling work units from a queue</span>
+<span> – Assigning work units to an available thread</span>
+<span> – Work units reporting back to the master unit</span>
+<span> – Telling another thread that it can begin the “next phase” of processing</span></p></li></ul><p><strong><span>… All require synchronization!</span></strong></p><h3 id='how-mapreduce-solves-the-parallelization-problems'><strong><span>How MapReduce Solves the Parallelization Problems</span></strong></h3><ul><li><p><strong><span>So MapReduce provides</span></strong>
+<span> – Automatic parallelization of code across multiple threads and across multiple processors</span>
+<span> – Fault tolerance in the event of failure of one or more nodes</span>
+<span> – I/O scheduling</span>
+<span> – Monitoring &amp; Status updates</span></p></li></ul><h3 id='mapreduce---beginnings'><strong><span>Map/Reduce - Beginnings</span></strong></h3><ul><li><p><strong><span>Map/Reduce</span></strong>
+<span> – Is a programming model borrowed from the programming language Lisp</span>
+<span> – (and other functional languages, e.g. ML*)</span></p></li><li><p><strong><span>Many problems can be phrased using the MapReduce paradigm</span></strong></p></li><li><p><strong><span>Easy to distribute computation across nodes</span></strong></p></li><li><p><strong><span>Nice retry/failure semantics</span></strong></p></li></ul><hr /><p><span>*ML programming language is a general purpose functional programming language, see</span>
+<span> </span><a href='https://en.wikipedia.org/wiki/ML_(programming_language)' target='_blank' class='url'>https://en.wikipedia.org/wiki/ML_(programming_language)</a></p><p>&nbsp;</p><h6 id='here-is-a-quick-map-reduce-example-run-the-followin-in-httpswwwmycompilerionewpython'><span>Here is a quick map(), reduce() example. Run the followin, in </span><a href='https://www.mycompiler.io/new/python' target='_blank' class='url'>https://www.mycompiler.io/new/python</a><span>:</span></h6><pre class="md-fences md-end-block ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9.52344px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre>x</pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Celsius = [39.2, 36.5, 37.3, 37.8]</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Fahrenheit = map(lambda x: (float(9)/5)*x + 32, Celsius)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">fa = list(Fahrenheit)</span></pre><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">print(fa)</span></pre></div><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Centigrade = map(lambda x: (float(5)/9)*(x-32),fa)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">print(list(Centigrade))</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">from functools import reduce</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">r = reduce(lambda x,y: x+y, [47,11,42,13])</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">print(r)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 254px;"></div><div class="CodeMirror-gutters" style="display: none; height: 254px;"></div></div></div></pre><p>&nbsp;</p><h3 id='what-is-mapreduce'><strong><span>What is MapReduce?</span></strong></h3><ul><li><p><strong><span>MapReduce is a programming model that generically works this way:</span></strong></p><ul><li><p><span>A </span><em><span>map function</span></em><span> extracts some intelligence from raw data</span></p></li><li><p><span>A </span><em><span>shuffle step</span></em><span> organizes the resulting output</span></p></li><li><p><span>A </span><em><span>reduce function</span></em><span> aggregates the data output from the shuffle step</span></p></li><li><p><span>Users specify the computation in terms of a </span><em><span>map</span></em><span> and a </span><em><span>reduce</span></em><span> function</span></p></li><li><p><span>Underlying runtime system automatically parallelizes the computation across large-scale clusters of machines, and</span></p></li><li><p><span>Underlying system also handles machine failures, efficient communications, and performance issues.</span></p></li></ul></li></ul><p>&nbsp;</p><h3 id='the-mapreduce-paradigm'><strong><span>The Map/Reduce Paradigm</span></strong></h3><ol><li><p><span>A large number of records are broken into segments</span></p></li><li><p><strong><span>Map</span></strong><span>: extracts something of interest from each segment</span></p></li><li><p><strong><span>Group</span></strong><span>: sorts the intermediate results from each segment (sometimes called </span><strong><span>shuffle</span></strong><span>)</span></p></li><li><p><strong><span>Reduce</span></strong><span>: aggregates intermediate results</span></p></li><li><p><span>Generate final output</span></p></li></ol><p><strong><span>Key idea</span></strong><span>: to re-phrase problems in such a way that the input can be divided into parts and operated on in parallel and the results combined to produce a solution to the original problem</span></p><p>&nbsp;</p><h3 id='the-mapreduce-routines'><strong><span>The Map&amp;Reduce Routines</span></strong></h3><ul><li><p><span>Using map-reduce one must write 2 functions called </span><em><span>Map</span></em><span> and </span><em><span>Reduce</span></em></p></li><li><p><span>The system manages the parallel execution and coordination of tasks; it is all done automatically</span></p></li><li><p><span>A map-reduce computation proceeds as follows:</span></p><ol><li><p><span>Some number of map tasks each are given one or more chunks to process</span></p></li><li><p><span>These map tasks turn the chunk into a sequence of key-value pairs; the way the pairs are produced depends upon the code for the Map function</span></p></li><li><p><span>Key-value pairs from each Map task are collected by a master controller and sorted by key; keys are divided among all the Reduce tasks, so all key-value pairs with the same key wind up at the same Reduce task</span></p></li><li><p><span>Reduce tasks work on one key at a time, and combine all the values associated with that key in some way; the manner of combination depends upon the Reduce code</span></p></li></ol></li></ul><p>&nbsp;</p><h3 id='schematic-of-a-map-reduce-computation'><strong><span>Schematic of a Map-Reduce Computation</span></strong></h3><p><img src="MapReduce.assets/image-20250503153258928.png" alt="image-20250503153258928" style="zoom:80%;" /></p><p>&nbsp;</p><h6 id='here-is-the-dataflow'><span>Here is the dataflow:</span></h6><p><img src="MapReduce.assets/MR.gif" alt="img" style="zoom:80%;" /></p><p>&nbsp;</p><h3 id='a-mapreduce-example----counting-word-occurrences'><span>A MapReduce Example – Counting Word Occurrences</span></h3><ul><li><p><span>Counting the number of occurrences for each word in a collection of documents</span></p></li><li><p><span>The input file is a repository of documents</span></p></li><li><p><span>Each document is an element passed to a separate processor</span></p></li><li><p><strong><span>The Map function</span></strong><span>:</span></p><ul><li><p><span>Parses the document, extracts each word and uses each word as a key of type String (the words obtained by parsing), </span><em><span>w₁, w₂, ...</span></em></p></li><li><p><span>For each word it assigns an integer, </span><code>1</code></p></li><li><p><span>Each processor outputs key-value pairs where the key is a word and the value is always </span><code>1</code><span>, namely</span>
+<span> </span><em><span>(w₁, 1), (w₂, 1), ..., (wₙ, 1)</span></em></p></li></ul></li><li><p><span>If a word </span><em><span>w</span></em><span> appears </span><em><span>n</span></em><span> times in a single document, then there will be </span><em><span>n</span></em><span> key-value pairs </span><em><span>(w, 1)</span></em><span> in the output of the processor handling that document</span></p></li><li><p><span>If a word </span><em><span>w</span></em><span> appears </span><em><span>m</span></em><span> times among all documents, then there will be </span><em><span>m</span></em><span> key-value pairs </span><em><span>(w, 1)</span></em><span> in the output</span></p></li></ul><p>&nbsp;</p><h3 id='count-word-occurrences---pseudo-code'><span>Count Word Occurrences - Pseudo-Code</span></h3><ul><li><p><strong><span>The code below is similar to what a programmer would write to process multiple documents on a cluster of machines using map/reduce</span></strong></p></li></ul><pre class="md-fences md-end-block ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9.52344px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre>x</pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Map(String input_key, String input_value):</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  // input_key: document name</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  // input_value: document contents</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  for each word w in input_value:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  EmitIntermediate(w, "1");</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">reduce(String output_key, Iterator intermediate_values):</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  // output_key: a word</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  // output_values: a list of counts</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  int result = 0;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  for each v in intermediate_values:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  result += ParseInt(v);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  Emit(AsString(result));</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 300px;"></div><div class="CodeMirror-gutters" style="display: none; height: 300px;"></div></div></div></pre><p>&nbsp;</p><h3 id='word-count-execution-an-alternate-graphical-view'><span>Word Count Execution: An Alternate Graphical View</span></h3><p><img src="MapReduce.assets/image-20250503153525544.png" alt="image-20250503153525544" style="zoom:80%;" /></p><p>&nbsp;</p><h3 id='distributed-execution-overview'><span>Distributed Execution Overview</span></h3><p><img src="MapReduce.assets/image-20250503153550300.png" alt="image-20250503153550300" style="zoom:80%;" /></p><p>&nbsp;</p><h3 id='looking-under-the-hood-at-the-map-task'><span>Looking Under the Hood at the Map Task</span></h3><ul><li><p><span>The user program forks a </span><em><span>Master</span></em><span> controller process and some number of </span><em><span>Worker</span></em><span> processes at different compute nodes;</span></p></li><li><p><span>A </span><em><span>Worker</span></em><span> handles either Map tasks or Reduce tasks, but not both</span></p></li><li><p><span>The </span><em><span>Master</span></em><span> must</span>
+<span> – Create some number of Map and Reduce tasks</span>
+<span> – These tasks are assigned to </span><em><span>Worker</span></em><span> processes by the </span><em><span>Master</span></em>
+<span> – Typically there is one Map task for every chunk of the input</span>
+<span> – Keeps track of the status of each Map and Reduce task (states are: idle, executing on a Worker, completed)</span></p></li><li><p><span>Each Map task is assigned one or more chunks of the input file(s) and executes on it the code</span></p></li><li><p><span>The Map task creates a file for each Reduce task on the local disk of the Worker that executes the Map task</span></p></li><li><p><span>The </span><em><span>Master</span></em><span> is told of the location and sizes of each of these files and the Reduce task for which each is destined</span></p></li></ul><p>&nbsp;</p><h3 id='looking-under-the-hood-at-the-reduce-task'><span>Looking Under the Hood at the Reduce Task</span></h3><ul><li><p><span>The </span><em><span>master controller</span></em><span> process knows how many Reduce tasks there will be, say </span><em><span>r</span></em></p></li><li><p><span>The user defines </span><em><span>r</span></em></p></li><li><p><span>The master controller picks a hash function that applies to keys and produces a bucket number from 0 to </span><em><span>r-1</span></em></p></li><li><p><span>Each key output by a Map task is hashed and its key-value pair is put in one of </span><em><span>r</span></em><span> local files</span>
+<span> – Each file will be processed by a Reduce task</span></p></li><li><p><span>After all Map tasks have completed successfully, the master controller merges the file from each Map task that are destined for a particular Reduce task and feeds the merged file to that process</span></p></li><li><p><span>For each key </span><em><span>k</span></em><span>, the input to the Reduce task that handles key </span><em><span>k</span></em><span> is a pair</span>
+<span> </span><em><span>(k, [v₁, ..., vₙ])</span></em><span> where </span><em><span>(k, v₁), (k, v₂), ..., (k, vₙ)</span></em><span> are all the key-value pairs with key </span><em><span>k</span></em><span> coming from all the Map tasks</span></p></li></ul><p>&nbsp;</p><h3 id='explanation-of-the-reduce-task'><span>Explanation of the Reduce Task</span></h3><ul><li><p><span>The </span><em><span>Reduce function</span></em><span> is written to take pairs consisting of a key and a list of associated values, and combines them in some way</span></p></li><li><p><span>The </span><em><span>Reduce function</span></em><span> output is a sequence of key-value pairs consisting of each input key </span><em><span>k</span></em><span> paired with the combined value</span></p></li><li><p><span>Outputs from all Reduce tasks are merged into a single file</span></p></li><li><p><em><span>Reduce function</span></em><span> adds up all the values and outputs a sequence of </span><em><span>(w, m)</span></em><span> pairs where </span><em><span>w</span></em><span> is a word that appears at least once in the documents and </span><em><span>m</span></em><span> is the total number of occurrences</span></p></li><li><p><span>The </span><em><span>Reduce function</span></em><span> is generally associative and commutative, implying values can be combined in any order yielding the same result</span></p></li></ul><p>&nbsp;</p><h3 id='the-problems-google-tried-to-solve-with-a-new-file-system'><span>The Problems Google Tried to Solve with a New File System</span></h3><ul><li><p><span>Google needed a large-scale and high-performance unified storage system that must:</span></p></li></ul><ol><li><p><strong><span>Be global.</span></strong>
+<span> Any client can access (read/write) any file. This allows for sharing of data among different applications.</span></p></li><li><p><strong><span>Support automatic sharding</span></strong>
+<span> of large files over multiple machines. This improves performance by allowing parallel processes on each file chunk and also deals with large files that cannot fit into a single disk.</span></p></li><li><p><strong><span>Support automatic recovery</span></strong>
+<span> from failures.</span></p></li><li><p><strong><span>Be optimized for sequential access</span></strong>
+<span> to huge files and for read and append operations which are the most common.</span></p></li></ol><p>&nbsp;</p><h3 id='google-file-system-general-goals'><span>Google File System General Goals</span></h3><ul><li><p><strong><span>A scalable, distributed file system for large distributed data-intensive applications</span></strong></p><ul><li><p><span>Provides fault tolerance</span></p></li><li><p><span>Runs on cheap, commodity hardware</span></p></li><li><p><span>Delivers high aggregate performance to large number of clients</span></p></li></ul></li><li><p><strong><span>GFS: not your typical file system</span></strong></p><ul><li><p><span>Lacks typical per-directory data structure to list each file in the directory</span></p></li><li><p><span>Does not support aliases (i.e. hard or sym links)</span></p></li><li><p><span>Namespace: lookup table that maps full pathnames to metadata</span></p></li><li><p><span>Lookup table fits in memory (prefix compression)</span></p><ul><li><p><span>Also known as incremental encoding: a type of delta encoding </span><strong><span>compression</span></strong><span> algorithm whereby common </span><strong><span>prefixes</span></strong><span> and their lengths are recorded so that they need not be duplicated</span></p></li><li><p><a href='https://en.wikipedia.org/wiki/Incremental_encoding' target='_blank' class='url'>https://en.wikipedia.org/wiki/Incremental_encoding</a></p></li></ul></li></ul></li></ul><p>&nbsp;</p><h3 id='the-google-file-system-design-assumptions---'><span>The Google File System Design Assumptions –</span></h3><ul><li><p><strong><span>Files will be HUGE</span></strong></p></li><li><p><strong><span>Multi-gigabyte files are common</span></strong></p><ul><li><p><span>Not practical to have ~8 billion files</span></p></li><li><p><span>Each file contains many “application objects”</span></p></li></ul></li><li><p><strong><span>Multi-terabyte datasets</span></strong></p><ul><li><p><span>I/O operations, block sizes must be considered</span></p></li></ul></li><li><p><strong><span>Most file modifications are appends (atomic)</span></strong></p><ul><li><p><span>Random writes practically non-existent</span></p></li><li><p><span>Once written… sequential reads</span></p></li><li><p><span>Caching not terribly important</span></p></li></ul></li><li><p><strong><span>There will be a single master server monitoring multiple chunk servers</span></strong></p></li></ul><p>&nbsp;</p><h3 id='google-file-system-top-level-view'><span>Google File System: Top Level View</span></h3><ul><li><p><strong><span>Google File System (GFS)</span></strong><span> is a proprietary distributed file system for efficient, reliable access to data using large clusters of commodity hardware.</span></p></li><li><p><span>Files are divided into fixed-size </span><strong><span>chunks</span></strong><span> of 64 megabytes, similar to clusters or sectors in regular file systems, which are only extremely rarely overwritten or shrunk; files are usually appended to or read.</span></p></li></ul><p><img src="MapReduce.assets/image-20250503153922818.png" alt="image-20250503153922818" style="zoom:80%;" /></p><ul><li><p><span>GFS is designed for system-to-system interaction;</span>
+<span> Chunk servers replicate the data automatically</span>
+<span> See: </span><a href='https://en.wikipedia.org/wiki/Google_File_System' target='_blank' class='url'>https://en.wikipedia.org/wiki/Google_File_System</a></p></li></ul><p>&nbsp;</p><h3 id='master-server-and-chunk-servers'><span>Master Server and Chunk Servers</span></h3><h4 id='master-server'><strong><span>Master Server</span></strong></h4><ul><li><p><span>Holds all metadata:</span></p><ul><li><p><em><span>Namespace</span></em><span> (directory hierarchy)</span></p></li><li><p><em><span>Access control information</span></em><span> (per-file)</span></p></li><li><p><em><span>Mapping from files to chunks</span></em></p></li><li><p><em><span>Current locations of chunks</span></em><span> (chunkservers)</span></p></li></ul></li><li><p><span>Delegates </span><em><span>consistency management</span></em></p></li><li><p><em><span>Garbage collects</span></em><span> orphaned chunks</span></p></li><li><p><em><span>Migrates chunks</span></em><span> between chunk servers</span></p></li></ul><h4 id='chunk-server'><strong><span>Chunk Server</span></strong></h4><ul><li><p><span>Stores 64 MB file chunks on </span><em><span>local disk</span></em><span> using standard Linux filesystem, each with </span><em><span>version number</span></em><span> and </span><em><span>checksum</span></em></p></li><li><p><span>Read/write requests specify </span><em><span>chunk handle</span></em><span> and </span><em><span>byte range</span></em></p></li><li><p><span>Chunks are </span><em><span>replicated</span></em><span> on configurable number of chunkservers (</span><em><span>default: 3</span></em><span>)</span></p></li><li><p><strong><span>No caching of file data</span></strong><span> (beyond standard Linux buffer cache)</span></p></li></ul><p>&nbsp;</p><h3 id='google-file-system-gfs'><span>Google File System (GFS)</span></h3><p><img src="MapReduce.assets/image-20250503154033472.png" alt="image-20250503154033472" style="zoom:80%;" /></p><ul><li><p><span>Master manages metadata</span></p></li><li><p><span>Data transfers happen directly between clients / chunkservers</span></p></li><li><p><span>Files broken into chunks (typically 64 MB)</span></p></li><li><p><span>Chunks are triplicated across three machines for safety</span></p></li></ul><p>&nbsp;</p><h3 id='gfs-major-aspects'><span>GFS: Major Aspects</span></h3><ul><li><p><strong><span>Append vs. Rewrite</span></strong></p><ul><li><p><span>GFS is optimized for appended files rather than rewrites. That&#39;s because clients within Google rarely need to overwrite files -- they add data onto the end of files instead. While it&#39;s still possible to overwrite data on a file in the GFS, the system doesn&#39;t handle those processes very efficiently</span></p></li></ul></li><li><p><strong><span>Which Replica Does GFS use?</span></strong></p><ul><li><p><span>The GFS separates replicas into two categories: </span><strong><span>primary replicas</span></strong><span> and </span><strong><span>secondary replicas</span></strong><span>. A primary replica is the chunk that a chunkserver sends to a client. Secondary replicas serve as backups on other chunkservers.</span></p></li><li><p><span>The master server decides which chunks will act as primary or secondary. If the client makes changes to the data in the chunk, then the master server lets the chunkservers with secondary replicas know they have to copy the new chunk off the primary chunkserver to stay current.</span></p></li></ul></li><li><p><strong><span>What About Big Files?</span></strong></p><ul><li><p><span>If a client creates a write request that affects multiple chunks of a particularly large file, the GFS breaks the overall write request up into an individual request for each chunk. The rest of the process is the same as a normal write request.</span></p></li></ul></li><li><p><strong><span>Heartbeats and Handshakes</span></strong></p><ul><li><p><span>The GFS components give system updates through electronic messages called </span><strong><span>heartbeats</span></strong><span> and </span><strong><span>handshakes</span></strong><span>. These short messages allow the master server to stay current with each chunkserver&#39;s status.</span></p></li></ul></li></ul><p>&nbsp;</p><h3 id='google-file-system-vs-bigtable'><span>Google File System vs. BigTable</span></h3><ul><li><p><strong><span>GFS provides raw data storage</span></strong></p></li><li><p><strong><span>But Google needs a system for handling:</span></strong></p><ul><li><p><span>Trillions of URLs</span></p></li><li><p><span>Geographic locations such as physical entities, roads, satellite image data, etc</span></p></li><li><p><span>Per user data for billions of people including preference settings, recent queries and searches</span></p></li><li><p><span>And it must be capable of</span>
+<span> • storing semi-structured data</span>
+<span> • Reliable, scalable, etc</span></p></li></ul></li><li><p><strong><span>Bigtable is a compressed, high performance, proprietary data storage system built on top of the Google File System</span></strong></p></li><li><p><strong><span>It is used by a number of Google applications, such as web indexing, MapReduce, Google Maps, YouTube and Gmail</span></strong></p></li></ul><p>&nbsp;</p><h3 id='big-table-data-model'><span>Big Table Data Model</span></h3><ul><li><p><strong><span>Not a Full Relational Data Model</span></strong></p></li><li><p><strong><span>Provides a simple data model</span></strong></p><ul><li><p><span>Supports dynamic control over data layout</span></p></li><li><p><span>Allows clients to reason about the locality properties</span></p></li></ul></li><li><p><strong><span>A Table in Bigtable is a:</span></strong></p><ul><li><p><span>Sparse</span></p></li><li><p><span>Distributed</span></p></li><li><p><span>Persistent</span></p></li><li><p><span>Multidimensional</span></p></li><li><p><span>Sorted map</span></p></li></ul><p>&nbsp;</p></li></ul><h3 id='bigtable-storage-model'><span>Bigtable Storage Model</span></h3><ul><li><p><strong><span>Data is indexed using row and column names</span></strong></p></li><li><p><strong><span>Data is treated as uninterpreted strings</span></strong></p><ul><li><p><span>(row:string, column:string, time:int64) → string</span></p></li></ul></li><li><p><strong><span>Rows</span></strong></p><ul><li><p><span>Data maintained in lexicographic order by row key</span></p></li><li><p><span>Tablet: rows with consecutive keys</span>
+<span> • Units of distribution and load balancing</span></p></li></ul></li><li><p><strong><span>Columns</span></strong></p><ul><li><p><span>Column families</span></p></li></ul></li><li><p><strong><span>Cells</span></strong></p></li><li><p><strong><span>Timestamps</span></strong></p></li></ul><p><img src="MapReduce.assets/image-20250503154314529.png" alt="image-20250503154314529" style="zoom:80%;" /></p><p>&nbsp;</p><h3 id='rows'><span>Rows</span></h3><ul><li><p><strong><span>Name is an arbitrary string</span></strong></p><ul><li><p><span>Access to data in a row is atomic</span></p></li><li><p><span>Row creation is implicit upon storing data</span></p></li></ul></li><li><p><strong><span>Rows ordered lexicographically</span></strong></p><ul><li><p><span>Rows close together lexicographically usually reside on one or a small number of machines</span></p></li></ul></li><li><p><strong><span>Each row/column intersection can contain multiple cells</span></strong></p><ul><li><p><span>Each cell contains a unique timestamped version of the data for that row and column</span></p></li></ul></li><li><p><strong><span>Storing multiple cells in a column provides a record of how the stored data has changed over time</span></strong></p></li></ul><p>&nbsp;</p><h3 id='columns'><span>Columns</span></h3><p><img src="MapReduce.assets/image-20250503154407858.png" alt="image-20250503154407858" style="zoom:80%;" /></p><ul><li><p><strong><span>Columns have two-level name structure:</span></strong></p><ul><li><p><em><span>family:optional_qualifier</span></em></p></li></ul></li><li><p><strong><span>Column family</span></strong></p><ul><li><p><span>Unit of access control</span></p></li><li><p><span>Has associated type information</span></p></li></ul></li><li><p><strong><span>Qualifier gives unbounded columns</span></strong></p><ul><li><p><span>Additional level of indexing, if desired</span></p></li></ul></li></ul><p>&nbsp;</p><h3 id='timestamps'><span>Timestamps</span></h3><ul><li><p><strong><span>Used to store different versions of data in a cell</span></strong></p><ul><li><p><span>New writes default to current time, but timestamps for writes can also be set explicitly by clients</span></p></li></ul></li><li><p><strong><span>Garbage Collection</span></strong></p><ul><li><p><span>Per-column-family settings to tell Bigtable to GC</span></p></li><li><p><em><span>“Only retain most recent K values in a cell”</span></em></p></li><li><p><em><span>“Keep values until they are older than K seconds”</span></em></p></li></ul></li><li><p><strong><span>API:</span></strong><span> Create / delete tables and column families</span></p></li></ul><p>&nbsp;</p><h3 id='references'><span>References</span></h3><ul><li><p><strong><span>Google Videos on map/reduce</span></strong>
+<span> </span><a href='https://www.youtube.com/watch?v=yjPBkvYh-ss' target='_blank' class='url'>https://www.youtube.com/watch?v=yjPBkvYh-ss</a><span> (Lecture 1, 46 min)</span>
+<span> </span><a href='https://www.youtube.com/watch?v=-vD6PUdf3Js' target='_blank' class='url'>https://www.youtube.com/watch?v=-vD6PUdf3Js</a><span> (Lecture 2, 52 min)</span></p></li><li><p><strong><span>Wikipedia</span></strong><span>, </span><a href='http://en.wikipedia.org/wiki/MapReduce' target='_blank' class='url'>http://en.wikipedia.org/wiki/MapReduce</a></p></li><li><p><em><span>Data-Intensive Text Processing with MapReduce</span></em><span>, Jimmy Lin and Chris Dyer,</span>
+<span> Morgan &amp; Claypool Synthesis Lectures on Human Language Technologies, 2010</span>
+<span> </span><a href='http://www.umiacs.umd.edu/~jimmylin/MapReduce-book-final.pdf' target='_blank' class='url'>http://www.umiacs.umd.edu/~jimmylin/MapReduce-book-final.pdf</a></p></li><li><p><strong><span>Hadoop</span></strong><span> is an open source implementation of MapReduce</span>
+<span> </span><a href='http://hadoop.apache.org/' target='_blank' class='url'>http://hadoop.apache.org/</a></p></li><li><p><em><span>MapReduce: Simplified Data Processing on Large Clusters</span></em><span>, by Jeffrey Dean and</span>
+<span> Sanjay Ghemawat, </span><a href='http://research.google.com/archive/mapreduce.html' target='_blank' class='url'>http://research.google.com/archive/mapreduce.html</a></p></li></ul><p>&nbsp;</p><h1 id='and'><span>And...</span></h1><p><span>The past:</span></p><p><span>• </span><a href='https://www.dataversity.net/a-brief-history-of-the-hadoop-ecosystem' target='_blank' class='url'>https://www.dataversity.net/a-brief-history-of-the-hadoop-ecosystem</a></p><p><span>• </span><a href='https://data-flair.training/blogs/hadoop-history'><span>https://data-flair.training/blogs/hadoop-history/</span></a></p><p><span>Papers: </span><a href='https://static.googleusercontent.com/media/research.google.com/en//archive/gfs-sosp2003.pdf'><span>GFS</span></a><span> and </span><a href='https://static.googleusercontent.com/media/research.google.com/en//archive/mapreduce-osdi04.pdf'><span>MapReduce</span></a><span>.</span></p><p><span>The present:</span></p><p><span>• </span><a href='https://www.datacenterknowledge.com/archives/2014/06/25/google-dumps-mapreduce-favor-new-hyper-scale-analytics-system' target='_blank' class='url'>https://www.datacenterknowledge.com/archives/2014/06/25/google-dumps-mapreduce-favor-new-hyper-scale-analytics-system</a></p><p><span>• Bigtable is available via GCP, as is Spanner, another cloud DB. </span><a href='https://db-engines.com/en/system/Google+Cloud+Bigtable%3BGoogle+Cloud+Spanner#:~:text=System Properties Comparison Google Cloud,MongoDB%2C Google BigQuery and PostgreSQL.&amp;text=Google&#39;s NoSQL Big Data database,like Ads and Google Play.&amp;text=At present%2C JDBC supports read,for DDL or DML statements.&amp;text=Multi-source replication with 3 replicas for regional instances.'><span>Here</span></a><span> is how they compare.</span></p><p><span>Here are two data-processing architectures derived from MapReduce: </span><a href='https://spark.apache.org/'><span>Spark</span></a><span>, </span><a href='https://documents.uow.edu.au/~jrg/312/readings/pig/Oreilly.Programming.Pig-www.gocit.vn.pdf'><span>Pig</span></a><span>.</span></p></div></div>
+</body>
+</html>
