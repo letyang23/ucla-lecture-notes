@@ -199,6 +199,26 @@ How does it works?
 
 <img src="Lecture Notes.assets/image-20250917164626007.png" alt="image-20250917164626007" style="zoom:80%;" />
 
+Sampling & quantization in A->D process
+
+y = x(t) 
+
+$X_s[n] = x(nT)$
+
+T = sampling period
+
+1/T = f = sampling frequency
+
+$T++$ -> $ f--$
+
+T-- -> f++
+
+
+
+Quantization
+
+$[X_s[n]]$
+
 - **Function of a Camera**:
   - Captures **light** and measures its energy per unit area.
   - Converts this into a **pixel value** in digital representation.
@@ -218,3 +238,50 @@ How does it works?
 - **Overall Goal**:
   - Ensure that what the **human eye perceives** is faithfully captured, digitized, transmitted, and finally displayed.
   - The process is **iterative and two-way**, aiming for minimal loss of information.
+
+<img src="Lecture Notes.assets/image-1758518925262-1.jpg" alt="img" style="zoom:80%;" />
+
+<img src="Lecture Notes.assets/image-1758518941943-4.jpg" alt="img" style="zoom:80%;" />
+
+### Example Signals
+
+<img src="Lecture Notes.assets/image-20250921222952584.png" alt="image-20250921222952584" style="zoom:80%;" />
+
+### Quantization Example in 1D
+
+<img src="Lecture Notes.assets/image-20250921223025751.png" alt="image-20250921223025751" style="zoom:80%;" />
+
+### Quantization Example in 2D
+
+<img src="Lecture Notes.assets/image-20250921223049799.png" alt="image-20250921223049799" style="zoom:50%;" />
+
+<img src="Lecture Notes.assets/image-20250921223056387.png" alt="image-20250921223056387" style="zoom:50%;" />
+
+<img src="Lecture Notes.assets/image-20250921223130497.png" alt="image-20250921223130497" style="zoom:50%;" />
+
+### Bit Rate
+
+<img src="Lecture Notes.assets/image-20250921223153116.png" alt="image-20250921223153116" style="zoom:80%;" />
+
+**The Nyquist Theorem:** To perfectly reconstruct a signal without loss, the sampling frequency must be **at least twice the maximum frequency** present in the original signal.
+
+**Fourier Analysis:** The Fourier transform is a mathematical tool used to break down a signal into its constituent frequencies, which allows us to identify its maximum frequency.
+
+**Aliasing:** If a signal is sampled below the Nyquist rate, errors called **aliasing artifacts** occur. This can manifest as jagged edges in images (**2D aliasing**), strange patterns on clothing (**moiré patterns**), or the illusion of wagon wheels spinning backward (**temporal aliasing**).
+
+##### Aliasing Examples
+
+- Spatial Aliasing in one dimension
+  - Example of a sinusoidal function in 1D
+  - Audio aliasing (single frequency)
+  - Audio without aliasing –
+    - and with aliasing
+- Spatial Aliasing in two dimensions
+
+<img src="Lecture Notes.assets/image-20250921230439366.png" alt="image-20250921230439366" style="zoom:80%;" />
+
+- Spatial aliasing, moiré lines in patterns
+- Temporal Aliasing
+  - Wagon Wheel
+  - A real example
+
