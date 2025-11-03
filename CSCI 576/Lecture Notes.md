@@ -285,3 +285,25 @@ $[X_s[n]]$
   - Wagon Wheel
   - A real example
 
+<img src="Lecture Notes.assets/Screenshot 2025-11-02 at 9.27.23 PM.png" alt="Screenshot 2025-11-02 at 9.27.23 PM" style="zoom:80%;" />
+
+- Signal is the number of circles coming in
+- Sampling is the screen resolution.
+- The screen resolution is not high enough to match the frequencies of the circle coming in, then you see some kind of aliasing effects.
+
+<img src="Lecture Notes.assets/Screenshot 2025-11-02 at 9.30.10 PM.png" alt="Screenshot 2025-11-02 at 9.30.10 PM" style="zoom:80%;" />
+
+- Signal is the rate of the revolution.
+- Sampling is the display
+- If the screen is diplaying at twice the frequency of the revolution, we can read the direction it's supposed to go.
+- If the speed is more than half of the refresh rate, it will create aliasing.
+
+Subsampling
+
+- Happened in uploading process to rescale the image to something which is bandwidth appropriate.
+- Meaning throwing away
+
+Filters
+
+- Processes taht limit frequencies in your signals.
+-  
