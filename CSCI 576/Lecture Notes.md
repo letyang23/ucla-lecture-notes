@@ -305,5 +305,32 @@ Subsampling
 
 Filters
 
-- Processes taht limit frequencies in your signals.
--  
+- Processes that limit frequencies in your signals.
+
+A high frequency shirt, if we want to resample to smaller image, you will see all kinds of aliasing effects on the shirt (watering)
+
+
+
+##### Media Representations
+
+- Audio Signals – Time Varying Signals (amp @ t) 
+- Images – 2D Signal (color @ x, y) 
+- Video Signals – 3D Signals (color @ x, y, t) 
+- Graphics
+  - Inherently Digital 
+  - 2D graphics objects 
+  - 3D graphical objects
+
+###### Video Signals 
+
+- Video is obtained via raster scanning, which transforms a 3-D color signal (function of x, y and t) into a one dimensional signal for transmission. 
+- Scanning is a sampling operation: 
+  - Samples in time: Frames 
+  - Samples along y (vertical direction): Lines 
+  - Samples along x (horizontal direction): Pixels 
+- Scanning is done using two formats. 
+  - Progressive Scanning 
+  - Interlaced Scanning
+
+TV Signal
+
