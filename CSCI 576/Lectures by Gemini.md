@@ -285,3 +285,131 @@ To make any camera work with any display, we must standardize the capture and di
 * **Gamma Correction:**
     * A correction applied to account for the non-linear response of old phosphor (CRT) screens.
     * The input voltage was passed through an amplifier (e.g., $V_{out} = V_{in}^{1/2.2}$) to ensure the brightness displayed was perceptually linear. Modern LED/LCDs use lookup tables instead.
+
+
+
+## CSCI 576: Lecture 4 - Compression Fundamentals
+
+### 1. Assignment 1: Dynamic Quantization Tip
+
+The professor provided a key hint for implementing "smart" or dynamic quantization (mode 2):
+
+* **The Problem with Uniform Quantization:** If you use 4 uniform buckets (2 bits) but 75% of all pixel values fall into just *one* of those buckets, you are wasting the other 3 buckets, and the 75% region has a large error.
+* **The Goal:** The ideal "smart" quantization algorithm adjusts the bucket boundaries so that each bucket contains (roughly) the **same number of pixels**.
+* **Example:** For 4 buckets (2 bits), if you have 100 total pixels with 75 in one region and 25 in another, you should:
+    1.  Divide the region with 75 pixels into **3 buckets** (25 pixels each).
+    2.  Use the 4th bucket for the region with 25 pixels.
+    3.  This results in 4 non-uniform buckets, each representing 25 pixels, which minimizes the error.
+* **The Hard Part:** The challenge is finding the *boundaries* for these new, non-uniform buckets.
+
+---
+
+### 2. The Need for Compression 📦
+
+Raw multimedia data is massive, far exceeding practical storage or streaming capabilities.
+
+* **Example:** A high-definition (HDTV) signal requires a massive amount of data.
+    * **Resolution:** 1920 x 1080 pixels
+    * **Bit Depth:** $\approx$ 12 bits per pixel
+    * **Frame Rate:** 29.97 frames per second
+    * **Total Bitrate:** (1920 $\times$ 1080 $\times$ 12 $\times$ 29.97) $\approx$ **750 Mbps**.
+* This bitrate is too large for most current networks, demonstrating the critical need for compression.
+
+---
+
+### 3. Information Theory 🧠
+
+Compression is rooted in the "Information Theory" developed by **Claude Shannon**. His work split the problem into two parts:
+
+1.  **Channel Coding (Reliability):** How to transmit information *reliably* across a noisy channel (e.g., by sending redundant bits to correct errors).
+2.  **Source Coding (Efficiency):** How to transmit information *efficiently*. This is **compression**.
+
+#### Data vs. Information
+
+* **Data:** Raw bits. A stream of 80,000 bits is just data; it's meaningless without context.
+* **Information:** Data that is *organized*. If you know those 80,000 bits are organized as 10,000 symbols of 8 bits each, and those are organized as a 100x100 matrix, you now have the *information* that this is an image.
+
+#### Entropy ($H$)
+
+* **Vocabulary:** The set of unique symbols a source can produce (e.g., a source with 4 symbols S1, S2, S3, S4).
+* **The Key Insight:** Instead of using the same number of bits for every symbol (e.g., 2 bits for S1, S2, S3, S4), we can achieve compression by assigning **fewer bits to more frequent symbols** and **more bits to less frequent symbols**.
+* **Entropy ($H$):** The theoretical **lowest possible limit** for the average number of bits needed to represent one symbol from a source.
+    * **Formula:** $H = -\sum p_i \log_2(p_i)$ (where $p_i$ is the probability of symbol $i$).
+* **Entropy and Randomness:**
+    * **High Entropy:** Occurs when the source is highly **random** (all symbols are equally probable). This is the *worst case* for compression.
+    * **Low Entropy:** Occurs when the source is highly **structured** or *biased* (some symbols are very probable, others are not). This has the most potential for compression.
+    * **The Golden Rule:** Our world is **not random; it is structured**. Compression algorithms work by finding and exploiting this structure.
+
+---
+
+### 4. Lossless vs. Lossy Compression
+
+All compression algorithms fall into two categories:
+
+| Feature | Lossless Compression | Lossy Compression |
+| :--- | :--- | :--- |
+| **Goal** | Information is **perfectly preserved**. The decoded file is identical to the original. | Throws away data. The decoded file is *not* identical to the original. |
+| **Bitrate** | Produces a **Variable Bitrate (VBR)**. A "difficult" (random) section will cause the bitrate to spike. | Can achieve a **Constant Bitrate (CBR)**, which is ideal for streaming. |
+| **Challenge** | Hard to design algorithms that can reach the theoretical entropy limit. | Hard to design because it requires a deep understanding of **human perception** to know what data to throw away without affecting *perceived* quality. |
+
+---
+
+### 5. Lossless Compression Techniques
+
+#### Repetition Removal (Run-Length Encoding - RLE)
+
+* **How it works:** Replaces consecutive runs of the *same* symbol with a single symbol and a count.
+* **Example:** `AAAAABBBBAA` $\rightarrow$ `(A, 5), (B, 4), (A, 2)`
+* **Best for:** Low-entropy (structured) sources with long repetitions. Fails on random data (e.g., `ABABAB` becomes `(A,1)(B,1)(A,1)(B,1)...`, doubling the size).
+
+#### Dictionary-Based (Lempel-Ziv-Welch - LZW)
+
+* **How it works:** Dynamically builds a "dictionary" (or codebook) of repeating *patterns* or strings. It then replaces occurrences of that pattern with its shorter dictionary index.
+* **Streaming:** The dictionary does *not* need to be sent first. The decoder can perfectly regenerate the *exact same* dictionary on its end as it processes the incoming encoded stream.
+* **Used in:** **ZIP** and **GIF**.
+
+#### Statistical (Huffman Coding)
+
+* **How it works:** Builds a binary tree from the bottom up based on symbol probabilities.
+    1.  It repeatedly combines the two *least probable* symbols into a new node.
+    2.  This ensures that the **most frequent** symbols (like H, G, F) are *shallow* (close to the root) and get the **shortest codes**.
+    3.  The **least frequent** symbols (like A, B) are *deepest* in the tree and get the **longest codes**.
+* **Key Property:** It creates a **prefix code** (no code is a prefix of another code), which makes it uniquely decodable.
+* **Optimality:** Huffman is good, but **not always optimal**. It only achieves the perfect entropy limit ($L_{avg} = H$) if all symbol probabilities are negative powers of two (e.g., 1/2, 1/4, 1/8...).
+
+#### Arithmetic Coding
+
+* **How it works:** Maps an *entire* string of symbols to a single, high-precision floating-point number between 0 and 1. It recursively divides the 0-1 range based on symbol probabilities.
+* **Performance:** On a practical basis, it performs **better than Huffman** (gets closer to the true entropy $H$) but is more computationally expensive.
+
+---
+
+### 6. Lossy Compression Techniques
+
+#### Differential PCM (DPCM) 📉
+
+* **How it works:** A **prediction-based** method. It assumes the next sample will be similar to the previous one.
+    1.  **Predict** the next sample (e.g., predict it's the same as the last one).
+    2.  Compute the **difference (error)** between the *actual* sample and the *predicted* sample.
+    3.  **Transmit only the error**.
+* **Why is it Lossy?** The *differences* have a much smaller range (lower entropy) than the original signal. This stream of differences can then be **re-quantized** with fewer bits (e.g., 3 bits instead of 8). This re-quantization is the lossy step.
+* **Open-Loop DPCM (Bad):** The decoder's quantization error from the first sample ($E_1$) gets added to the error from the second sample ($E_2$), and so on. The errors **accumulate** ($E_{total} = E_1+E_2+E_3...$), causing massive distortion.
+* **Closed-Loop DPCM (Good):** The *encoder* simulates the decoder. To calculate the *next* difference, it uses the *previous quantized value* (the same one the decoder has) instead of the original value. This prevents the errors from accumulating.
+
+#### Vector Quantization (VQ)
+
+* **How it works:** Instead of quantizing one sample (a scalar) at a time, it quantizes a "vector" (a group of samples) at a time.
+    1.  A "codebook" is created containing a small set of representative vectors (e.g., 4 common 2x2 pixel blocks).
+    2.  The encoder takes an input vector (e.g., a 2x2 block from the image).
+    3.  It finds the *closest matching* vector from the codebook.
+    4.  It transmits **only the index** of that matching vector (e.g., 2 bits to represent 1 of the 4 codebook vectors).
+
+#### Transform Coding (Frequency Domain) 🌌
+
+* This is the most powerful lossy technique and the basis for **JPEG** and **MPEG**.
+* **How it works:**
+    1.  **Transform:** A mathematical transform (like the **Discrete Cosine Transform, or DCT**) is applied to a block of pixels, converting the signal from the spatial (pixel) domain to the **frequency domain**.
+    2.  **Exploit Structure:** Because our world is structured, the transform "compacts" most of the signal's energy into just a few low-frequency coefficients. Most of the high-frequency coefficients become zero or near-zero.
+    3.  **Exploit Perception:** The *key* step. Human perception is less sensitive to high-frequency changes. We can aggressively **quantize** (throw away) these high-frequency coefficients without the viewer noticing.
+    4.  **Inverse Transform:** The decoder uses an inverse transform (IDCT) to convert the quantized frequencies back into pixels.
+* **The Loss:** The transform itself (DCT/IDCT) is lossless. The information is lost *only* during the perceptual **quantization** step in the middle.
