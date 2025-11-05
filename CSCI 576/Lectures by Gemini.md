@@ -332,9 +332,13 @@ Compression is rooted in the "Information Theory" developed by **Claude Shannon*
 #### Entropy ($H$)
 
 * **Vocabulary:** The set of unique symbols a source can produce (e.g., a source with 4 symbols S1, S2, S3, S4).
-* **The Key Insight:** Instead of using the same number of bits for every symbol (e.g., 2 bits for S1, S2, S3, S4), we can achieve compression by assigning **fewer bits to more frequent symbols** and **more bits to less frequent symbols**.
+* **The Key Insight:** Instead of using the same number of bits for every symbol (e.g., 2 bits for S1, S2, S3, S4), we can achiexve compression by assigning **fewer bits to more frequent symbols** and **more bits to less frequent symbols**.
+    * For S = {S1, S2, S3, S4}
+        * $S1 = 00, S2 =11, S3 =10, S4= 10$
+        * $S1 = 1, S2 = 001, S3 = 01, S4 = 000$
+
 * **Entropy ($H$):** The theoretical **lowest possible limit** for the average number of bits needed to represent one symbol from a source.
-    * **Formula:** $H = -\sum p_i \log_2(p_i)$ (where $p_i$ is the probability of symbol $i$).
+    * **Formula:** $H = -\sum p_i \log_2(p_i) = \sum p_i\log(1/p_i)$ (where $p_i$ is the probability of symbol $Si$).
 * **Entropy and Randomness:**
     * **High Entropy:** Occurs when the source is highly **random** (all symbols are equally probable). This is the *worst case* for compression.
     * **Low Entropy:** Occurs when the source is highly **structured** or *biased* (some symbols are very probable, others are not). This has the most potential for compression.
@@ -350,7 +354,8 @@ All compression algorithms fall into two categories:
 | :--- | :--- | :--- |
 | **Goal** | Information is **perfectly preserved**. The decoded file is identical to the original. | Throws away data. The decoded file is *not* identical to the original. |
 | **Bitrate** | Produces a **Variable Bitrate (VBR)**. A "difficult" (random) section will cause the bitrate to spike. | Can achieve a **Constant Bitrate (CBR)**, which is ideal for streaming. |
-| **Challenge** | Hard to design algorithms that can reach the theoretical entropy limit. | Hard to design because it requires a deep understanding of **human perception** to know what data to throw away without affecting *perceived* quality. |
+| **Compression** | Not guaranteed                                               | guaranteed                                                   |
+| **Challenge** | Hard to design algorithms that can reach the theoretical entropy limit. | Hard to design because it requires a deep understanding of **human perception** to know what data to throw away without affecting *perceived* quality. `Lossy is harder than lossless` |
 
 ---
 
@@ -359,16 +364,30 @@ All compression algorithms fall into two categories:
 #### Repetition Removal (Run-Length Encoding - RLE)
 
 * **How it works:** Replaces consecutive runs of the *same* symbol with a single symbol and a count.
-* **Example:** `AAAAABBBBAA` $\rightarrow$ `(A, 5), (B, 4), (A, 2)`
+* **Example:** `S = {A, B}` `AAAAABBBBAA` $\rightarrow$ `(A, 5), (B, 4), (A, 2)`
 * **Best for:** Low-entropy (structured) sources with long repetitions. Fails on random data (e.g., `ABABAB` becomes `(A,1)(B,1)(A,1)(B,1)...`, doubling the size).
 
 #### Dictionary-Based (Lempel-Ziv-Welch - LZW)
 
+<img src="Lectures by Gemini.assets/image-20251104233316464.png" alt="image-20251104233316464" style="zoom:50%;" />
+
 * **How it works:** Dynamically builds a "dictionary" (or codebook) of repeating *patterns* or strings. It then replaces occurrences of that pattern with its shorter dictionary index.
+  * Example: S = {A, B}
+  * a, b, b, a, a, b, b, a, a, b, a, b, b, a,....
+    * a = 0, b = 1
+
+  * 0, 1, b, a,...
+    * ab = 2, bb = 3, ba = 4, aa = 5
+  * 0, 1, 1, 0, 
+    * abb = 6, bba = 7, 
+  * 0, 1, 1, 0, 2, 4, 2, 6
+
 * **Streaming:** The dictionary does *not* need to be sent first. The decoder can perfectly regenerate the *exact same* dictionary on its end as it processes the incoming encoded stream.
 * **Used in:** **ZIP** and **GIF**.
 
 #### Statistical (Huffman Coding)
+
+<img src="Lectures by Gemini.assets/image-20251104233242440.png" alt="image-20251104233242440" style="zoom:80%;" />
 
 * **How it works:** Builds a binary tree from the bottom up based on symbol probabilities.
     1.  It repeatedly combines the two *least probable* symbols into a new node.
@@ -379,6 +398,8 @@ All compression algorithms fall into two categories:
 
 #### Arithmetic Coding
 
+<img src="Lectures by Gemini.assets/image-20251104233345511.png" alt="image-20251104233345511" style="zoom:50%;" />
+
 * **How it works:** Maps an *entire* string of symbols to a single, high-precision floating-point number between 0 and 1. It recursively divides the 0-1 range based on symbol probabilities.
 * **Performance:** On a practical basis, it performs **better than Huffman** (gets closer to the true entropy $H$) but is more computationally expensive.
 
@@ -387,6 +408,8 @@ All compression algorithms fall into two categories:
 ### 6. Lossy Compression Techniques
 
 #### Differential PCM (DPCM) 📉
+
+<img src="Lectures by Gemini.assets/Screenshot 2025-11-04 at 11.34.52 PM.png" alt="Screenshot 2025-11-04 at 11.34.52 PM" style="zoom:50%;" />
 
 * **How it works:** A **prediction-based** method. It assumes the next sample will be similar to the previous one.
     1.  **Predict** the next sample (e.g., predict it's the same as the last one).
