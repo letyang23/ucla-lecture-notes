@@ -436,3 +436,134 @@ All compression algorithms fall into two categories:
     3.  **Exploit Perception:** The *key* step. Human perception is less sensitive to high-frequency changes. We can aggressively **quantize** (throw away) these high-frequency coefficients without the viewer noticing.
     4.  **Inverse Transform:** The decoder uses an inverse transform (IDCT) to convert the quantized frequencies back into pixels.
 * **The Loss:** The transform itself (DCT/IDCT) is lossless. The information is lost *only* during the perceptual **quantization** step in the middle.
+
+
+
+# Lecture 5 - 9/29/2025 - Image Compression
+
+## 📝 Assignment 1 & Exam Notes
+
+### Assignment 1 Grading
+
+* **Submissions:** The latest submitted version will be graded.
+* **Typo Correction:** A typo in the YUV to RGB conversion matrix (specifically, the value `0.147` was mistyped as `0.417`) was announced. Graders will check outputs for *both* values, and you will receive full marks as long as your output is correct for the value you used.
+* **Theory Questions:** The "relevant portion" (theory questions) will not be graded, but solutions will be provided for you to check your work.
+* **Programming Tests:** Your submitted code will be compiled and run against several (5-6) test inputs, which are typically generated gradients, not natural images. As long as the output is qualitatively similar, you will get full credit.
+* **Error Metric:** For the analysis, as long as you used a correct error metric (like **sum of absolute differences** or **sum of squared differences**) and *not* a simple difference (which would cancel out), your values will be accepted. The graders are more interested in the **pattern** you observed in the results.
+
+### Exam Format
+
+* **No Notes:** The exam will **not** allow any books, notes, or formula sheets.
+* **Calculators:** Calculators **are** allowed.
+* **Structure:** The exam will likely have three sections:
+    1.  **Short Answer:** Easy questions that require a logical, two-sentence answer.
+    2.  **Computation:** A section requiring you to perform calculations.
+    3.  **Challenging:** A final, more difficult question requiring deeper thought.
+
+---
+
+## 🖼️ Image Compression Overview
+
+This lecture begins the section on media-specific compression, starting with images.
+
+### Image Types
+
+* Images can be grayscale or color. Color images typically have three channels (like **RGB** or **YUV**).
+* Bit depth can vary (8-bit, 12-bit, 16-bit) depending on the application (e.g., consumer vs. professional film).
+* **Alpha Channel:** A fourth channel is sometimes included to represent **opacity**.
+    * This is crucial for **compositing** and **blending** foreground and background images.
+    * It's typically an 8-bit value, not just binary (0 or 1). This allows for partial transparency at object boundaries, which creates a more natural blend by simulating light diffraction.
+
+### The Goal of Compression: Removing Redundancy
+
+The core principle of compression is to **remove redundancy**. Images have a lot of structure and are not random. Redundancy can be found in:
+
+* **Spatial Domain (Pixels):** Images often have large, flat areas (like a blue sky) or slowly changing gradients where pixels are highly correlated with their neighbors.
+* **Spectral Domain (Frequencies):** This is where we analyze the *rate of change* in an image. Perception-based compression works in this domain.
+
+---
+
+## 🔁 The General Lossy Compression Pipeline
+
+Most modern lossy compression standards (like JPEG) follow this general pipeline:
+
+1.  **Transform (T):** The image $f(x,y)$ is moved from the spatial (pixel) domain to a **transform domain** $F(u,v)$.
+    * **Why?** Because real-world signals are structured, their representation in the frequency domain has **less entropy** (i.e., fewer non-zero values are needed to represent the same signal).
+    * This transform (e.g., DCT) is mathematically **lossless** and **invertible** ($T^{-1}$).
+2.  **Quantization (Q):** This is the **main lossy step** and the **hardest part** to design.
+    * Based on human perception, we **"quantize"** the transformed coefficients.
+    * This means we assign *more* bits (high precision) to "important" frequencies (usually low frequencies) and *fewer* bits (or zero bits) to "unimportant" frequencies (usually high frequencies).
+3.  **Entropy Coding:** The resulting quantized coefficients (which now contain many zeros) are compressed using a **lossless statistical** method (like Huffman coding) to create the final, small bitstream.
+
+The decoder simply reverses this process: Entropy Decoding $\rightarrow$ Inverse Quantization ($Q^{-1}$) $\rightarrow$ Inverse Transform ($T^{-1}$) to get the reconstructed image, $f\_hat(x,y)$.
+
+---
+
+## 🔣 Fourier & The Transform Domain
+
+The Discrete Cosine Transform (DCT) is a relative of the Fourier Transform. It's a way of representing a signal in the frequency domain.
+
+* **Vector Analogy:** Think of a 3D vector $\vec{v}$. It can be described as coordinates ($x,y,z$) multiplied by standard basis vectors ($\mathbf{i}, \mathbf{j}, \mathbf{k}$).
+    * $\vec{v} = x\mathbf{i} + y\mathbf{j} + z\mathbf{k}$
+* **Function Analogy:** The Fourier/DCT transform does the same for a function (like a signal or an image block) $f(t)$. It's represented by **coefficients** ($b_0, b_1, ...$) multiplied by standard **basis functions** (cosine waves of different frequencies).
+    * $f(t) = b_0\cos(0\omega t) + b_1\cos(1\omega t) + b_2\cos(2\omega t) + ...$
+* **The Compression Insight:** A complex-looking *structured* signal $f(t)$ can be represented by just a **few non-zero coefficients** ($b_i$). A purely *random* (noisy) signal would require *all* coefficients to be present.
+
+---
+
+## 📸 The JPEG Pipeline Explained
+
+JPEG (Joint Photographic Experts Group) is a DCT-based lossy standard. Here is the exact encoding process:
+
+1.  **Color Space Conversion:** The input RGB image is converted to **YCrCb** (or YUV). This separates luminance (Y, brightness) from chrominance (CrCb, color).
+2.  **Chroma Subsampling:** Because human perception is less sensitive to color detail than brightness, we "subsample" the color channels (e.g., **4:2:0**), keeping only 1/4 of the Cr and Cb samples while keeping all of the Y samples.
+3.  **Blocking:** Each channel is divided into **8x8 pixel blocks**. (This was an empirical choice to maximize local redundancy on computers of the mid-1990s).
+4.  **Apply DCT:** A 2D DCT is applied to *each* 8x8 block, converting the 64 pixel values into **64 frequency coefficients**.
+    * The top-left coefficient (0,0) is the **DC coefficient** (the average brightness of the block).
+    * The other 63 are **AC coefficients** (representing frequencies from low to high).
+5.  **Quantization:** This is the primary lossy step. Each of the 64 DCT coefficients is divided by a corresponding value from a standard 8x8 **Quantization Table** and rounded.
+    * This table is designed based on perception: it has **small numbers in the top-left** (preserving important low frequencies) and **large numbers in the bottom-right** (aggressively quantizing, or zeroing-out, unimportant high frequencies).
+    * The **"Quality" slider** (0-100) in image editors is just a **multiplier for this table**. Low quality = higher multiplier = more quantization.
+6.  **Entropy Coding (DC):** The quantized DC coefficient is encoded using **DPCM** (Differential Pulse Code Modulation). This means we store the *difference* between the current block's DC value and the *previous* block's DC value, which is more efficient.
+7.  **Entropy Coding (AC):**
+    * **Zig-Zag Scan:** The 63 AC coefficients are read in a **zig-zag order**. This is done because quantization created many zeros, and this scan pattern groups all the zeros together at the *end* of the stream.
+    * **RLE:** A special Run-Length Encoding is applied, creating tuples of `(RUN_LENGTH, SIZE, AMPLITUDE)`.
+        * `RUN_LENGTH`: Number of *zeros* before this non-zero value.
+        * `AMPLITUDE`: The actual non-zero value (e.g., -2, -1).
+        * `SIZE`: The *category* or number of bits needed to represent the AMPLITUDE.
+    * **Prefix/Non-Prefix Trick:** The `(RUN_LENGTH, SIZE)` pair is encoded using a **prefix code** (like Huffman). This code tells the decoder *exactly* how many (non-prefix) bits to read next for the `AMPLITUDE`. This clever mix is more efficient than using one giant prefix table for all values.
+    * **EOB:** An "End of Block" marker is placed after the last non-zero coefficient, saving space by not encoding all the trailing zeros.
+8.  **Bitstream:** The resulting codes are packed into the final bitstream.
+
+---
+
+## 📊 JPEG Modes, Artifacts, and JPEG 2000
+
+### Progressive JPEG
+
+The baseline JPEG mode described above loads the image block-by-block, scanline by scanline. For large images on the web, this is a poor user experience. **Progressive JPEG** modes send the data in multiple passes:
+
+1.  **Spectral Selection:** Sends all DC coefficients first (a blurry, blocky image), then a pass for the first few AC coefficients, then the next, refining the image in passes.
+2.  **Successive Bit Approximation:** Sends the Most Significant Bit (MSB) of *all* coefficients first, then a pass for the next bit, and so on.
+3.  **Hierarchical:** Creates an image *pyramid* (e.g., 512x512 $\rightarrow$ 256x256 $\rightarrow$ 128x128...). It sends the smallest 128x128 image first, then sends the "residual" (difference) data to scale it up to 256x256, and so on.
+
+### JPEG Artifacts
+
+* **Blocking Artifacts:** Because each 8x8 block is compressed *independently*, visible seams or "blocks" can appear at the boundaries if the quality is set too low (i.e., quantization is too high).
+* **The Flaw of DCT:** The DCT assumes the frequencies it finds are present *everywhere* in the 8x8 block. It has no time/space localization, which is what causes the blocking artifacts.
+
+### Introduction to Wavelets (JPEG 2000)
+
+Wavelets (the basis for JPEG 2000) solve the blocking artifact problem by *not* using blocks.
+
+* **How it works:** Instead of blocks, it uses filters to recursively split the *entire* image.
+* **Process:**
+    1.  Pass the image through a **Low-Pass Filter (LPF)** (which gets the "average") and a **High-Pass Filter (HPF)** (which gets the "difference" or detail).
+    2.  Keep the HPF output (the details).
+    3.  Take the LPF output (which is now smaller) and **recursively** feed it back into the LPF/HPF pair.
+* **Example (1D):** An image with pixels `[9, 7, 3, 5]`
+    * **Pass 1 (LPF):** Average(9,7) = **8**; Average(3,5) = **4**. $\rightarrow$ `[8, 4]`
+    * **Pass 1 (HPF):** Difference(9,7)/2 = **1**; Difference(3,5)/2 = **-1**. $\rightarrow$ `[1, -1]`
+    * **Pass 2 (LPF):** Average(8,4) = **6**.
+    * **Pass 2 (HPF):** Difference(8,4)/2 = **2**.
+* **Final "Wavelet" Data:** `[6, 2, 1, -1]`. This is a fully invertible, lossless representation of the original `[9, 7, 3, 5]` signal. This will be explored further in the next lecture.
