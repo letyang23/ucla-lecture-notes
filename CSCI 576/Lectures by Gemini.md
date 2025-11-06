@@ -508,31 +508,52 @@ The Discrete Cosine Transform (DCT) is a relative of the Fourier Transform. It's
 * **Function Analogy:** The Fourier/DCT transform does the same for a function (like a signal or an image block) $f(t)$. It's represented by **coefficients** ($b_0, b_1, ...$) multiplied by standard **basis functions** (cosine waves of different frequencies).
     * $f(t) = b_0\cos(0\omega t) + b_1\cos(1\omega t) + b_2\cos(2\omega t) + ...$
 * **The Compression Insight:** A complex-looking *structured* signal $f(t)$ can be represented by just a **few non-zero coefficients** ($b_i$). A purely *random* (noisy) signal would require *all* coefficients to be present.
+* 2D Dimension: $f(xy) = \sum_{i = 0}^n \sum_{j=0}^n b_{ij}\cos i \omega x \cdot \cos j \omega y$
 
 ---
 
 ## 📸 The JPEG Pipeline Explained
 
+<img src="Lectures by Gemini.assets/image.png" alt="image" style="zoom:67%;" />
+
 JPEG (Joint Photographic Experts Group) is a DCT-based lossy standard. Here is the exact encoding process:
 
-1.  **Color Space Conversion:** The input RGB image is converted to **YCrCb** (or YUV). This separates luminance (Y, brightness) from chrominance (CrCb, color).
-2.  **Chroma Subsampling:** Because human perception is less sensitive to color detail than brightness, we "subsample" the color channels (e.g., **4:2:0**), keeping only 1/4 of the Cr and Cb samples while keeping all of the Y samples.
-3.  **Blocking:** Each channel is divided into **8x8 pixel blocks**. (This was an empirical choice to maximize local redundancy on computers of the mid-1990s).
+1. **Color Space Conversion:** The input RGB image is converted to **YCrCb** (or YUV). This separates luminance (Y, brightness) from chrominance (CrCb, color).
+
+2. **Chroma Subsampling:** Because human perception is less sensitive to color detail than brightness, we "subsample" the color channels (e.g., **4:2:0**), keeping only 1/4 of the Cr and Cb samples while keeping all of the Y samples.
+
+3. **Blocking:** Each channel is divided into **8x8 pixel blocks**. (This was an empirical choice to maximize local redundancy on computers of the mid-1990s).
+
 4.  **Apply DCT:** A 2D DCT is applied to *each* 8x8 block, converting the 64 pixel values into **64 frequency coefficients**.
     * The top-left coefficient (0,0) is the **DC coefficient** (the average brightness of the block).
     * The other 63 are **AC coefficients** (representing frequencies from low to high).
+    
 5.  **Quantization:** This is the primary lossy step. Each of the 64 DCT coefficients is divided by a corresponding value from a standard 8x8 **Quantization Table** and rounded.
+    
     * This table is designed based on perception: it has **small numbers in the top-left** (preserving important low frequencies) and **large numbers in the bottom-right** (aggressively quantizing, or zeroing-out, unimportant high frequencies).
+    
+      * <img src="Lectures by Gemini.assets/image-2414155.png" alt="image" style="zoom:80%;" />
+    
     * The **"Quality" slider** (0-100) in image editors is just a **multiplier for this table**. Low quality = higher multiplier = more quantization.
-6.  **Entropy Coding (DC):** The quantized DC coefficient is encoded using **DPCM** (Differential Pulse Code Modulation). This means we store the *difference* between the current block's DC value and the *previous* block's DC value, which is more efficient.
+    
+      `after this step, we are done compressing. The rest is use stats to figure out how to use least space to save this`
+    
+6. **Entropy Coding (DC):** The quantized DC coefficient is encoded using **DPCM** (Differential Pulse Code Modulation). This means we store the *difference* between the current block's DC value and the *previous* block's DC value, which is more efficient.
+
 7.  **Entropy Coding (AC):**
+    
     * **Zig-Zag Scan:** The 63 AC coefficients are read in a **zig-zag order**. This is done because quantization created many zeros, and this scan pattern groups all the zeros together at the *end* of the stream.
-    * **RLE:** A special Run-Length Encoding is applied, creating tuples of `(RUN_LENGTH, SIZE, AMPLITUDE)`.
+    * **RLE:** A special Run-Length Encoding is applied, creating tuples of `<RUN_LENGTH, SIZE>,<AMPLITUDE>`.
         * `RUN_LENGTH`: Number of *zeros* before this non-zero value.
         * `AMPLITUDE`: The actual non-zero value (e.g., -2, -1).
         * `SIZE`: The *category* or number of bits needed to represent the AMPLITUDE.
     * **Prefix/Non-Prefix Trick:** The `(RUN_LENGTH, SIZE)` pair is encoded using a **prefix code** (like Huffman). This code tells the decoder *exactly* how many (non-prefix) bits to read next for the `AMPLITUDE`. This clever mix is more efficient than using one giant prefix table for all values.
     * **EOB:** An "End of Block" marker is placed after the last non-zero coefficient, saving space by not encoding all the trailing zeros.
+    
+    ###### Entropy Coding Example
+    
+    <img src="Lectures by Gemini.assets/image0.jpg" alt="image0" style="zoom:67%;" />
+    
 8.  **Bitstream:** The resulting codes are packed into the final bitstream.
 
 ---
@@ -567,3 +588,5 @@ Wavelets (the basis for JPEG 2000) solve the blocking artifact problem by *not* 
     * **Pass 2 (LPF):** Average(8,4) = **6**.
     * **Pass 2 (HPF):** Difference(8,4)/2 = **2**.
 * **Final "Wavelet" Data:** `[6, 2, 1, -1]`. This is a fully invertible, lossless representation of the original `[9, 7, 3, 5]` signal. This will be explored further in the next lecture.
+
+<img src="Lectures by Gemini.assets/image0-2417720.jpg" alt="image0" style="zoom:67%;" />
