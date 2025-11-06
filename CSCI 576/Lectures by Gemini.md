@@ -590,3 +590,161 @@ Wavelets (the basis for JPEG 2000) solve the blocking artifact problem by *not* 
 * **Final "Wavelet" Data:** `[6, 2, 1, -1]`. This is a fully invertible, lossless representation of the original `[9, 7, 3, 5]` signal. This will be explored further in the next lecture.
 
 <img src="Lectures by Gemini.assets/image0-2417720.jpg" alt="image0" style="zoom:67%;" />
+
+
+
+# Lecture 6 - 10/6/2025
+
+## Admin & Assignment 1 Feedback
+
+* **Assignment 1 Grading:** Grading is in progress. Emails sent out with partial grades were a mistake; please wait for the final, complete grades to be released (expected by early next week).
+* **Submission Policy:** The **latest version** you submitted is the one that will be graded.
+* **Grading Feedback:** For any test case where you don't receive full marks, the graders will provide a specific comment, explanation, or screengrab so you can see the issue.
+* **Assignment 1 Typo:**
+    * There was a typo in the YUV-to-RGB conversion matrix (`-0.417` was listed instead of the correct `-0.147`).
+    * **Do not worry.** The graders have the correct outputs for *both* the correct value and the incorrect typo value. As long as your program's output matches the expected result for whichever value you used, you will receive full credit.
+* **Image Size Issue:** If you accidentally hard-coded the wrong image dimensions (e.g., 512x512), you will not be penalized for the entire assignment. The graders will attempt to modify the code or test with the correct dimensions.
+* **Error Metric (Analysis):** As long as you used a valid error metric (like **sum of absolute differences** or **sum of squared differences**) and *not* a simple difference (which would be incorrect), your analysis will be accepted. The graders are focused on the *patterns* you observed.
+* **Exam Policy:**
+    * **No** notes, books, or cheat sheets are allowed.
+    * **Yes,** calculators are permitted.
+
+---
+
+## Recap: Why JPEG Has Artifacts
+
+The previous lecture's JPEG (DCT-based) compression works well, but its core design creates a major problem: **blocking artifacts**.
+
+* **The Cause:** JPEG divides an image into independent **8x8 blocks**. The DCT assumes the frequencies it finds are "stationary" (present everywhere *within* that block).
+* **The Flaw:** This process ignores the relationships *between* blocks. At low bitrates (high quantization), the decoded blocks don't match up at their edges, creating a visible "grid" or "blocking" effect.
+
+---
+
+## 🌊 Wavelets (The Core of JPEG 2000)
+
+Wavelets solve the blocking problem by **not using blocks**. Instead, they process the *entire* signal (or image) at once by recursively filtering it.
+
+### The 1D Wavelet Transform (Haar Wavelet)
+
+This process recursively separates a signal into **averages (low-pass)** and **differences (high-pass)**.
+
+1.  **Start Signal:** Imagine a 1D signal with 4 pixels: `[9, 7, 3, 5]`
+2.  **Level 1 Pass:**
+    * **Low-Pass (Averages):** Take the average of pairs.
+        * `(9 + 7) / 2 = 8`
+        * `(3 + 5) / 2 = 4`
+    * **High-Pass (Differences):** Take the *difference* from the average for each pair.
+        * `(9 - 7) / 2 = 1`
+        * `(3 - 5) / 2 = -1`
+    * **Result 1:** The signal is now `[8, 4 | 1, -1]` (Averages | Differences)
+3.  **Level 2 Pass (Recursive):**
+    * We are done with the "Difference" (High-Pass) part `[1, -1]`, so we set it aside.
+    * We *recursively* apply the same process to the "Average" (Low-Pass) part `[8, 4]`.
+    * **Low-Pass (Average):** `(8 + 4) / 2 = 6`
+    * **High-Pass (Difference):** `(8 - 4) / 2 = 2`
+4.  **Final Representation:** `[6 | 2 | 1, -1]`
+    * `6`: The overall average (Low-Pass Level 2)
+    * `2`: The difference (High-Pass Level 2)
+    * `[1, -1]`: The differences (High-Pass Level 1)
+
+This final representation `[6, 2, 1, -1]` is a **100% lossless, reversible** representation of the original `[9, 7, 3, 5]`.
+
+### The 2D Wavelet Transform
+
+This same process is applied to 2D images, just in two directions:
+
+1.  **Row Pass:** Perform the 1D wavelet transform on **all rows** of the image. This results in the image being split into two halves: a Low-Pass (Averages) half on the left and a High-Pass (Differences) half on the right.
+2.  **Column Pass:** Perform the 1D wavelet transform on **all columns** of the *result* from Step 1.
+3.  **Result (4 Quadrants):** This creates four quadrants in the image:
+    * **LL (Low-Low):** The averages of the averages. This is the "thumbnail" or most important part of the image.
+    * **LH (Low-High):** Averages of rows, differences of columns (shows horizontal details).
+    * **HL (High-Low):** Differences of rows, averages of columns (shows vertical details).
+    * **HH (High-High):** Differences of differences (shows diagonal details).
+4.  **Recursion:** The *entire* process (Steps 1-3) is then **recursively applied** to the **LL quadrant** again... and again... and again, creating a hierarchical, multi-resolution structure.
+
+
+### Advantages of JPEG 2000 (Wavelets)
+
+* **Better Compression:** The wavelet representation is more compact (lower entropy) than DCT, leading to better quality at the same bitrate.
+* **No Blocking Artifacts:** Since it processes the whole image, it doesn't create blocky seams.
+* **Region of Interest (ROI):** The hierarchical bitstream allows a user to request *only* the coefficients needed for a specific area (e.g., zooming in on a map) without downloading the whole image.
+* **Scalability:** The *same file* can be decoded in multiple ways. A server can store one J2K file and send:
+    * Just the smallest LL quadrant for a **thumbnail**.
+    * The first few levels for a **medium-resolution** image.
+    * The full stream for a **high-resolution** image.
+    This is known as **"encode once, decode many ways."**
+
+---
+
+## 🎨 Dithering: Improving Perceived Quality
+
+**Problem:** What if you must display an image with a *severely* limited color palette (e.g., only 2 colors: black and white)?
+
+**Bad Solution: Thresholding**
+If you just say `pixel < 128 = black` and `pixel > 128 = white`, a human face becomes unrecognizable blobs.
+
+**Better Solution: Dithering**
+Dithering uses the *same* 2 colors to create a *perceived* sense of grayscale by arranging the black and white dots in a specific way.
+
+* **Halftoning:** The old newspaper method. Uses clusters of dots (small dots for light gray, big dots for dark gray). Looks artificial.
+* **Ordered Dithering:** Uses a small, tiled "dithering matrix" of thresholds. It compares each pixel to the threshold in the matrix to decide if it should be black or white. This creates a more patterned, but still artificial, look.
+* **Error Diffusion (Floyd-Steinberg):** The best method. It creates a natural, randomized look.
+    1.  Process one pixel at a time (in scanline order).
+    2.  Quantize the *current* pixel (e.g., round it to black or white).
+    3.  Calculate the **quantization error** (the difference between the original pixel value and the quantized value).
+    4.  **Distribute** this error to its *future, unprocessed neighbors* (to the right, bottom-left, bottom, and bottom-right).
+    5.  When you get to the next pixel, you first *add* the diffused error from its neighbors, *then* you quantize it.
+
+This process ensures that while individual pixels are wrong, the *average* intensity over any small region is correct, resulting in a high-quality perceived image.
+
+
+---
+
+## Assignment 2: DCT and Progressive Modes
+
+The second assignment will focus on implementing the DCT-based JPEG pipeline, specifically its different delivery modes.
+
+* **Task:** You will build a program that takes an image, quantizes it in the DCT (frequency) domain, and then *dequantizes and displays* it progressively.
+* **Inputs:** `(image, quantization_level, delivery_mode, latency)`
+* **Pipeline:**
+    `Input Image` $\rightarrow$ `8x8 Blocks` $\rightarrow$ `DCT` $\rightarrow$ `Quantize`
+    ...THEN, based on mode, you will progressively feed coefficients to the...
+    `Dequantize` $\rightarrow$ `Inverse DCT (IDCT)` $\rightarrow$ `Display Block`
+* **Delivery Modes:**
+    1.  **Baseline:** Dequantize and display one 8x8 block at a time (the "scanline" method).
+    2.  **Spectral Selection:** Send all DC coefficients first, then all AC[1] coefficients, then all AC[2], etc. (64 passes).
+    3.  **Successive Approximation:** Send the Most Significant Bit (MSB) of *all* coefficients first, then the next bit of *all* coefficients, etc. (requires bit manipulation).
+* **Goal:** To create a "graceful quality improvement" and understand how the JPEG bitstream is structured.
+
+---
+
+## 🎬 Introduction to Video Compression
+
+**The Naive Approach:** A video is just a sequence of images. We could compress each frame as a separate JPEG. This works, but it's very inefficient.
+
+**The Problem:** This naive approach completely ignores **temporal redundancy**. In a 30fps video, Frame 22 is almost identical to Frame 21.
+
+### Exploiting Temporal Redundancy
+
+**Method 1: Frame Differencing (DPCM)**
+
+* **Idea:** Send the first frame (Frame 1) as a full JPEG. For Frame 2, send only the *difference* (`Frame 2 - Frame 1`). For Frame 3, send (`Frame 3 - Frame 2`), and so on.
+* **Benefit:** The "difference" frame has very low entropy and compresses extremely well.
+* **Problems:**
+    1.  **Error Accumulation:** Quantization errors from one frame build up and propagate to all future frames (can be fixed with a "closed loop" system).
+    2.  **No Random Access:** A user "channel surfing" can't start watching in the middle. They are missing all the previous frames needed to reconstruct the current one.
+* **Solution:** Insert a full, independently-coded **Keyframe** (or **I-frame**) every 1-2 seconds. A new viewer just has to wait for the next keyframe to start decoding.
+
+**Method 2: Block-Based Motion Compensation (The *Real* Solution)**
+
+* **The Flaw in DPCM:** A simple frame difference fails if the *camera pans* or an *object moves*. The pixels aren't the same, but they *have* just moved.
+* **The Idea:** Instead of sending the *pixel difference*, let's just describe the *motion*.
+* **The Problem:** Sending a **Motion Vector (MV)** (`dx, dy`) for *every single pixel* would be more data than the original image!
+* **The Solution:** Motion is **structured**. Objects move, not random pixels. We can apply motion to **blocks**.
+* **How it works (Backward Prediction):**
+    1.  Take the current frame (Frame N+1) and break it into **macroblocks** (e.g., 16x16).
+    2.  For *each* block in N+1, search in the previous frame (Frame N) to find the **best-matching block**.
+    3.  **The Encoder Sends Two Things:**
+        * The **Motion Vector (MV):** The `(dx, dy)` coordinates of where the best match was found.
+        * The **Residual Frame:** The (hopefully very small) *difference* between the block from N+1 and its predicted block from N.
+* **Motion Estimation:** The process of finding the "best-matching block" (usually with a **Mean Absolute Difference** metric) is the most computationally expensive part of video encoding, often taking **80% of the encoder's CPU time**.
