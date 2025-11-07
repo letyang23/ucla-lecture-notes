@@ -602,7 +602,7 @@ Wavelets (the basis for JPEG 2000) solve the blocking artifact problem by *not* 
 * **Grading Feedback:** For any test case where you don't receive full marks, the graders will provide a specific comment, explanation, or screengrab so you can see the issue.
 * **Assignment 1 Typo:**
     * There was a typo in the YUV-to-RGB conversion matrix (`-0.417` was listed instead of the correct `-0.147`).
-    * **Do not worry.** The graders have the correct outputs for *both* the correct value and the incorrect typo value. As long as your program's output matches the expected result for whichever value you used, you will receive full credit.
+    * **Do not worry.** The graders have the correct outputs for *both* the correct value and the incorrect typo value. As longRas your program's output matches the expected result for whichever value you used, you will receive full credit.
 * **Image Size Issue:** If you accidentally hard-coded the wrong image dimensions (e.g., 512x512), you will not be penalized for the entire assignment. The graders will attempt to modify the code or test with the correct dimensions.
 * **Error Metric (Analysis):** As long as you used a valid error metric (like **sum of absolute differences** or **sum of squared differences**) and *not* a simple difference (which would be incorrect), your analysis will be accepted. The graders are focused on the *patterns* you observed.
 * **Exam Policy:**
@@ -748,3 +748,199 @@ The second assignment will focus on implementing the DCT-based JPEG pipeline, sp
         * The **Motion Vector (MV):** The `(dx, dy)` coordinates of where the best match was found.
         * The **Residual Frame:** The (hopefully very small) *difference* between the block from N+1 and its predicted block from N.
 * **Motion Estimation:** The process of finding the "best-matching block" (usually with a **Mean Absolute Difference** metric) is the most computationally expensive part of video encoding, often taking **80% of the encoder's CPU time**.
+
+
+
+Here is the detailed cheatsheet based on the lecture transcript, with all citations removed.
+
+## 🏛️ Part 0: Course Administration
+
+* **Assignment 1 Grading:**
+    * Grades were released prematurely by mistake; the grading process is still ongoing.
+    * Final grades should be available by early next week.
+    * **Feedback:** For any test case where full marks were not awarded, graders are required to provide an exact line, comment, or screengrab to explain the discrepancy.
+    * Office hours will be held for further clarification after all grading is finished.
+* **Flexible Format Submission Issue:**
+    * Some students accidentally left the submission in a flexible format (e.g., 5x12).
+    * This will **not** be penalized if it's a simple matter of changing parameters in the code to fix the image size. Graders will handle this; no need to request a regrade.
+
+---
+
+## 🖼️ Part 1: Image Compression (Wavelets & JPEG 2000)
+
+### JPEG Recap & Limitations
+
+* **Pipeline:** Image $\rightarrow$ Transform (DCT) $\rightarrow$ Quantization $\rightarrow$ Entropy Coding (Zigzag Scan, VLC) $\rightarrow$ Bitstream.
+* **Core Idea:** Transform to frequency space, which has lower entropy (less information) because natural images are not random.
+* **Perceptual Trick:** Aggressively quantize high frequencies, which our eyes are less sensitive to, while preserving low frequencies.
+* **Limitation:** At low bitrates, **blocking artifacts** appear. This is because DCT is block-based (8x8) and assumes the signal is stationary (frequencies are present everywhere), which isn't always true.
+* **Solution:** **Wavelets**, which are better for non-stationary signals.
+
+### Wavelet Compression (1D Haar Wavelet)
+
+<img src="Lectures by Gemini.assets/image-20251106155702717.png" alt="image-20251106155702717" style="zoom:50%;" />
+
+The core idea is to recursively separate a signal into low-frequency (averages) and high-frequency (differences) components.
+
+* **Filters:**
+    * **Low-Pass Filter (LPF):** Captures averages. Contains most of the perceptual information.
+    * **High-Pass Filter (HPF):** Captures differences. Contains less information and can be quantized more aggressively.
+* **1D Example (Signal: [9, 7, 3, 5])**
+    1.  **Level 1 Pass:**
+        * **Averages (LPF):** $\frac{9+7}{2} = 8$; $\frac{3+5}{2} = 4 \rightarrow [8, 4]$
+        * **Differences (HPF):** $\frac{9-7}{2} = 1$; $\frac{3-5}{2} = -1 \rightarrow [1, -1]$
+        * *Signal Representation 1:* `[8, 4, 1, -1]`
+    2.  **Level 2 Pass (Recursive):** Apply the same process to the **LPF output** `[8, 4]`.
+        * **Average (LPF):** $\frac{8+4}{2} = 6 \rightarrow [6]$
+        * **Difference (HPF):** $\frac{8-4}{2} = 2 \rightarrow [2]$
+    3.  **Final Representation:** `[6, 2, 1, -1]`
+* **Compression & Reconstruction:**
+    * The final representation `[6, 2, 1, -1]` contains the same information as `[9, 7, 3, 5]` and is perfectly reconstructible.
+    * Compression is achieved by **quantizing (or dropping) the high-frequency coefficients**.
+    * Example: If we only send `[6, 2]` and the decoder assumes the rest are zero (`[6, 2, 0, 0]`), it would reconstruct `[8, 4, 0, 0]` $\rightarrow$ `[8, 8, 4, 4]`. This is not the original, but perceptually similar from a distance.
+
+### Wavelet Basis Functions
+
+This provides the mathematical foundation for the averaging and differencing process. Any signal (data) can be represented as a sum of **Coefficients** $\times$ **Basis Vectors**.
+
+* **Scaling Functions (Averages): $\phi$ (phi)**
+    * These are **box functions**.
+    * The base function $\phi(x)$ is a box of value 1 between 0 and 1.
+    * $\phi_{j,i}(x) = \phi(2^j x - i)$ represents a box function that is **scaled** by $j$ (gets narrower) and **shifted** by $i$.
+    * <img src="Lectures by Gemini.assets/image-20251106155844487.png" alt="image-20251106155844487" style="zoom:50%;" />
+    * Example:
+      * <img src="Lectures by Gemini.assets/image-20251106155919364.png" alt="image-20251106155919364" style="zoom:80%;" />
+      * <img src="Lectures by Gemini.assets/image-20251106155958150.png" alt="image-20251106155958150" style="zoom:50%;" />
+* **Wavelet Functions (Differences): $\psi$ (psi)**
+    * These are the **Haar functions**.
+    * The base function $\psi(x)$ is `+1` from 0 to 0.5 and `-1` from 0.5 to 1.
+    * $\psi_{j,i}(x) = \psi(2^j x - i)$ represents a scaled and shifted difference function.
+* **Example (Signal: `[6, 2, 1, -1]`)**
+    * This final wavelet representation can be written as:
+    * $6 \times \phi_{0,0}(x)$ (the final average)
+    * $+ 2 \times \psi_{0,0}(x)$ (the first difference)
+    * $+ 1 \times \psi_{1,0}(x)$ (the second-level difference)
+    * $+ (-1) \times \psi_{1,1}(x)$ (the second-level difference, shifted)
+
+### 2D Wavelet Transform
+
+This applies the 1D transform to 2D images.
+
+* **Standard Recursive Method:**
+    1.  Take the input image. Apply the 1D wavelet transform to **every row**. This results in an image half-filled with Averages (LPF) and half-filled with Differences (HPF).
+    2.  Take the result from step 1. Apply the 1D wavelet transform to **every column**.
+    3.  **Result:** The image is now divided into four quadrants:
+        * **LL (Low-Low):** Averages of rows, Averages of columns (a smaller, scaled-down version of the image).
+        * **LH (Low-High):** Averages of rows, Differences of columns.
+        * **HL (High-Low):** Differences of rows, Averages of columns.
+        * **HH (High-High):** Differences of rows, Differences of columns (least important information).
+    4.  **Recursive Step:** Take the **LL quadrant** and repeat steps 1-3 on it.
+    5.  This process is repeated until the LL quadrant is a single pixel (the average of the entire image).
+* **Benefit:** This hierarchical structure is excellent for scalability. You can send just the tiny LL quadrant for a blurry preview and progressively add the LH, HL, and HH quadrants at increasing resolutions to sharpen the image.
+
+### JPEG 2000
+
+* **Basis:** Uses wavelet representation instead of DCT.
+* **Key Features & Advantages:**
+    * **Better Compression:** Outperforms standard JPEG at the same file size.
+    * **Region of Interest (ROI):** The bitstream can be organized so you only stream the coefficients needed for a specific part of the image (e.g., zooming in on one area in Google Earth).
+    * **Random Spatial Access:** Can "tile" the image, allowing a decoder to jump to any tile (region) without decoding the whole thing.
+    * **Scalability:** The single bitstream can be decoded at different resolutions or quality levels without re-encoding.
+* **"Encode Once, Stream Multiple Ways":** A server can store one high-quality JPEG 2000 file and intelligently stream only the necessary parts (coefficients) based on the user's device (watch vs. laptop) and bandwidth.
+* **Adoption:** Not common for everyday photos because JPEG is so entrenched. Used in specialized, high-bandwidth applications like **Digital Cinema** and **Google Earth**.
+
+---
+
+## 🎨 Part 2: Dithering
+
+Dithering is a post-processing technique to improve the *perceived* quality of an image that has been heavily quantized (i.e., has fewer colors than the original).
+
+* **Problem:** Simple quantization (e.g., thresholding grayscale to binary) produces terrible results (e.g., a face becomes two blobs for eyes).
+* **Solution:** Use the limited color palette (e.g., just black and white) in a statistically distributed way to trick the eye into seeing intermediate shades.
+
+### Halftoning
+
+<img src="Lectures by Gemini.assets/Screenshot 2025-11-06 at 10.56.03 PM.png" alt="Screenshot 2025-11-06 at 10.56.03 PM" style="zoom:33%;" />
+
+* An early newspaper technique.
+* Divides the image into blocks and replaces each block with a pattern whose *perceived* grayness matches the block's average intensity.
+* Often used concentric circles of increasing blackness.
+* **Trade-off:** Larger blocks allow more "gray levels" but look blockier. Smaller blocks look smoother but have fewer intensity levels.
+
+### Ordered Dithering
+
+* Uses a $k \times k$ **dithering matrix** (or "order matrix") to determine the threshold for each pixel.
+* A $k \times k$ matrix provides **$k^2 + 1$** perceived intensity levels.
+* **Algorithm:**
+    1.  For each pixel $I(x, y)$ in the input image:
+    2.  Find the corresponding position in the dither matrix: $i = x \mod k$, $j = y \mod k$.
+    3.  Get the matrix value $D(i, j)$.
+    4.  **Normalize** the pixel's intensity $I(x, y)$ and the matrix value $D(i, j)$ to the same range (e.g., 0-8 for a 3x3 matrix and 0-255 for the pixel).
+    5.  If $I_{\text{normalized}} > D_{\text{normalized}}$, output **white** (or 1).
+    6.  Else, output **black** (or 0).
+
+### Error Diffusion (e.g., Floyd-Steinberg)
+
+* The highest quality method.
+* **Key Idea:** Don't just discard the quantization error. **Diffuse** (spread) that error to neighboring pixels *that have not been processed yet*.
+* **Algorithm (scanline order):**
+    1.  Process the current pixel $P$.
+    2.  Quantize it to the nearest available color (e.g., black or white). This is $P'$.
+    3.  Calculate the error: $Error = P - P'$ (the "loss").
+    4.  Distribute this $Error$ to neighbors that are to the **right** and **below** the current pixel, using specific fractions (e.g., the Floyd-Steinberg model).
+    5.  When the next pixel is processed, its original value is first modified by the diffused error it received from its neighbors, *before* it gets quantized.
+* **Result:** This process creates a much more natural, less-patterned distribution of pixels that is perceptually very close to the original grayscale image, even though it only uses black and white.
+
+---
+
+## 💻 Part 3: Assignment 2 Details
+
+* **Task:** Implement a DCT-based progressive image viewer.
+* **Process:** Go from RGB $\rightarrow$ DCT representation $\rightarrow$ Quantize. Then, de-quantize and apply Inverse DCT (IDCT) in one of three delivery modes.
+* **Input Parameters:** Image, Quantization Level, Delivery Mode, Latency (to simulate a slow connection).
+* **Delivery Modes:**
+    1.  **Mode 1 (Baseline):** Process and display one 8x8 block at a time (block-by-block).
+    2.  **Mode 2 (Spectral Selection):** Display all DC coefficients first. Then, add all AC coefficient 1. Then add all AC coefficient 2, etc., for all blocks.
+    3.  **Mode 3 (Successive Approximation):** Send the Most Significant Bit (MSB) for *all* coefficients in *all* blocks. Then send the next bit, and the next, etc..
+* **Goal:** Observe **"graceful quality improvements"** rather than random noise.
+* **Development Tip:** Build and test in stages:
+    1.  Get DCT and IDCT working (Input $\rightarrow$ DCT $\rightarrow$ IDCT $\rightarrow$ Output should look identical to Input).
+    2.  Add Quantization and De-quantization.
+    3.  Finally, implement the progressive delivery modes.
+
+---
+
+## 🎥 Part 4: Video Compression Fundamentals
+
+### Temporal Redundancy
+
+* **Core Concept:** A video is a sequence of images. The most naive compression (Motion JPEG, or MJPEG) is to just compress every single frame as a separate JPEG.
+* **Inefficiency:** This ignores **temporal redundancy**—the fact that Frame 2 is extremely similar to Frame 1.
+* **Better Approach (DPCM):**
+    1.  Compress and send **Frame 1** (as a full image).
+    2.  For Frame 2, calculate the **difference** ($Error = \text{Frame } 2 - \text{Frame } 1$).
+    3.  Compress and send this $Error$ frame (which has much lower entropy and compresses better).
+    4.  Decoder calculates $\text{Frame } 2 = \text{Frame } 1 + Error$.
+* **Problem:** This is a long chain of predictions. To watch a stream, you *must* have Frame 1. If you join mid-stream (like tuning into a TV channel), you can't decode anything.
+* **Solution: Keyframes (I-frames):** Periodically, the encoder inserts a **keyframe**, which is a full, independently-compressed frame (like a JPEG). This breaks the prediction chain and allows a new viewer to "sync up".
+
+### Block-Based Motion Compensation (MC)
+
+This is a more advanced way to exploit temporal redundancy, forming the basis of standards like MPEG.
+
+* **Problem with Simple Differencing:** Pixels *move*. An object at $(x, y)$ in Frame $n$ may move to $(x+dx, y+dy)$ in Frame $n+1$. Simple differencing would see this as a large error.
+* **Reasons for Pixel Change:** Camera motion, subject motion, lighting changes, and sensor noise.
+* **Key Insight:** Motion is **structured**. Pixels don't move randomly; they move in **regions or blocks**.
+* **MC Algorithm (Encoder Side):**
+    1.  Take the current frame to be encoded ($F_{n+1}$) and divide it into **macroblocks** (e.g., 16x16).
+    2.  For *each* macroblock in $F_{n+1}$, search the *previous* frame ($F_n$) to find the block that is the "best match".
+        * This "backward prediction" (from $F_{n+1}$ to $F_n$) is preferred because it ensures every block in the *current* frame is accounted for.
+    3.  The search is done in a "search area" around the block's original position.
+    4.  "Best match" is determined by a metric, typically **Mean Absolute Difference (MAD)** (sum of absolute pixel-by-pixel differences).
+    5.  The displacement $(dx, dy)$ between the current block and its best match is stored as a **Motion Vector (MV)**.
+    6.  A **Predicted Frame** is created, assembled from all the "best match" blocks found in $F_n$.
+* **What is Sent in the Bitstream:**
+    1.  **Motion Vectors:** A list of ($dx, dy$) for every macroblock.
+    2.  **Error Frame (Residual):** The encoder calculates $Error = F_{n+1} \text{ (Actual)} - \text{Predicted Frame}$. This error frame is then compressed (using DCT, quantization, etc.) and sent.
+* **Decoder Side:** The decoder receives the MVs and the compressed Error Frame. It uses the MVs to build the same Predicted Frame, then adds the Error Frame back to get the final $F_{n+1}$.
+* **Complexity:** Motion prediction is the most computationally expensive part of video encoding, often accounting for **80% of the computation**.
