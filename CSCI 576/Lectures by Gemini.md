@@ -595,164 +595,6 @@ Wavelets (the basis for JPEG 2000) solve the blocking artifact problem by *not* 
 
 # Lecture 6 - 10/6/2025
 
-## Admin & Assignment 1 Feedback
-
-* **Assignment 1 Grading:** Grading is in progress. Emails sent out with partial grades were a mistake; please wait for the final, complete grades to be released (expected by early next week).
-* **Submission Policy:** The **latest version** you submitted is the one that will be graded.
-* **Grading Feedback:** For any test case where you don't receive full marks, the graders will provide a specific comment, explanation, or screengrab so you can see the issue.
-* **Assignment 1 Typo:**
-    * There was a typo in the YUV-to-RGB conversion matrix (`-0.417` was listed instead of the correct `-0.147`).
-    * **Do not worry.** The graders have the correct outputs for *both* the correct value and the incorrect typo value. As longRas your program's output matches the expected result for whichever value you used, you will receive full credit.
-* **Image Size Issue:** If you accidentally hard-coded the wrong image dimensions (e.g., 512x512), you will not be penalized for the entire assignment. The graders will attempt to modify the code or test with the correct dimensions.
-* **Error Metric (Analysis):** As long as you used a valid error metric (like **sum of absolute differences** or **sum of squared differences**) and *not* a simple difference (which would be incorrect), your analysis will be accepted. The graders are focused on the *patterns* you observed.
-* **Exam Policy:**
-    * **No** notes, books, or cheat sheets are allowed.
-    * **Yes,** calculators are permitted.
-
----
-
-## Recap: Why JPEG Has Artifacts
-
-The previous lecture's JPEG (DCT-based) compression works well, but its core design creates a major problem: **blocking artifacts**.
-
-* **The Cause:** JPEG divides an image into independent **8x8 blocks**. The DCT assumes the frequencies it finds are "stationary" (present everywhere *within* that block).
-* **The Flaw:** This process ignores the relationships *between* blocks. At low bitrates (high quantization), the decoded blocks don't match up at their edges, creating a visible "grid" or "blocking" effect.
-
----
-
-## 🌊 Wavelets (The Core of JPEG 2000)
-
-Wavelets solve the blocking problem by **not using blocks**. Instead, they process the *entire* signal (or image) at once by recursively filtering it.
-
-### The 1D Wavelet Transform (Haar Wavelet)
-
-This process recursively separates a signal into **averages (low-pass)** and **differences (high-pass)**.
-
-1.  **Start Signal:** Imagine a 1D signal with 4 pixels: `[9, 7, 3, 5]`
-2.  **Level 1 Pass:**
-    * **Low-Pass (Averages):** Take the average of pairs.
-        * `(9 + 7) / 2 = 8`
-        * `(3 + 5) / 2 = 4`
-    * **High-Pass (Differences):** Take the *difference* from the average for each pair.
-        * `(9 - 7) / 2 = 1`
-        * `(3 - 5) / 2 = -1`
-    * **Result 1:** The signal is now `[8, 4 | 1, -1]` (Averages | Differences)
-3.  **Level 2 Pass (Recursive):**
-    * We are done with the "Difference" (High-Pass) part `[1, -1]`, so we set it aside.
-    * We *recursively* apply the same process to the "Average" (Low-Pass) part `[8, 4]`.
-    * **Low-Pass (Average):** `(8 + 4) / 2 = 6`
-    * **High-Pass (Difference):** `(8 - 4) / 2 = 2`
-4.  **Final Representation:** `[6 | 2 | 1, -1]`
-    * `6`: The overall average (Low-Pass Level 2)
-    * `2`: The difference (High-Pass Level 2)
-    * `[1, -1]`: The differences (High-Pass Level 1)
-
-This final representation `[6, 2, 1, -1]` is a **100% lossless, reversible** representation of the original `[9, 7, 3, 5]`.
-
-### The 2D Wavelet Transform
-
-This same process is applied to 2D images, just in two directions:
-
-1.  **Row Pass:** Perform the 1D wavelet transform on **all rows** of the image. This results in the image being split into two halves: a Low-Pass (Averages) half on the left and a High-Pass (Differences) half on the right.
-2.  **Column Pass:** Perform the 1D wavelet transform on **all columns** of the *result* from Step 1.
-3.  **Result (4 Quadrants):** This creates four quadrants in the image:
-    * **LL (Low-Low):** The averages of the averages. This is the "thumbnail" or most important part of the image.
-    * **LH (Low-High):** Averages of rows, differences of columns (shows horizontal details).
-    * **HL (High-Low):** Differences of rows, averages of columns (shows vertical details).
-    * **HH (High-High):** Differences of differences (shows diagonal details).
-4.  **Recursion:** The *entire* process (Steps 1-3) is then **recursively applied** to the **LL quadrant** again... and again... and again, creating a hierarchical, multi-resolution structure.
-
-
-### Advantages of JPEG 2000 (Wavelets)
-
-* **Better Compression:** The wavelet representation is more compact (lower entropy) than DCT, leading to better quality at the same bitrate.
-* **No Blocking Artifacts:** Since it processes the whole image, it doesn't create blocky seams.
-* **Region of Interest (ROI):** The hierarchical bitstream allows a user to request *only* the coefficients needed for a specific area (e.g., zooming in on a map) without downloading the whole image.
-* **Scalability:** The *same file* can be decoded in multiple ways. A server can store one J2K file and send:
-    * Just the smallest LL quadrant for a **thumbnail**.
-    * The first few levels for a **medium-resolution** image.
-    * The full stream for a **high-resolution** image.
-    This is known as **"encode once, decode many ways."**
-
----
-
-## 🎨 Dithering: Improving Perceived Quality
-
-**Problem:** What if you must display an image with a *severely* limited color palette (e.g., only 2 colors: black and white)?
-
-**Bad Solution: Thresholding**
-If you just say `pixel < 128 = black` and `pixel > 128 = white`, a human face becomes unrecognizable blobs.
-
-**Better Solution: Dithering**
-Dithering uses the *same* 2 colors to create a *perceived* sense of grayscale by arranging the black and white dots in a specific way.
-
-* **Halftoning:** The old newspaper method. Uses clusters of dots (small dots for light gray, big dots for dark gray). Looks artificial.
-* **Ordered Dithering:** Uses a small, tiled "dithering matrix" of thresholds. It compares each pixel to the threshold in the matrix to decide if it should be black or white. This creates a more patterned, but still artificial, look.
-* **Error Diffusion (Floyd-Steinberg):** The best method. It creates a natural, randomized look.
-    1.  Process one pixel at a time (in scanline order).
-    2.  Quantize the *current* pixel (e.g., round it to black or white).
-    3.  Calculate the **quantization error** (the difference between the original pixel value and the quantized value).
-    4.  **Distribute** this error to its *future, unprocessed neighbors* (to the right, bottom-left, bottom, and bottom-right).
-    5.  When you get to the next pixel, you first *add* the diffused error from its neighbors, *then* you quantize it.
-
-This process ensures that while individual pixels are wrong, the *average* intensity over any small region is correct, resulting in a high-quality perceived image.
-
-
----
-
-## Assignment 2: DCT and Progressive Modes
-
-The second assignment will focus on implementing the DCT-based JPEG pipeline, specifically its different delivery modes.
-
-* **Task:** You will build a program that takes an image, quantizes it in the DCT (frequency) domain, and then *dequantizes and displays* it progressively.
-* **Inputs:** `(image, quantization_level, delivery_mode, latency)`
-* **Pipeline:**
-    `Input Image` $\rightarrow$ `8x8 Blocks` $\rightarrow$ `DCT` $\rightarrow$ `Quantize`
-    ...THEN, based on mode, you will progressively feed coefficients to the...
-    `Dequantize` $\rightarrow$ `Inverse DCT (IDCT)` $\rightarrow$ `Display Block`
-* **Delivery Modes:**
-    1.  **Baseline:** Dequantize and display one 8x8 block at a time (the "scanline" method).
-    2.  **Spectral Selection:** Send all DC coefficients first, then all AC[1] coefficients, then all AC[2], etc. (64 passes).
-    3.  **Successive Approximation:** Send the Most Significant Bit (MSB) of *all* coefficients first, then the next bit of *all* coefficients, etc. (requires bit manipulation).
-* **Goal:** To create a "graceful quality improvement" and understand how the JPEG bitstream is structured.
-
----
-
-## 🎬 Introduction to Video Compression
-
-**The Naive Approach:** A video is just a sequence of images. We could compress each frame as a separate JPEG. This works, but it's very inefficient.
-
-**The Problem:** This naive approach completely ignores **temporal redundancy**. In a 30fps video, Frame 22 is almost identical to Frame 21.
-
-### Exploiting Temporal Redundancy
-
-**Method 1: Frame Differencing (DPCM)**
-
-* **Idea:** Send the first frame (Frame 1) as a full JPEG. For Frame 2, send only the *difference* (`Frame 2 - Frame 1`). For Frame 3, send (`Frame 3 - Frame 2`), and so on.
-* **Benefit:** The "difference" frame has very low entropy and compresses extremely well.
-* **Problems:**
-    1.  **Error Accumulation:** Quantization errors from one frame build up and propagate to all future frames (can be fixed with a "closed loop" system).
-    2.  **No Random Access:** A user "channel surfing" can't start watching in the middle. They are missing all the previous frames needed to reconstruct the current one.
-* **Solution:** Insert a full, independently-coded **Keyframe** (or **I-frame**) every 1-2 seconds. A new viewer just has to wait for the next keyframe to start decoding.
-
-**Method 2: Block-Based Motion Compensation (The *Real* Solution)**
-
-* **The Flaw in DPCM:** A simple frame difference fails if the *camera pans* or an *object moves*. The pixels aren't the same, but they *have* just moved.
-* **The Idea:** Instead of sending the *pixel difference*, let's just describe the *motion*.
-* **The Problem:** Sending a **Motion Vector (MV)** (`dx, dy`) for *every single pixel* would be more data than the original image!
-* **The Solution:** Motion is **structured**. Objects move, not random pixels. We can apply motion to **blocks**.
-* **How it works (Backward Prediction):**
-    1.  Take the current frame (Frame N+1) and break it into **macroblocks** (e.g., 16x16).
-    2.  For *each* block in N+1, search in the previous frame (Frame N) to find the **best-matching block**.
-    3.  **The Encoder Sends Two Things:**
-        * The **Motion Vector (MV):** The `(dx, dy)` coordinates of where the best match was found.
-        * The **Residual Frame:** The (hopefully very small) *difference* between the block from N+1 and its predicted block from N.
-* **Motion Estimation:** The process of finding the "best-matching block" (usually with a **Mean Absolute Difference** metric) is the most computationally expensive part of video encoding, often taking **80% of the encoder's CPU time**.
-
-
-
-Here is the detailed cheatsheet based on the lecture transcript, with all citations removed.
-
 ## 🏛️ Part 0: Course Administration
 
 * **Assignment 1 Grading:**
@@ -1161,7 +1003,7 @@ This method, used by MP3, exploits the limitations of the human ear to discard d
       <img src="Lectures by Gemini.assets/image-20251108001844731.png" alt="image-20251108001844731" style="zoom:50%;" />
     
 * **Frequency Masking:** A loud sound (a "masker") will *raise* the "threshold in quiet" for frequencies near it.
-    
+  
     * Any other sound that falls under this *new, raised curve* is "masked" and becomes inaudible, even if it was above the original "threshold in quiet".
     
     * **The Global Masking Curve:** In a real signal (like music), there are many frequencies at once. The final threshold is the **envelope** (the combined "sum total") of all the individual masking curves from all the different frequencies.
@@ -1236,3 +1078,148 @@ MP3 adds three main components to the standard perceptual encoder:
 
 * Extends MPEG-1 to be **multi-channel** (e.g., 5.1 surround sound).
 * **AAC (Advanced Audio Codec):** A non-backwards-compatible part of the MPEG-2 standard. It improves on MP3 by applying psychoacoustics *across* channels (e.g., a loud sound in the left ear can mask a quiet sound in the right ear).
+
+
+
+# Lecture 9 - 10/27/2025 - Graphic Compression
+
+## 1. 🖼️ Introduction to Graphics
+
+### Core Goal
+* The lecture's goal is not to be a full computer graphics course, but to understand graphics from a multimedia perspective.
+* This involves:
+    * How graphics are **represented** (2D and 3D).
+    * Where the **redundancy** is in that representation.
+    * How to **compress** that information for storage and streaming.
+
+### Typical Graphics Pipeline
+The process of creating a 3D image involves several stages:
+1.  **Models:** Creating 3D assets (objects, characters) with textures.
+2.  **Reflectance:** Defining the physical properties of a model's surface (e.g., plastic, metal, shiny).
+3.  **Lighting & Rendering:** Simulating light, shadows, and other effects to create a realistic (or stylized) 2D image from the 3D scene.
+4.  **Motion (Animation):** Moving objects, characters, or simulating effects (smoke, liquid) over time, frame by frame.
+
+### Applications
+* **Scientific Visualization**
+* **Medical Imaging** (MRI, CT)
+* **CAD/CAM** (Computer-Aided Design & Manufacturing)
+* **Entertainment** (CG animated films, visual effects)
+* **Multimedia Contexts:** Virtual Reality (VR) and Augmented Reality (AR).
+
+---
+
+## 2. ⚡ Core Concepts: Raster vs. Vector
+
+### Vector Graphics
+* **Representation:** An ideal line drawing. Data is stored as mathematical definitions of vertices (2D locations) and the lines or curves that connect them.
+* **Resolution:** Resolution-independent. You can zoom in "infinitely" and the line remains sharp because it is just redrawing the line between two points.
+
+### Raster Graphics
+* **Representation:** An image made of pixels (e.g., on your monitor). The data is stored in a **frame buffer**, which is a block of memory holding the color value for each pixel.
+* **Resolution:** Fixed resolution. Zooming in eventually reveals the individual pixels (pixelation).
+
+### Frame Buffer Types
+* **True Color Frame Buffer:** Each pixel in memory stores a full, accurate RGB value.
+* **Index Color Frame Buffer:** Used for low-end displays. An 8-bit value in the frame buffer doesn't store a color, but rather an *index* (0-255) into a **Color Map** (or Lookup Table) that holds 256 pre-selected RGB colors.
+
+---
+
+## 3. 📐 Part 1: 2D Graphics Representation & Transformations
+
+### 2D Primitives (The Model)
+A 2D object or model is logically represented by a set of primitives:
+* **Vertices:** A list of 2D coordinates, $v_i = (x_i, y_i)$.
+* **Edges:** A list of pairs of vertices that are connected, $e_{ij} = (v_i, v_j)$.
+* **Faces (Triangles):** A list of vertex *indices* that form a triangle, $f_k = (v_1, v_2, v_6)$. The entire object is drawn by drawing all its faces.
+
+### 2D Transformations
+To animate an object, we apply mathematical transformations to its vertices.
+
+1.  **Translation (Move)**
+    * **Operation:** An *additive* operation.
+    * **Formula:** The new position is $x' = x + d_x$ and $y' = y + d_y$, where $(d_x, d_y)$ is the translation vector.
+
+2.  **Rotation (Turn)**
+    * **Operation:** A *multiplicative* operation.
+    * **Formula (about origin):**
+        * $x' = x \cos(\theta) - y \sin(\theta)$
+        * $y' = x \sin(\theta) + y \cos(\theta)$
+    * **Problem:** This matrix only rotates around the *origin* (0,0). To rotate an object "in place" around its own center, you must:
+        1.  Translate the object to the origin.
+        2.  Perform the rotation.
+        3.  Translate the object back to its original position.
+    * **Key Point:** Translation and Rotation are **not commutative** (T * R is not the same as R * T).
+
+3.  **Scaling (Resize)**
+    * **Operation:** A *multiplicative* operation.
+    * **Formula (about origin):** $x' = x \cdot s_x$ and $y' = y \cdot s_y$.
+    * If $s_x = s_y$, it is **uniform scaling**. If $s_x \neq s_y$, it is **non-uniform scaling**.
+
+### Homogeneous Coordinates
+* **The Problem:** The standard transformations are *non-homogeneous*. Translation is **addition**, while Rotation and Scaling are **multiplication**. This is cumbersome for a graphics engine, which would have to check which operation to perform.
+* **The Solution:** Convert *all* operations into a **single, uniform multiplication**.
+* **The Method:** Add a third coordinate, $w$, to every vertex. A 2D point $(x, y)$ becomes **$(x, y, 1)$**.
+* **The New Matrices:** All transformations become 3x3 matrices.
+    1.  **Homogeneous Translation:**
+        * We can now represent the *additive* translation $(x + d_x)$ as a *multiplication*.
+    2.  **Homogeneous Rotation:**
+        * The original 2x2 rotation matrix is embedded within a 3x3 matrix.
+    3.  **Homogeneous Scaling:**
+        * The original 2x2 scaling matrix is embedded within a 3x3 matrix.
+* **The Benefit:** To create a complex animation, you can now **multiply all the matrices together** (e.g., $M_{final} = T_2 \cdot R \cdot T_1 \cdot S$) into a single composite matrix. This one matrix can then be applied to all vertices of the object.
+
+---
+
+## 4. 🧩 Part 2: 3D Graphics Compression
+
+### Motivation
+* Modern 3D models (e.g., from 3D scanners) are incredibly dense, with millions of vertices and polygons.
+* This massive amount of data must be compressed for storage, streaming, and real-time gaming.
+
+### 3D Representation (The Mesh)
+A 3D mesh is defined by two main components:
+1.  **Geometric Information:** The list of 3D vertex coordinates, $v_i = (x_i, y_i, z_i)$.
+2.  **Connectivity Information:** The list of faces (triangles) that define the surface, $f_k = (v_i, v_j, v_k)$. These are *indices* into the vertex list.
+
+### Information Cost (Uncompressed)
+* **Assumption:** A closed, bounded mesh has approximately **twice as many faces as vertices** ($F \approx 2V$).
+* **Geometry Cost:** For $n$ vertices:
+    * $n \text{ vertices} \times 3 \text{ coordinates/vertex (x,y,z)} \times 32 \text{ bits/coordinate (float)} = \mathbf{96n} \textbf{ bits}$.
+* **Connectivity Cost:** For $\approx 2n$ faces:
+    * $2n \text{ faces} \times 3 \text{ indices/face} \times \log_2(n) \text{ bits/index} = \mathbf{6n \log_2(n)} \textbf{ bits}$.
+* **Total Bits = $96n + 6n \log_2(n)$**.
+
+### Compression Algorithm 1: Quantization (Lossy)
+* **Method:** A simple lossy compression method.
+* **Idea:** Reduce the precision of the vertex positions.
+* **Example:** Instead of storing each $x$, $y$, and $z$ coordinate as a 32-bit float, quantize it and store it as a 16-bit short. This introduces small errors but cuts the geometry cost significantly.
+
+### Compression Algorithm 2: Topological Surgery
+* **Goal:** Compresses **connectivity information** by removing redundancy.
+* **Redundancy:** Every *shared edge* in a mesh is defined by two vertices. This pair of vertices is stored *twice* (once for each triangle that shares the edge).
+* **Method:**
+    1.  Treat the 3D mesh as a graph ($V=\text{Nodes}, E=\text{Edges}$).
+    2.  Create a **Vertex Spanning Tree**—a path that visits all vertices *without* creating cycles.
+    3.  Metaphorically "cut" the mesh along the edges of this spanning tree.
+    4.  This "unfolds" the 3D mesh into a 2D layout of "triangle strips" or "runs".
+* **Benefit 1 (Connectivity):** Instead of storing 3 indices for *every* triangle, you can store a "triangle strip" as a single run of indices (e.g., $v_1, v_2, v_3, v_4, v_5...$). This implicitly defines triangles $(v_1, v_2, v_3)$, $(v_2, v_3, v_4)$, $(v_3, v_4, v_5)$, etc., which is much more compact.
+* **Benefit 2 (Geometry):** The spanning tree creates a *traversal order* (a sequence) for the vertices. We can now use **DPCM** (like in audio).
+    * Store the full $xyz$ for the first vertex.
+    * For all other vertices, just store the *difference* $(dx, dy, dz)$ from the previous vertex in the tree.
+    * These $(dx, dy, dz)$ values are small and can be stored with fewer bits than the full 32-bit float coordinates.
+* **Optimization:** The *choice* of spanning tree matters. A Depth-First Search (DFS) often creates long, simple strips (low entropy).
+* **Metric:** The best spanning tree expands into **flatter areas** first, as they have less entropy.
+    * **How to find "flatness":** Calculate the **dot product of the normal vectors** of two neighboring vertices. A high dot product (close to 1.0) means the normals point in the same direction, indicating a very flat surface. The algorithm should always expand to the neighbor with the highest dot product.
+
+### Compression Algorithm 3: Polyhedral Simplification (Progressive Meshes)
+* **Goal:** Reduce the number of vertices and edges in a model to create a simpler version.
+* **Core Operation:** **Edge Collapse**.
+    * Select two vertices, $v_s$ and $v_t$, that are connected by an edge.
+    * Collapse the edge and merge the two vertices into a *single* new vertex (e.g., at their midpoint).
+* **Process:** Start with the original high-poly mesh and sequentially perform edge collapses one by one, reducing the total vertex count with each step.
+* **Application (Level of Detail - LOD):** Used heavily in games.
+    * When the object is *close* to the camera, the full-detail 13,000-face model is rendered.
+    * When the object is *far away*, a simplified 1,000-face version is rendered, which is faster and looks "good enough" from a distance.
+* **Metric:** To minimize the *perceived* loss, the algorithm must choose which edge to collapse.
+    * The best choice is to collapse edges in the **flattest areas** of the model, where the change will be least noticeable.
+    * The metric is the same as before: collapse the edge between two vertices with the **highest dot product (most similar normals)**.
