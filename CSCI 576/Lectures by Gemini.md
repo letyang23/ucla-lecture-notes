@@ -1045,14 +1045,14 @@ These metrics are used to measure the difference between the current macroblock 
 To avoid $O(n^6)$ complexity, encoders use "smarter" search algorithms that *assume* the error decreases as you get closer to the best match.
 
 * **Logarithmic Search:**
-    
+  
     1.  Check 9 points in a grid (center, corners, mid-sides).
     2.  Find the point with the *least* error.
     3.  Make this the *new center* and repeat the 9-point search in a smaller, refined area.
     4.  This "homes in" on the best match in logarithmic time.
     
 * **Hierarchical Search:**
-    
+  
     <img src="Lectures by Gemini.assets/image-20251107144417004.png" alt="image-20251107144417004" style="zoom:50%;" />
     
     1.  Create an image pyramid by subsampling the frame (e.g., Level 4, Level 3, Level 2, Level 1=Full-res).
@@ -1108,3 +1108,131 @@ To avoid $O(n^6)$ complexity, encoders use "smarter" search algorithms that *ass
     2.  It analyzes this buffer to identify upcoming high-motion and low-motion scenes.
     3.  It then intelligently distributes the bit budget: it "borrows" bits from the low-motion scenes (by quantizing them slightly *more* than needed) and "spends" those saved bits on the high-motion scenes (quantizing them *less*).
     4.  This maintains a **constant average bitrate** over the buffer window while maximizing the *overall perceptual quality*.
+
+# Lecture 8 - 10/20/2025 - Audio Compression
+## 1. 🎵 Four Core Methods of Audio Compression
+
+The lecture organizes audio compression into four main categories based on how "sound" is treated:
+
+1.  **Sound as a Waveform:** Treating audio as a generic statistical signal.
+2.  **Sound as Perceived:** Using the limitations of the human ear (psychoacoustics) to remove data we can't hear.
+3.  **Sound as Produced:** Parameterizing the *source* of the sound (e.g., the human larynx) and synthesizing it.
+4.  **Sound as Performed:** Storing the "score" or instructions for the music (e.g., MIDI) rather than the recorded sound itself.
+
+---
+
+## 2. 📈 Type 1: Sound as a Waveform (Statistical Compression)
+
+This method compresses the digital signal itself with no understanding of human hearing.
+
+### Key Concepts
+
+* **DPCM (Differential Pulse-Code Modulation):** A form of prediction. Instead of storing each sample's value, store the *difference* between a sample and the previous one.
+    * **Why?** The *dynamic range* of the differences is much smaller than the samples themselves, requiring fewer bits to store.
+    * **Prediction Model:** The simplest form of DPCM predicts the next sample will be the *same* as the previous sample; the "difference" is the *error* in this prediction.
+* **Delta Modulation:** A specific type of DPCM where the difference is stored as only **one bit** (+delta or -delta).
+* **ADPCM (Adaptive DPCM):** The number of bits used to store the difference *changes* (adapts) based on how quickly the signal is changing.
+* **Companding (Compressing + Expanding):** A non-uniform quantization technique used for human voice.
+    * **Problem:** The dynamic range of human voice is large, but most speech happens in a narrow "conversational" band.
+    * **Solution:** Use a *logarithmic* scale. This creates smaller, more precise quantization intervals in the common conversational range (reducing error) and larger, less precise intervals at the loud/quiet extremes.
+    * **Standards:** A-Law (16-bit to 13-bit) and $\mu$-Law (16-bit to 12-bit).
+
+---
+
+## 3. 👂 Type 2: Sound as Perceived (Psychoacoustics)
+
+This method, used by MP3, exploits the limitations of the human ear to discard data that a listener would not be able to hear.
+
+### Human Hearing Limitations
+
+1.  **Frequency Limitation:** The ear can only hear frequencies between **20Hz and 20kHz**.
+    * **Compression:** Use filters to throw away all data outside this range *before* compression.
+2.  **Time Domain Limitation:** The ear processes sound in small windows of about **30 milliseconds**.
+    * If two sounds arrive **> 30ms** apart, you hear both.
+    * If two sounds arrive **< 30ms** apart, one can **mask** (or garble) the other.
+
+### The Masking Model
+
+* **Threshold in Quiet:** The baseline minimum intensity (loudness) needed to hear a frequency in a perfectly quiet room.
+    * **The Curve:** This threshold is not flat. It's a U-shape where the ear is *most sensitive* (requires the *least* intensity) in the **2kHz - 4kHz** range, which is the range of human speech.
+    
+    * **Compression:** Any sound *below* this curve is inaudible and can be discarded (given 0 bits).
+    
+      <img src="Lectures by Gemini.assets/image-20251108001844731.png" alt="image-20251108001844731" style="zoom:50%;" />
+    
+* **Frequency Masking:** A loud sound (a "masker") will *raise* the "threshold in quiet" for frequencies near it.
+    
+    * Any other sound that falls under this *new, raised curve* is "masked" and becomes inaudible, even if it was above the original "threshold in quiet".
+    
+    * **The Global Masking Curve:** In a real signal (like music), there are many frequencies at once. The final threshold is the **envelope** (the combined "sum total") of all the individual masking curves from all the different frequencies.
+    
+      <img src="Lectures by Gemini.assets/image-20251108003003354.png" alt="image-20251108003003354" style="zoom:50%;" />
+    
+      <img src="Lectures by Gemini.assets/Screenshot 2025-11-08 at 12.31.52 AM.png" alt="Screenshot 2025-11-08 at 12.31.52 AM" style="zoom:50%;" />
+
+### Perceptual Encoder vs. Decoder
+
+* **Asymmetric:** The encoder is much more complex than the decoder.
+* **Encoder:** Takes a 30ms window, analyzes all its frequencies, and builds the dynamic **Global Masking Curve** for that specific window. It then allocates bits based on this curve (maskers get bits, masked sounds get 0 bits).
+* **Decoder:** Does **not** have or need the perceptual analysis module. The encoder already made all the "perceptual" decisions. The decoder just reconstructs the frequencies it was sent.
+
+### Audio vs. Visual Compression (Key Difference)
+
+* **Visual (JPEG):** Uses a **static** (fixed) quantization table. It's always biased towards low frequencies and is *known* by both the encoder and decoder. It is *not* sent in the bitstream.
+* **Audio (MP3):** Uses a **dynamic** bit allocation table. The number of bits for each frequency *changes for every 30ms window* based on the masking curve. This table *must be sent in the bitstream* for the decoder to understand the data.
+* **Difficulty:** Audio is **harder** to compress than video because the ear is *more sensitive* to errors and noise than the eye.
+
+---
+
+## 4. 🗣️ Type 3: Sound as Produced (Source Coding)
+
+This method models the *physical source* of a sound. It's used almost exclusively for **human speech**.
+
+* **Model of Speech:** Human voice = Larynx (a "buzzer" producing a base frequency up to **4kHz**) + Vocal Tract (a "filter" created by the tongue, lips, and mouth).
+* **Linear Predictive Coding (LPC):** The main algorithm for speech.
+    * **Windowing:** Speech is sampled at **8kHz** (Nyquist for the 4kHz larynx) and broken into **30ms windows**, which contain **240 samples**.
+    * **Analysis:** Each window is classified as *Voiced* or *Unvoiced*.
+        * **Unvoiced:** A sound with no larynx frequency (e.g., "sh", "f"). The encoder just sends **1 bit** to flag it as "unvoiced". The decoder **fills these 240 samples with random noise**, which our brain perceives correctly. This provides huge compression (~40% of speech).
+        * **Voiced:** A sound with a base larynx frequency (e.g., "e", "o"). The encoder performs LPC analysis.
+    * **LPC Parameters:** Instead of sending 240 samples, the encoder finds a *pitch frequency* and a small set of *prediction coefficients* (e.g., 16 $\alpha$ parameters) that can be used to mathematically *synthesize* the 240 samples.
+    * **Data Sent (Voiced):** 1 bit (flag) + Pitch Frequency + ~16 $\alpha$ parameters + a small **Residue** (the error between the original and synthesized signal).
+
+---
+
+## 5. 🎹 Type 4: Sound as Performed (Structured Audio)
+
+* **Example: MIDI (Musical Instrument Digital Interface)**.
+* **Concept:** Does not store any recorded audio. It stores a *description* or "score" of the music.
+* **Analogy:** This is like compressing an image of text using **OCR** (Optical Character Recognition) to store the letters, rather than using **JPEG** to store the pixels.
+* **Playback:** The decoder (e.g., your computer) reads the score and uses its own *local library* of instrument sounds to synthesize the music.
+* **Pros/Cons:** Provides the *best* compression but cannot be used for human voice and is dependent on the quality of the decoder's sound library.
+
+---
+
+## 6. 💿 Audio Standards
+
+### MPEG-1 Audio (Layers 1, 2, 3)
+
+* **MP3 = MPEG-1 Layer 3**. (It is *not* MPEG-3).
+* **Backwards Compatible:** A Layer 3 decoder can play Layer 2 and 1 streams.
+* **Transparency Bitrates** (sounds the same as the original):
+    * **Layer 1:** 384 kbps
+    * **Layer 2:** 296 kbps
+    * **Layer 3 (MP3):** **96 kbps** (This massive improvement is due to its advanced psychoacoustic model).
+
+### Key Innovations in MP3 (Layer 3)
+
+MP3 adds three main components to the standard perceptual encoder:
+
+1.  **MDCT (Modified Discrete Cosine Transform):** A standard DCT on non-overlapping windows creates "clicks" (blocking artifacts) between audio blocks. The MDCT uses **overlapping windows** to ensure the signal is continuous, eliminating the "clicks".
+2.  **Huffman Encoder:** After the perceptual model and quantization, the data is *further* compressed using Huffman (entropy) coding, just like in JPEG.
+3.  **Buffer & Rate Control:**
+    * Huffman coding creates a **Variable Bitrate (VBR)** stream.
+    * Streaming applications require a **Constant Bitrate (CBR)**.
+    * MP3 uses a *buffer* to absorb the VBR data and output it at a CBR.
+    * **Feedback Loop:** If the buffer gets full, it sends a signal *back* to the **quantizer**, telling it to "quantize more heavily" (i.e., create less data) to prevent an overflow.
+
+### MPEG-2 Audio
+
+* Extends MPEG-1 to be **multi-channel** (e.g., 5.1 surround sound).
+* **AAC (Advanced Audio Codec):** A non-backwards-compatible part of the MPEG-2 standard. It improves on MP3 by applying psychoacoustics *across* channels (e.g., a loud sound in the left ear can mask a quiet sound in the right ear).
