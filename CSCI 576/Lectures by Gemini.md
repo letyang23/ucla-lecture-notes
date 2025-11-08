@@ -944,3 +944,167 @@ This is a more advanced way to exploit temporal redundancy, forming the basis of
     2.  **Error Frame (Residual):** The encoder calculates $Error = F_{n+1} \text{ (Actual)} - \text{Predicted Frame}$. This error frame is then compressed (using DCT, quantization, etc.) and sent.
 * **Decoder Side:** The decoder receives the MVs and the compressed Error Frame. It uses the MVs to build the same Predicted Frame, then adds the Error Frame back to get the final $F_{n+1}$.
 * **Complexity:** Motion prediction is the most computationally expensive part of video encoding, often accounting for **80% of the computation**.
+
+
+
+# Lecture 7 - 10/13/2025 - Video Compression
+
+## 🏛️ Part 0: Course Administration
+
+### Assignment 1 Grades
+
+* Grades should be released this week.
+* Feedback will be detailed, explaining any lost marks.
+* **Zeros:** Some students may have received a zero if the graders could not compile the program or if no output was shown. Graders may have sent emails to get a program running.
+* **Questions:** Email the graders or TAs, or attend their office hours.
+
+### Assignment 2 (JPEG Pipeline)
+
+* **Deadline:** Due in two weeks from the lecture date (Oct 13, 2025).
+* **Goal:** Understand the JPEG pipeline and progressive streaming modes.
+* **Pitfall 1: Clamping Values**
+    * The DCT (Discrete Cosine Transform) and IDCT (Inverse DCT) processes involve floating-point math.
+    * After the IDCT, your channel values (e.g., 0-255) might go *above* 255 or *below* 0.
+    * You **must clamp** these values. If you simply cast them to an `unsigned char`, they will wrap around (e.g., `255.01` becomes `0`), ruining the image.
+* **Pitfall 2: Progressive Modes**
+    * **Baseline (Mode 1):** Displays block-by-block. The `latency` variable simulates a slow connection.
+    * **Spectral Selection (Mode 2):** Displays coefficient-by-coefficient (all DCs, then all AC1s, etc.). This should show the image get progressively better over 64 iterations.
+    * **Successive Approximation (Mode 3):** This is the hardest. It displays bit-plane by bit-plane (Most Significant Bit first).
+        * Be very careful with **signed vs. unsigned** representations.
+        * The first few iterations might be **all black** until the first non-zero bit is reached.
+        * The goal is a **"graceful transition"** from a blurry image to a clear one.
+
+---
+
+## 🎥 Part 1: Video Compression Recap
+
+* **Naive Method (MJPEG):** Compressing each frame as a separate image (like a JPEG). This works but is inefficient.
+* **Problem:** It ignores **temporal redundancy**—the fact that Frame 2 is extremely similar to Frame 1.
+* **Simple Prediction (DPCM):**
+    * Predict that the next frame is the same as the previous frame.
+    * Compute the **error** (the difference) between the actual frame and the predicted frame.
+    * Compress and send this error. This works well unless there is a scene cut or large motion.
+* **Key Insight:** Pixels don't move randomly; they move in a **structured** way. The goal of video compression is to exploit this structured motion.
+
+---
+
+##  COMPENSATION (The Core Concept)
+
+This is the standard, block-based method used in most video codecs (mPEG, H.264, etc.) to predict motion.
+
+### The Encoding Process
+
+1.  **Divide Frame:** The *current* frame to be encoded ($F_{n+1}$) is divided into **macroblocks** (e.g., 16x16 pixels).
+2.  **Search:** For *each* macroblock in $F_{n+1}$, the encoder searches the *previous* frame ($F_n$) to find the block of pixels that is the "best match."
+3.  **Predict:** The encoder builds a **Predicted Frame** using all the "best match" blocks it found in $F_n$.
+4.  **Calculate Error:** The encoder computes the **Error Frame** (also called the *residual*) by subtracting the Predicted Frame from the Actual Frame ($Error = F_{n+1} - \text{Predicted Frame}$).
+5.  **Transmit:** The encoder sends two pieces of information:
+    * **Motion Vectors (MVs):** A set of $(dx, dy)$ coordinates telling the decoder where to *get* each block from the previous frame. This is encoded **losslessly**.
+    * **The Error Frame:** This error image is compressed **lossily** (using DCT, quantization, etc.). Since the prediction was good, the error frame has low entropy and compresses very well.
+
+### The Search Algorithm (Brute Force)
+
+* **Co-located Position:** For a macroblock at $(x, y)$ in $F_{n+1}$, the search starts at the same $(x, y)$ position in $F_n$.
+* **Search Area ($k$):** The encoder searches in a window around this position, defined by a parameter $k$ (e.g., $k=31$ pixels). A larger $k$ can find faster motion but is computationally slower.
+* **Process:** The encoder checks *every single possible position* within this $k \times k$ search area to find the one with the minimum error.
+
+### Error Metrics (Finding the "Best Match")
+
+These metrics are used to measure the difference between the current macroblock and a potential match.
+
+* **MAD (Mean Absolute Difference):** The average of the absolute differences of all pixels.
+* **SAD (Sum of Absolute Differences):** The sum of the absolute differences. This is the most common metric as it avoids a division, making it fast.
+* **MSD (Mean Squared Difference):** The average of the *squares* of the differences. This metric heavily penalizes large differences but is computationally slower (a `square` operation is slower than an `absolute value`).
+
+---
+
+## 📈 Part 3: Macroblock Size & Complexity
+
+### Macroblock Size
+
+* **The Problem with Large Blocks:** If a single 16x16 block contains both a moving foreground object and a static background, the encoder is "conflicted." It will find a "best match" that is a poor compromise, resulting in a high error.
+* **The Solution with Small Blocks:** If that same 16x16 area is broken into four 8x8 blocks, the encoder can find *different* motion vectors for each. The background blocks will have a $(0,0)$ vector, and the foreground blocks will have a vector that *accurately* tracks the motion.
+* **Conclusion:** The sum of the errors from the 4 small blocks is almost always *less* than the error from the 1 large block.
+* **Modern Standards (HEVC):** Use **adaptive block sizes** (called a Coding Tree Unit) that can be large for static areas (like a blue sky) and progressively smaller for complex boundaries.
+
+### Computational Complexity
+
+<img src="Lectures by Gemini.assets/image-20251107143325238.png" alt="image-20251107143325238" style="zoom:50%;" />
+
+* **Brute Force Search** is extremely slow.
+    1.  **SAD per position:** Requires $O(n^2)$ operations (where $n$ is macroblock size, e.g., 16).
+    2.  **Positions to search:** $(2k+1)^2$ (where $k$ is the search parameter). If $k$ is on the same order as $n$, this is $O(n^2)$.
+    3.  **Complexity per macroblock:** $O(n^2) \times O(n^2) = O(n^4)$.
+    4.  **Macroblocks per frame:** The number of blocks is also proportional to the image size, giving another $O(n^2)$ factor.
+    5.  **Total Complexity per Frame:** $O(n^4) \times O(n^2) = O(n^6)$, which is too slow for real-time encoding of HD video.
+
+---
+
+## 💨 Part 4: Fast Motion Estimation
+
+To avoid $O(n^6)$ complexity, encoders use "smarter" search algorithms that *assume* the error decreases as you get closer to the best match.
+
+* **Logarithmic Search:**
+    
+    1.  Check 9 points in a grid (center, corners, mid-sides).
+    2.  Find the point with the *least* error.
+    3.  Make this the *new center* and repeat the 9-point search in a smaller, refined area.
+    4.  This "homes in" on the best match in logarithmic time.
+    
+* **Hierarchical Search:**
+    
+    <img src="Lectures by Gemini.assets/image-20251107144417004.png" alt="image-20251107144417004" style="zoom:50%;" />
+    
+    1.  Create an image pyramid by subsampling the frame (e.g., Level 4, Level 3, Level 2, Level 1=Full-res).
+    2.  Perform a brute-force search on the *tiniest* level (Level 4). This is very fast.
+    3.  Take the best MV from Level 4 and use it as a *starting guess* for Level 3.
+    4.  At Level 3, perform a *small local search* (e.g., 8 new positions) around that guess to refine it.
+    5.  Repeat this process down the pyramid to the full-resolution image.
+    6.  This reduces the number of searches from thousands (e.g., 4225) to a tiny fraction (e.g., 105).
+
+---
+
+## 🎞️ Part 5: Frame Types (I, P, B)
+
+* **I-frame (Intra-frame):**
+    * A standalone frame compressed just like a JPEG, using only spatial redundancy.
+    * Has **no dependencies**.
+    * Used as a "keyframe" to start a video sequence or after a scene cut.
+* **P-frame (Predicted-frame):**
+    * Predicted from a *past* I-frame or P-frame.
+    * More efficient than an I-frame.
+* **B-frame (Bi-directional-frame):**
+    * Predicted from *both* a **past** frame and a **future** frame.
+    * These are the **most efficient** frames and offer the highest compression.
+    * **Example:** An object entering the scene (the "rock" example) cannot be predicted from the past, but it *can* be predicted from the future, resulting in a near-zero error.
+* **Problems with B-frames:**
+    * **Delay:** The encoder must see and process $F_{n+2}$ *before* it can finish encoding $F_{n+1}$.
+    * **Out-of-Order Transmission:** To decode a B-frame, the decoder needs both its past and future anchors. The transmission order must be re-ordered.
+        * **Display Order:** `I_1, B_2, B_3, P_4, B_5, B_6, P_7...`
+        * **Transmission Order:** `I_1, P_4, B_2, B_3, P_7, B_5, B_6...`
+
+---
+
+## 📺 Part 6: Video Standards & Structure
+
+* **GOP (Group of Pictures):** A sequence of frames starting with an I-frame (e.g., `I B B P B B P`). The encoder is often configured with two parameters: `P between I` and `B between P`.
+* **Syntactical Hierarchy:** Video Stream $\rightarrow$ GOPs $\rightarrow$ Frames (Pictures) $\rightarrow$ Slices (Group of Blocks) $\rightarrow$ Macroblocks $\rightarrow$ Blocks $\rightarrow$ (DC/AC) Coefficients.
+* **Key Standards:**
+    * **H.261:** For early video conferencing (ISDN). Low bitrate, I and P-frames only.
+    * **mPEG-1:** For VCDs (~1.4 Mbps). Added B-frames.
+    * **mPEG-2:** For DVDs and Digital TV. Introduced **transport streams** (188-byte packets) and **Scalable Streams**.
+        * **Scalable Streams:** A single stream is split into a "base" (e.g., 600kbps) and an "enhancement" (e.g., 400kbps). If bandwidth drops, the decoder can drop the enhancement stream but continue playing the base stream, resulting in lower quality but no interruption.
+    * **H.264 (AVC) / mPEG-4 Part 10:** The dominant standard for HD content.
+    * **H.265 (HEVC):** High-Efficiency Video Codec. Needed for 4K streaming. Uses highly adaptive block sizes (Coding Tree Units) for maximum efficiency.
+
+---
+
+## 📡 Part 7: Rate Control
+
+* **The Problem:** The "natural" bitrate of video is **Variable (VBR)**—high motion needs many bits, low motion needs few. But streaming networks are often designed for a **Constant Bitrate (CBR)**.
+* **Naive CBR:** If a high-motion scene occurs, a naive encoder will just quantize *heavily* to stay under the bit limit. This causes massive, visible artifacts (as seen in the *Matrix* example clip).
+* **Smart Rate Control:**
+    1.  The encoder **buffers** incoming frames (e.g., 1-2 seconds) to "look ahead."
+    2.  It analyzes this buffer to identify upcoming high-motion and low-motion scenes.
+    3.  It then intelligently distributes the bit budget: it "borrows" bits from the low-motion scenes (by quantizing them slightly *more* than needed) and "spends" those saved bits on the high-motion scenes (quantizing them *less*).
+    4.  This maintains a **constant average bitrate** over the buffer window while maximizing the *overall perceptual quality*.
