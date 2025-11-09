@@ -1110,7 +1110,12 @@ The process of creating a 3D image involves several stages:
 
 ## 2. ⚡ Core Concepts: Raster vs. Vector
 
+<img src="Lectures by Gemini.assets/Screenshot 2025-11-08 at 4.05.40 PM.png" alt="Screenshot 2025-11-08 at 4.05.40 PM" style="zoom:50%;" />
+
+Ideal vs. Vector vs. Raster
+
 ### Vector Graphics
+
 * **Representation:** An ideal line drawing. Data is stored as mathematical definitions of vertices (2D locations) and the lines or curves that connect them.
 * **Resolution:** Resolution-independent. You can zoom in "infinitely" and the line remains sharp because it is just redrawing the line between two points.
 
@@ -1127,33 +1132,44 @@ The process of creating a 3D image involves several stages:
 ## 3. 📐 Part 1: 2D Graphics Representation & Transformations
 
 ### 2D Primitives (The Model)
+
+<img src="Lectures by Gemini.assets/image-20251108162917528.png" alt="image-20251108162917528" style="zoom:50%;" />
+
 A 2D object or model is logically represented by a set of primitives:
 * **Vertices:** A list of 2D coordinates, $v_i = (x_i, y_i)$.
 * **Edges:** A list of pairs of vertices that are connected, $e_{ij} = (v_i, v_j)$.
 * **Faces (Triangles):** A list of vertex *indices* that form a triangle, $f_k = (v_1, v_2, v_6)$. The entire object is drawn by drawing all its faces.
 
 ### 2D Transformations
+
 To animate an object, we apply mathematical transformations to its vertices.
 
-1.  **Translation (Move)**
-    * **Operation:** An *additive* operation.
-    * **Formula:** The new position is $x' = x + d_x$ and $y' = y + d_y$, where $(d_x, d_y)$ is the translation vector.
+1. **Translation (Move)**
 
-2.  **Rotation (Turn)**
-    * **Operation:** A *multiplicative* operation.
-    * **Formula (about origin):**
-        * $x' = x \cos(\theta) - y \sin(\theta)$
-        * $y' = x \sin(\theta) + y \cos(\theta)$
-    * **Problem:** This matrix only rotates around the *origin* (0,0). To rotate an object "in place" around its own center, you must:
-        1.  Translate the object to the origin.
-        2.  Perform the rotation.
-        3.  Translate the object back to its original position.
-    * **Key Point:** Translation and Rotation are **not commutative** (T * R is not the same as R * T).
+   <img src="Lectures by Gemini.assets/image-20251108162952084.png" alt="image-20251108162952084" style="zoom:50%;" />
 
-3.  **Scaling (Resize)**
-    * **Operation:** A *multiplicative* operation.
-    * **Formula (about origin):** $x' = x \cdot s_x$ and $y' = y \cdot s_y$.
-    * If $s_x = s_y$, it is **uniform scaling**. If $s_x \neq s_y$, it is **non-uniform scaling**.
+   * **Operation:** An *additive* operation.
+   * **Formula:** The new position is $x' = x + d_x$ and $y' = y + d_y$, where $(d_x, d_y)$ is the translation vector.
+
+2. **Rotation (Turn)**
+
+   <img src="Lectures by Gemini.assets/image-20251108163928267.png" alt="image-20251108163928267" style="zoom:50%;" />
+
+   * **Operation:** A *multiplicative* operation.
+   * **Formula (about origin):**
+       * $x' = x \cos(\theta) - y \sin(\theta)$
+       * $y' = x \sin(\theta) + y \cos(\theta)$
+   * **Problem:** This matrix only rotates around the *origin* (0,0). To rotate an object "in place" around its own center, you must:
+       1.  Translate the object to the origin.
+       2.  Perform the rotation.
+       3.  Translate the object back to its original position.
+   * **Key Point:** Translation and Rotation are **not commutative** (T * R is not the same as R * T).
+
+3. **Scaling (Resize)**
+
+   * **Operation:** A *multiplicative* operation.
+   * **Formula (about origin):** $x' = x \cdot s_x$ and $y' = y \cdot s_y$.
+   * If $s_x = s_y$, it is **uniform scaling**. If $s_x \neq s_y$, it is **non-uniform scaling**.
 
 ### Homogeneous Coordinates
 * **The Problem:** The standard transformations are *non-homogeneous*. Translation is **addition**, while Rotation and Scaling are **multiplication**. This is cumbersome for a graphics engine, which would have to check which operation to perform.
