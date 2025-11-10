@@ -9,10 +9,10 @@ Low fs → less data, possible loss.
 Quantization: map amplitude to discrete levels.
 B bits → 2^B levels.
 High B → better precision, more data.
-Error ≤ ½ interval.
-Bitrate = B × fs (bits/sec).
+Error ≤ 1/2 interval.
+Bitrate (bits/sec) = B（bits/sample） × fs(sample/second, HZ)
 
-Sampling Theorem: fs ≥ 2×fmax.
+Nyquist Sampling Theorem: fs ≥ 2×fmax.
 Voice: 8 kHz; Hearing: 44.1 kHz for CDs.
 Use Fourier Transform to find fmax.
 Choose B so error not noticeable (voice 8 bit, music 16 bit).
@@ -22,11 +22,13 @@ Audio: muffled; Image: jaggies, moiré; Video: wagon wheel.
 Fix = low-pass filter (blur) before downsample.
 
 Video Basics:
-Sync: NTSC 30 fps (60 Hz), PAL 25 fps (50 Hz).
+Sync: NTSC(NA) 30 fps (60 Hz), PAL(EU/ASIA) 25 fps (50 Hz).
 Flicker fix: Interlaced scan → 60 fields/s.
 Color: YUV = Y (luma) + UV (chroma).
 B/W TVs use Y only.
 Eyes sensitive to Y → subsample UV.
-YUV 4:4:4 = 24 bpp, 4:2:2 = 16 bpp, 4:2:0 = 12 bpp.
+YUV 4:4:4 = 24 bpp, (4*8+4*8+4*8)/4 = 24
+4:2:2 = 16 bpp, (4*8+2*8+2*8)/4 = 16
+4:2:0 = 12 bpp, (4*8+2*8+0*8)/4 = 12
 Aspect ratio: 4:3 vs 16:9.
 Fixes: stretch (no), letterbox (ok), seam carving (best).
