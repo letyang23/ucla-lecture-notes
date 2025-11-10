@@ -1,0 +1,25 @@
+Color Problem: need same color on all devices; color = brain perception (400–780 nm range).
+
+HVS Human Visual System: rods (~100M) see brightness; cones (~6M) see color. 3 cone types (S, M, L) -> (R, G, B)
+
+Metamerism: eye sends 3 values [C1 C2 C3]; many spectra → same triplet = same color. [C1 C2 C3]ᵀ = Sᵀf Goal: Sᵀf = Sᵀg (match perception not spectrum).
+
+Device Calibration:
+Camera: f → filters M₁₋₃ mimics eye → [A₁ A₂ A₃] (RGB).
+Display: Voltage gains V₁₋₃ → primaries P₁₋₃ → Spectrum G = P1V1+P2V2+P3V3.
+CIE exp: fix P, solve M via observer dial match. Then A = Mᵀf. Standard RGB works across devices.
+
+Color Spaces:
+RGB = primaries (from M). One negative → XYZ (all positive).
+Gamut = 3D set of colors.
+Chromaticity (xy proj of XYZ) = CIE 1931 horseshoe; device triangle = its range. Brown = dark orange.
+
+Additive vs Subtractive:
+Additive RGB (light): blue+yellow = white.
+Subtractive CMY(K) (pigment): C = 1-R, M = 1-G, Y = 1-B.
+Blue absorb R, reflect GB; Yellow absorb B, reflect RG → mix = G only → green color.
+
+Devices:
+3-CCD camera: 1 sensor per color (high quality, costly).
+1-CCD Bayer pattern: GRGB mosaic; interpolate missing colors; cheap but artifact edges.
+Gamma corr: fix non-linear display (Vout = Vin^(1/2.2)).
