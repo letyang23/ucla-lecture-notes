@@ -1,0 +1,32 @@
+Multimedia Pipeline: Acquisition → Authoring → Compression → Streaming → Consumption
+Digital = 1s/0s, allows mix media, large data → compression.
+Acquisition defines Quality + Quantity.
+
+ADC: Analog → Digital = Sampling + Quantization.
+Sampling: pick values every T sec; fs=1/T.
+High fs → high fidelity, more data.
+Low fs → less data, possible loss.
+Quantization: map amplitude to discrete levels.
+B bits → 2^B levels.
+High B → better precision, more data.
+Error ≤ ½ interval.
+Bitrate = B × fs (bits/sec).
+
+Sampling Theorem: fs ≥ 2×fmax.
+Voice: 8 kHz; Hearing: 44.1 kHz for CDs.
+Use Fourier Transform to find fmax.
+Choose B so error not noticeable (voice 8 bit, music 16 bit).
+
+Aliasing: fs < 2×fmax → distortion.
+Audio: muffled; Image: jaggies, moiré; Video: wagon wheel.
+Fix = low-pass filter (blur) before downsample.
+
+Video Basics:
+Sync: NTSC 30 fps (60 Hz), PAL 25 fps (50 Hz).
+Flicker fix: Interlaced scan → 60 fields/s.
+Color: YUV = Y (luma) + UV (chroma).
+B/W TVs use Y only.
+Eyes sensitive to Y → subsample UV.
+YUV 4:4:4 = 24 bpp, 4:2:2 = 16 bpp, 4:2:0 = 12 bpp.
+Aspect ratio: 4:3 vs 16:9.
+Fixes: stretch (no), letterbox (ok), seam carving (best).
