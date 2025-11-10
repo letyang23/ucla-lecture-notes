@@ -1228,6 +1228,9 @@ A 3D mesh is defined by two main components:
     * **How to find "flatness":** Calculate the **dot product of the normal vectors** of two neighboring vertices. A high dot product (close to 1.0) means the normals point in the same direction, indicating a very flat surface. The algorithm should always expand to the neighbor with the highest dot product.
 
 ### Compression Algorithm 3: Polyhedral Simplification (Progressive Meshes)
+
+<img src="Lectures by Gemini.assets/Screenshot 2025-11-08 at 9.25.33 PM.png" alt="Screenshot 2025-11-08 at 9.25.33 PM" style="zoom:50%;" />
+
 * **Goal:** Reduce the number of vertices and edges in a model to create a simpler version.
 * **Core Operation:** **Edge Collapse**.
     * Select two vertices, $v_s$ and $v_t$, that are connected by an edge.
