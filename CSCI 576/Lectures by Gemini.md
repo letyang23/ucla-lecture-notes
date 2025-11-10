@@ -1242,3 +1242,130 @@ A 3D mesh is defined by two main components:
 * **Metric:** To minimize the *perceived* loss, the algorithm must choose which edge to collapse.
     * The best choice is to collapse edges in the **flattest areas** of the model, where the change will be least noticeable.
     * The metric is the same as before: collapse the edge between two vertices with the **highest dot product (most similar normals)**.
+
+
+
+# Lecture 10 - 11/3/2025 - Graphic Compression
+
+## 1. 🔒 Introduction to Digital Rights Management (DRM)
+
+### Core Problem
+* Digital media (movies, music, etc.) is easy to copy and distribute.
+* The challenge is to protect this content, especially when using **open networks** and **open standards** (like MPEG or JPEG), which are designed to be easily read and decoded.
+* If content is compromised, you need a way to **prove ownership** and, ideally, **find out where the leak occurred**.
+
+### Two Pillars of DRM
+The lecture focuses on two main techniques that work in complementary, or *orthogonal*, ways:
+
+1.  **Watermarking:** Embedding a hidden digital signature *into* the media to prove ownership or track distribution.
+2.  **Encryption:** Scrambling the media *during transit* to make it unintelligible without a key.
+
+### Key Constraints for Media DRM
+A successful DRM system for media *must* follow two critical engineering rules:
+
+1.  **Bitrate Unchanged:** The encryption or watermarking process cannot change the stream's bitrate. An encoder works hard to create a **Constant Bitrate (CBR)** stream for smooth playback, and the DRM must not break this.
+2.  **Bitstream Compliance:** The stream must remain *partially* readable as a valid MPEG (or other standard) file. You cannot just encrypt the entire file, because intermediary network devices need to access parts of the stream for tasks like inserting local ads.
+
+---
+
+## 2. 💧 Watermarking
+
+### Concept
+* **Steganography** (hidden writing) is the general term for hiding a message. In stganography, the *message* is important, and the rest is just noise.
+  * example: read last word in every line.
+
+* **Watermarking** is a subset where the *host signal* (the media) is the important part. The goal is to embed a secondary signal (the watermark) without destroying the host signal.
+
+### Classifications & Desirable Qualities
+* **Visible vs. Invisible:** Invisible watermarks are preferred so they don't interfere with the content. Visible watermarks are sometimes used for branding (e.g., a Nike logo).
+* **Fragile:** This is a desirable quality. A fragile watermark is so deeply integrated with the media that any attempt to remove it will also **damage or destroy the content** itself.
+* **Payload:** The size of the watermark data. It should be small.
+* **Robustness:** The watermark must be difficult to remove and must survive **attacks**.
+
+### Watermark Attacks
+1.  **Intentional Attacks:** A malicious user trying to find and remove the watermark.
+2.  **Unintentional Attacks:** Common, everyday media processes that can accidentally damage or destroy the watermark. These include:
+    * Compression and decompression
+    * Transcoding (changing formats)
+    * Filtering
+    * Resampling (changing size or sample rate)
+
+---
+
+## 3. 🏞️ Watermarking Techniques by Media Type
+
+### Text
+* **Line Shift Coding:** Embedding a '1' by shifting a line of text up by one pixel, or a '0' by shifting it down. To provide a reference, this is only done on *even* lines, while *odd* lines are left untouched.
+* **Word Shift Coding:** Shifting a word slightly left or right to encode a bit.
+* **Feature Coding:** Modifying tiny features of a letter, such as making the stem of a 'T' slightly longer or the dot on an 'i' bigger or smaller.
+
+### Images (Spatial Domain)
+* **Least Significant Bit (LSB):** The watermark bit (a '1' or '0') is written into the *lowest bit-plane* of a pixel (e.g., the 8th bit of an 8-bit color value).
+    * **Problem:** This is **not secure**. An attacker can easily destroy the watermark by "randomizing" the entire LSB plane, which has no visible effect on the image.
+* **Correlation:** A secret key generates a pseudorandom pattern of small positive and negative values (e.g., +k and -k). This pattern is *added* directly to the image's pixels. The detector uses the same key to re-generate the pattern and runs a correlation to see if it's present.
+
+### Images (Frequency Domain - for JPEG/MPEG)
+This is a robust method designed to survive compression.
+1.  **Process:** It works *after* the DCT and **quantization** steps.
+2.  **Block Selection:** A secret key generates a pseudorandom sequence of 8x8 blocks to embed bits into.
+3.  **Coefficient Selection:** Within a block, the algorithm selects **three specific DCT coefficients** from the **mid-frequency range**.
+4.  **Pattern Embedding:** It embeds a '1' or '0' by forcing a specific *pattern* on these three values (let's call them A, B, and C):
+    * **To Embed '1':** Force value **C** to be the **lowest** of the three (e.g., $A > C$ and $B > C$).
+    * **To Embed '0':** Force value **C** to be the **highest** of the three (e.g., $A < C$ and $B < C$).
+    * **Invalid:** If C is in the middle, the block is marked as invalid, and the bit is embedded in the *next* block in the sequence.
+5.  **Modification:** If the block's existing pattern doesn't match the bit (e.g., the pattern is '0' but you need to embed '1'), the algorithm adds/subtracts small values (within a threshold) to the coefficients to *force* the correct pattern.
+6.  **Why Mid-Frequencies?**
+    * **Not Low-Frequencies:** These are perceptually vital. Changing them would visibly damage the image.
+    * **Not High-Frequencies:** These are mostly quantized to zero during compression, so there is no data to modify. Mid-frequencies are the best compromise for robustness and invisibility.
+
+### Video
+* Video watermarking is difficult due to **temporal confusion**.
+* A **static watermark** (same in every frame) becomes visible when the video content moves.
+* A **dynamic watermark** (changes every frame) becomes visible as flickering when the video content is static.
+
+### Audio
+* **Observation:** Audio signals have a **local zero-mean**. In any small window of samples, the positive and negative values tend to average out to zero.
+* **Two-Set Method:**
+    1.  A key selects two sets of samples, **Set C** and **Set D**.
+    2.  To embed '1': Add a small, imperceptible value $d$ to all samples in Set C. **Subtract** $d$ from all samples in Set D.
+    3.  To embed '0': **Subtract** $d$ from Set C. Add $d$ to Set D.
+* **Detection (without original):** The detector finds the same sets C and D using the key.
+    * It calculates: $E[C_{watermarked}] - E[D_{watermarked}]$
+    * If the result is $\mathbf{+2d}$, it's a **'1'** (because $(0+d) - (0-d) = 2d$).
+    * If the result is $\mathbf{-2d}$, it's a **'0'** (because $(0-d) - (0+d) = -2d$).
+
+---
+
+## 4. 🔑 Encryption for Media
+
+### Hard Encryption vs. Soft (Selective) Encryption
+* **Hard Encryption (e.g., RSA, PKI):** Encrypts the *entire* file. This is what's used for credit cards and banking. This is **not suitable for media** due to:
+    1.  **Large File Size:** Encrypting gigabytes of data is too slow.
+    2.  **Real-Time Constraints:** Cannot be done on the fly for streaming.
+* **Soft/Selective Encryption:** The solution for media. Instead of encrypting the whole file, you encrypt *only the most important parts*.
+    * **Example (MPEG Video):** A video stream consists of I, P, and B frames. The P and B frames are *dependent* on the I-frame. You only need to **encrypt the I-frames**. An attacker with the unencrypted P and B frames still can't reconstruct the video, as they are useless without the decrypted I-frame.
+
+---
+
+## 5.  industry DRM Solutions
+
+### Music Industry (Apple iTunes & FairPlay)
+* **Problem:** After Napster, Apple needed a DRM system that was secure and could work on both powerful Macs and computationally weak iPods.
+* **The Solution (Hybrid Encryption):**
+    1.  The entire song is encrypted **once** with a single **Master Key**.
+    2.  This Master Key is stored in a "user data" section of the **AAC** audio file.
+    3.  When a user buys the song, their account's unique **User Key** is used to encrypt *only the Master Key*.
+* **Result:** Every user downloads the *same* large, encrypted song file. However, the tiny Master Key needed to unlock it is *differently encrypted for every single user*.
+* **Benefits:**
+    * **Scalable:** The server only has to do a tiny encryption (for the key) at download time, not encrypt the entire multi-megabyte song for every user.
+    * **Secure:** If one user's key is cracked, it only compromises *their* song; it can't be used to unlock anyone else's.
+
+### Motion Picture Industry
+* **Problem:** A much more complex distribution chain (studio $\rightarrow$ distributor $\rightarrow$ theater network $\rightarrow$ local theater), with many potential points for leaks.
+* **The Solution (Session-Based Watermarking):**
+    1.  A unique watermark (WM 1) is embedded when the movie leaves the studio.
+    2.  When it arrives at the main distributor, a *second* watermark (WM 2) is added on top.
+    3.  When the distributor sends it to the AMC theater chain, a third (WM 3) is added, and so on.
+* **Result:** When a pirated movie is found, forensics can analyze it.
+    * If it contains only WM 1 and WM 2, they know the leak happened *at the main distributor*.
+    * If it contains all ten watermarks, they know the leak happened *at the specific movie theater*. This allows them to pinpoint the exact location of the compromise.
