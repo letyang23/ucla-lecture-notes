@@ -49,7 +49,6 @@ $f_X : \mathbb{R} \rightarrow \mathbb{R}$ is called the **probability density fu
 ## Fundamental Theorem of Calculus
 
 **Part I:** Let $f$ be a continuous real-valued function defined on a closed interval $[a, b]$. Let $F$ be the function defined, for all $x$ in $[a, b]$, by:
-
 $$
 F(x) = \int_a^x f(t) \, dt
 $$
