@@ -39,6 +39,8 @@ For discrete sample spaces event space is typically all possible subsets of $\Om
     -   $\mathcal{F} = \{\emptyset, \{Jan\}, \dots, \{Dec\}, \{Jan, Feb\}, \dots, \{Jan, \dots, Dec\}\}$
 
 *   Q: how many elements in $\mathcal{F}$?
+    *   If your sample space $\Omega$ has **$n$** elements (outcomes), then the event space $\mathcal{F}$ contains **$2^n$** elements.
+
 
 We require that union of events and intersection of events are also events:
 
@@ -74,7 +76,7 @@ $\mathcal{Z}$ is closed under union, intersection, and set difference
 
 **Venn Diagrams:**
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.17.24 AM-4317851.png" alt="Screenshot 2025-11-28 at 12.17.24 AM" style="zoom:50%;" />
+<img src="Lecture 1.assets/Screenshot 2025-11-28 at 12.17.24 AM-4317851.png" alt="Screenshot 2025-11-28 at 12.17.24 AM" style="zoom:50%;" />
 
 ## Disjoint events
 
@@ -326,7 +328,7 @@ $$
 
 possible outcomes for the sequence of $r$ experiments.
 
-Example 1: Need to choose a password for an online account. Password must consist of two lowercase letters (a to z) followed by one capital letter (A to Z) followed by four digits (0,1, $\dots$, 9).
+Example 1: Need to choose a password for an online account. Password must consist of two lowercase letters (a to z) followed by one capital letter (A to Z) followed by four digits (0,1, \dots, 9).
 
 Example 2: How many subsets does a set with $n$ elements have?
 
@@ -537,6 +539,7 @@ $$
 $$
 
 
+
 # Lecture 2 - Conditional Probability and Independence
 
 ## Review from Last Class
@@ -641,7 +644,6 @@ By extension of the rule for finite sample spaces, the probability defined above
 ## Conditional Probability
 
 **Example:** You roll a fair 6-faced die. Let $A$ be the event that the outcome is an odd number, $A = \{1, 3, 5\}$. Let $B$ be the event that the outcome is less than 4, $B = \{1, 2, 3\}$. What is the probability of $A$? What is the probability of $A$ given $B$?
-
 $$
 P(A) = \frac{|A|}{|S|} = \frac{|\{1,3,5\}|}{|S|} = \frac{3}{6} = \frac{1}{2}
 $$
@@ -691,8 +693,6 @@ $$
 P(B | A) = \frac{P(A | B) P(B)}{P(A)} \quad \text{(if } P(A) > 0\text{)}
 $$
 
-### 
-
 Example: There are approximately 2.6 physicians per 1,000 people in the US (from world public health data by country)
 
 Probability of choosing a physician if randomly choose a US inhabitant = $\frac{2.6}{1000} = 0.0026$
@@ -737,7 +737,7 @@ $$
 P(B) = P(B | A)P(A) + P(B | A^c)P(A^c)
 $$
 
-### Law oftotal probability example
+### Law of total probability example
 
 The probability of infection from a certain virus upon exposure is 10% for children age < 13, 5% for ages 13-60, and 15% for ages 60+. What is the probability that a random individual is infected upon exposure in a population where $P(\text{Age} < 13) = 0.2$, $P(13 \leq \text{Age} \leq 60) = 0.6$, $P(\text{Age} > 60) = 0.2$?
 
@@ -782,7 +782,7 @@ He then says to you, "Do you want to switch to door No. 2 or keep prize behind d
 
 **Should you switch?** `Answer: Yes! Switching gives you 2/3 probability of winning`
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.13.51 AM-4317647-4317647-4317648.png" alt="Screenshot 2025-11-28 at 12.13.51 AM" style="zoom:50%;" />
+<img src="Lecture 2.assets/Screenshot 2025-11-28 at 12.13.51 AM-4317647-4317647-4317648.png" alt="Screenshot 2025-11-28 at 12.13.51 AM" style="zoom:50%;" />
 
 ## Independence
 
@@ -837,6 +837,7 @@ And also the equation above holds replacing any number of the $A_i$s by their co
 - $C = \{\text{two tosses are equal}\}$
 
 `These are pairwise independent but not mutually independent`
+
 
 # Lecture 3 - Discrete Random Variables
 
@@ -921,7 +922,7 @@ Both the pmf and the cdf completely characterize all the **probabilistic** infor
 - $0 \leq F(x) \leq 1$, $\lim_{x \to -\infty} F(x) = 0$, $\lim_{x \to +\infty} F(x) = 1$
 - $F$ is right continuous: $\lim_{\epsilon \downarrow 0} F(x + \epsilon) = F(x)$
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.21.53 AM.png" alt="Screenshot 2025-11-28 at 12.21.53 AM" style="zoom:50%;" />
+<img src="Lecture 3.assets/Screenshot 2025-11-28 at 12.21.53 AM.png" alt="Screenshot 2025-11-28 at 12.21.53 AM" style="zoom:50%;" />
 
 ## Bernoulli Distribution
 
@@ -1023,7 +1024,7 @@ par(mar=c(6,8,5,1))
 plot(0:5, dbinom(0:5, size=5, prob=0.4), col='red4', type='p', pch=16, cex=1.3, xlab='x', ylab='p(x)', cex.lab=2, cex.axis=2)
 ```
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.24.33 AM.png" alt="Screenshot 2025-11-28 at 12.24.33 AM" style="zoom:50%;" />
+<img src="Lecture 3.assets/Screenshot 2025-11-28 at 12.24.33 AM.png" alt="Screenshot 2025-11-28 at 12.24.33 AM" style="zoom:50%;" />
 
 ### Binomial distribution cdf
 
@@ -1033,7 +1034,7 @@ par(mar=c(6,8,5,1))
 plot(stepfun(0:5, c(0, pbinom(0:5, size=5, prob=0.4))), pch = 1, lwd=2, col='steelblue', xlab='x', ylab='F(x)', cex.lab=2, cex.axis=2, main='', verticals = F)
 ```
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.25.34 AM.png" alt="Screenshot 2025-11-28 at 12.25.34 AM" style="zoom:50%;" />
+<img src="Lecture 3.assets/Screenshot 2025-11-28 at 12.25.34 AM.png" alt="Screenshot 2025-11-28 at 12.25.34 AM" style="zoom:50%;" />
 
 ### Simulating a binomial 3 different ways
 
@@ -1123,7 +1124,7 @@ par(mar=c(6,8,5,1))
 plot(0:50, dgeom(0:50, prob=0.1), col='red4', type='p', pch=16, cex=1, xlab='x', ylab='p(x)', cex.lab=2, cex.axis=2
 ```
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.33.25 AM.png" alt="Screenshot 2025-11-28 at 12.33.25 AM" style="zoom:50%;" />
+<img src="Lecture 3.assets/Screenshot 2025-11-28 at 12.33.25 AM.png" alt="Screenshot 2025-11-28 at 12.33.25 AM" style="zoom:50%;" />
 
 #### Geometric distribution cdf
 
@@ -1132,7 +1133,8 @@ par(mar=c(6,8,5,1))
 plot(stepfun(0:50, c(0, pgeom(0:50, prob=0.1))), pch = 1, lwd=2, col='steelblue', xlab='x', ylab='F(x)', cex.lab=2, cex.axis=2, m
 ```
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.33.09 AM.png" alt="Screenshot 2025-11-28 at 12.33.09 AM" style="zoom:50%;" />
+<img src="Lecture 3.assets/Screenshot 2025-11-28 at 12.33.09 AM.png" alt="Screenshot 2025-11-28 at 12.33.09 AM" style="zoom:50%;" />
+
 
 # Lecture 4 - Continuous Random Variables
 
@@ -1162,7 +1164,7 @@ for some function $f_X(x) \geq 0$,  $\forall x \in \mathbb{R}$ and $\int_{-\inft
 
 $f_X : \mathbb{R} \rightarrow \mathbb{R}$ is called the **probability density function** (or density function) of the random variable $X$.
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.35.57 AM.png" alt="Screenshot 2025-11-28 at 12.35.57 AM" style="zoom:50%;" />
+<img src="Lecture 4.assets/Screenshot 2025-11-28 at 12.35.57 AM.png" alt="Screenshot 2025-11-28 at 12.35.57 AM" style="zoom:50%;" />
 
 ## Probability Density Function
 
@@ -1185,7 +1187,6 @@ $f_X : \mathbb{R} \rightarrow \mathbb{R}$ is called the **probability density fu
 ## Fundamental Theorem of Calculus
 
 **Part I:** Let $f$ be a continuous real-valued function defined on a closed interval $[a, b]$. Let $F$ be the function defined, for all $x$ in $[a, b]$, by:
-
 $$
 F(x) = \int_a^x f(t) \, dt
 $$
@@ -1218,7 +1219,7 @@ $$
 F(x) = \begin{cases} 0 & \text{if } x < 0 \\ 2x^2 - x^4 & \text{if } 0 \leq x \leq 1 \\ 1 & \text{if } x \geq 1 \end{cases}
 $$
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.37.47 AM.png" alt="Screenshot 2025-11-28 at 12.37.47 AM" style="zoom:50%;" />
+<img src="Lecture 4.assets/Screenshot 2025-11-28 at 12.37.47 AM.png" alt="Screenshot 2025-11-28 at 12.37.47 AM" style="zoom:50%;" />
 
 1. Compute $P(\frac{1}{4} \leq X \leq \frac{3}{4})$
 2. What is the probability density function of $X$?
@@ -1234,7 +1235,7 @@ $$
 F(x) = \begin{cases} 0 & \text{if } x < a \\ \frac{x-a}{b-a} & \text{if } a \leq x < b \\ 1 & \text{if } x \geq b \end{cases}
 $$
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.38.22 AM.png" alt="Screenshot 2025-11-28 at 12.38.22 AM" style="zoom:50%;" />
+<img src="Lecture 4.assets/Screenshot 2025-11-28 at 12.38.22 AM.png" alt="Screenshot 2025-11-28 at 12.38.22 AM" style="zoom:50%;" />
 
 ## Exponential Distribution, $X \sim Exp(\lambda)$
 
@@ -1246,7 +1247,7 @@ $$
 F(x) = \begin{cases} 1 - e^{-\lambda x} & \text{if } x \geq 0 \\ 0 & \text{if } x < 0 \end{cases}
 $$
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.38.41 AM.png" alt="Screenshot 2025-11-28 at 12.38.41 AM" style="zoom:50%;" />
+<img src="Lecture 4.assets/Screenshot 2025-11-28 at 12.38.41 AM.png" alt="Screenshot 2025-11-28 at 12.38.41 AM" style="zoom:50%;" />
 
 ## Normal Distribution, $X \sim N(\mu, \sigma^2)$
 
@@ -1260,7 +1261,7 @@ $$
 
 There is no analytical formula for the cdf but it can be numerically computed.
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.39.09 AM.png" alt="Screenshot 2025-11-28 at 12.39.09 AM" style="zoom:50%;" />
+<img src="Lecture 4.assets/Screenshot 2025-11-28 at 12.39.09 AM.png" alt="Screenshot 2025-11-28 at 12.39.09 AM" style="zoom:50%;" />
 
 ## Pareto Distribution, $X \sim Pareto(x_m, \alpha)$
 
@@ -1272,7 +1273,7 @@ $$
 F(x) = \begin{cases} 0 & \text{if } x < x_m \\ 1 - \left(\frac{x_m}{x}\right)^\alpha & \text{if } x \geq x_m \end{cases}
 $$
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.39.26 AM.png" alt="Screenshot 2025-11-28 at 12.39.26 AM" style="zoom:50%;" />
+<img src="Lecture 4.assets/Screenshot 2025-11-28 at 12.39.26 AM.png" alt="Screenshot 2025-11-28 at 12.39.26 AM" style="zoom:50%;" />
 
 ## Quantiles
 
@@ -1284,7 +1285,7 @@ $$
 
 The **median** of a distribution is its $50^{th}$ percentile.
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.39.49 AM.png" alt="Screenshot 2025-11-28 at 12.39.49 AM" style="zoom:50%;" />
+<img src="Lecture 4.assets/Screenshot 2025-11-28 at 12.39.49 AM.png" alt="Screenshot 2025-11-28 at 12.39.49 AM" style="zoom:50%;" />
 
 ##### Example 1: Median of Exponential, $X \sim Exp(\lambda)$
 
@@ -1437,14 +1438,15 @@ $$
 - **Mixed random variables** have **neither** probability mass function **nor** probability density function
 - **All types of random variables** (discrete, continuous and mixed distributions) **have cumulative distribution function!!**
 
-# Lecture 5 – Expectation, variance, and transformations of RVs
+
+# Week 5 – Expectation, variance, and transformations of RVs
 
 ## Last class
 
 * **Continuous random variables:**
-  * Take infinite uncountable values
-  * Have a probability density function (pdf)
-  * Continuous RV are completely characterized by their pdf or cdf
+    * Take infinite uncountable values
+    * Have a probability density function (pdf)
+    * Continuous RV are completely characterized by their pdf or cdf
 
 * **Uniform:** $U[a,b]$
 * **Exponential:** $Exp[\lambda]$
@@ -1452,9 +1454,9 @@ $$
 * **Pareto:** $Pareto(x_{m},\alpha)$
 
 * **Mixtures of distributions:**
-  * Discrete + Discrete = Discrete
-  * Continuous + Continuous = Continuous
-  * Discrete + Continuous = Neither discrete nor continuous
+    * Discrete + Discrete = Discrete
+    * Continuous + Continuous = Continuous
+    * Discrete + Continuous = Neither discrete nor continuous
 
 For a continuous random variable, it follows from the definition of pdf and the fundamental theorem of calculus that for $a \le b$:
 
@@ -1531,7 +1533,7 @@ for $k=0, 1, 2, \dots$
 
 Used to model number of events happening in a period of time e.g. number of mutations per unit length in a DNA strand, number of new patients (incidence rates), number of phone calls/particles arriving in a system, etc.
 
-<img src="Final.assets/Screenshot 2025-11-28 at 12.58.37 AM.png" alt="Screenshot 2025-11-28 at 12.58.37 AM" style="zoom:50%;" />
+<img src="Lecture 5.assets/Screenshot 2025-11-28 at 12.58.37 AM.png" alt="Screenshot 2025-11-28 at 12.58.37 AM" style="zoom:50%;" />
 
 ## Expectation examples: Poisson (contd)
 
@@ -1818,7 +1820,7 @@ Suppose that the joint cumulative distribution function of $(X, Y)$ is given by:
 $$
 F_{X,Y}(x,y)=\begin{cases}1-e^{-2x}-e^{-y}+e^{-(2x+y)}& \text{if } x>0, y>0 \\ 0& \text{Otherwise} \end{cases}
 $$
-<img src="Final.assets/Screenshot 2025-11-28 at 1.09.26 AM.png" alt="Screenshot 2025-11-28 at 1.09.26 AM" style="zoom:50%;" />
+<img src="Lecture 6.assets/Screenshot 2025-11-28 at 1.09.26 AM.png" alt="Screenshot 2025-11-28 at 1.09.26 AM" style="zoom:50%;" />
 
 ## Example: continuous random vector
 
@@ -2015,8 +2017,6 @@ $$
 
 * Covariance it's not invariant: $\text{Cov}(X,Y)=\rho(X,Y)\sigma_{X}\sigma_{Y}$, so the larger $\sigma_{X}$ and $\sigma_{Y}$, the larger $\text{Cov}(X,Y)$ in absolute value (provided $\rho(X,Y)\ne0$)
 
-
-
 # Week 7 – Transformation of RVs, Law of large numbers
 
 ### Last Class 
@@ -2032,12 +2032,12 @@ $$
 (X, Y) a random vector. What is the distribution of $Z=X+Y$?
 
 * If (X, Y) is discrete then
-  $$
-  P_{Z}(z)=\sum_{x_{i}+y_{i}=z}P_{X,Y}(x_{i},y_{i})
-  $$
+    $$
+    P_{Z}(z)=\sum_{x_{i}+y_{i}=z}P_{X,Y}(x_{i},y_{i})
+    $$
 
 * Example: Let X and Y be independent random variables with common pmf given by
-  $P_{X}(0)=\frac{1}{4}$, $P_{X}(1)=\frac{1}{2}$, $P_{X}(2)=\frac{1}{4}$. Find the pmf of $Z=X+Y$.
+    $P_{X}(0)=\frac{1}{4}$, $P_{X}(1)=\frac{1}{2}$, $P_{X}(2)=\frac{1}{4}$. Find the pmf of $Z=X+Y$.
 
 ### Distribution of a sum of continuous RVs
 
@@ -2065,10 +2065,10 @@ $$(X,Y)\sim N(\mu,\Sigma)$$
 ### Sums of normals
 
 * If $X\sim N(\mu_{X},\sigma_{X}^{2})$, $Y\sim N(\mu_{Y},\sigma_{Y}^{2})$ are **independent** then
-  $$X+Y\sim N(\mu_{X}+\mu_{Y},\sigma_{X}^{2}+\sigma_{Y}^{2})$$
+    $$X+Y\sim N(\mu_{X}+\mu_{Y},\sigma_{X}^{2}+\sigma_{Y}^{2})$$
 
 * If $(X,Y)\sim N(\mu,\Sigma)$ then
-  $$X+Y\sim N(\mu_{X}+\mu_{Y},\sigma_{X}^{2}+\sigma_{Y}^{2}+2\rho\sigma_{X}\sigma_{Y})$$
+    $$X+Y\sim N(\mu_{X}+\mu_{Y},\sigma_{X}^{2}+\sigma_{Y}^{2}+2\rho\sigma_{X}\sigma_{Y})$$
 
 * If $X\sim N(\mu_{X},\sigma_{X}^{2}),Y\sim N(\mu_{Y},\sigma_{Y}^{2})$ but not bivariate normal then $X+Y$ are not necessarily normal.
 
@@ -2239,21 +2239,23 @@ $X_{1},X_{2},...,X_{n}\sim N(1,1)$
 
 Five realizations of $\overline{X_{n}}$ as a function of $n$
 
-<img src="Final.assets/image-20251129161727499.png" alt="image-20251129161727499" style="zoom:50%;" />
+<img src="Lecture 7.assets/image-20251129161727499.png" alt="image-20251129161727499" style="zoom:50%;" />
+
+
 
 # Week 8 – Central Limit Theorem
 
 ### Last Class
 
 * **Markov's inequality:** for any RV $U\ge0$
-  $$P(U\ge t)\le\frac{E[U]}{t} \quad for~any~t>0$$
+    $$P(U\ge t)\le\frac{E[U]}{t} \quad for~any~t>0$$
 
 * **Chebyshev's inequality:** for any RV $X, Var[X_{i}]<\infty;$
-  $$P(|X-E[X]|\ge t)\le\frac{Var[X]}{t^{2}} \quad for~any~t>0$$
+    $$P(|X-E[X]|\ge t)\le\frac{Var[X]}{t^{2}} \quad for~any~t>0$$
 
 * **Law of large numbers:** $X_{1},X_{2},...$ i.i.d with finite expectation $\mu$:
-  * **Weak:** $$\lim_{n\rightarrow\infty}P(|\overline{X}_{n}-\mu|>\epsilon)=0$$
-  * **Strong:** $$P(\lim_{n\rightarrow\infty}\overline{X}_{n}=\mu)=1$$
+    * **Weak:** $$\lim_{n\rightarrow\infty}P(|\overline{X}_{n}-\mu|>\epsilon)=0$$
+    * **Strong:** $$P(\lim_{n\rightarrow\infty}\overline{X}_{n}=\mu)=1$$
 
 ### Basic Statistical Model
 
@@ -2272,7 +2274,7 @@ Five realizations of $\overline{X_{n}}$ as a function of $n$
 * To learn about X we collect a random sample: $X_{1},X_{2},...,X_{n}$ from $F_{X}(x)$ the distribution of X
 * $X_{1},X_{2},...,X_{n}$ have the same probability distribution and are mutually independent.
 * The distribution $F(x;\theta)$ of $X_{i}$ is unknown or only partially known
-  * E.g. $X_{i}\sim N(\mu,\sigma^{2})$ with known $\sigma^{2}$ but unknown $\mu$
+    * E.g. $X_{i}\sim N(\mu,\sigma^{2})$ with known $\sigma^{2}$ but unknown $\mu$
 * We conceptualize the observed data $x_{1},...,x_{n}$ as realizations of the random variables $X_{1},...,X_{n}$
 
 ### Sample statistics
@@ -2313,7 +2315,7 @@ Formally, if $F_{n}(x)=F_{Z_{n}}(x)$ denotes the cdf of $Z_{n}$, then $F_{n}(x)\
 
 Sum of n i.i.d. exponentials: $S_{n}=X_{1}+...+X_{n}, X_{i}\sim Exp(2)$
 
-<img src="Final.assets/image-20251129162125105.png" alt="image-20251129162125105" style="zoom:80%;" />
+<img src="Lecture 8.assets/image-20251129162125105.png" alt="image-20251129162125105" style="zoom:80%;" />
 
 Blue line is pdf of $S_{n}$. Red line is pdf of a normal $N(\frac{n}{2},\frac{n}{4})$
 
@@ -2330,10 +2332,10 @@ We want to learn about a distribution in a population
 * We take a sample of size $n$ from the population and conceptualize it as a random sample $X_{1},...,X_{n}$ from a distribution $F_{X}(x)$ that is **totally or partially unknown to us**.
 
 * We want to estimate specific characteristics or **parameters** of the underlying distribution:
-  * true mean $E[X_{i}]=\mu$ (e.g. $X_{i}$ blood pressure)
-  * the true variance, $Var[X_{i}]=\sigma^{2}$ (e.g. $X_{i}$ blood pressure)
-  * or a probability like $P(X_{i}=1)$ (e.g. $1=$ democrat voter; $0=$ not democrat voter)
-  * or a rate (e.g. expected number of ER patients per hour) ($X_{i}=$ number of patients within a period of $1$-hour)
+    * true mean $E[X_{i}]=\mu$ (e.g. $X_{i}$ blood pressure)
+    * the true variance, $Var[X_{i}]=\sigma^{2}$ (e.g. $X_{i}$ blood pressure)
+    * or a probability like $P(X_{i}=1)$ (e.g. $1=$ democrat voter; $0=$ not democrat voter)
+    * or a rate (e.g. expected number of ER patients per hour) ($X_{i}=$ number of patients within a period of $1$-hour)
 
 ---
 
@@ -2391,19 +2393,20 @@ $X_{1},...X_{n}$ a random sample from distribution F, and $\theta$ a parameter o
 - $X_{1},...X_{n}$ a random sample with mean $E[X_{i}]=\mu$ and $Var[X_{i}]=\sigma^{2}$
 
 * The sample mean $\overline{X}_{n}$ is an unbiased estimator of the population mean $\mu$.
-  $$E[\overline{X}_{n}]=\mu$$
+    $$E[\overline{X}_{n}]=\mu$$
 
 * The sample variance $S_{n}^{2}=\frac{1}{n-1}\sum_{i=1}^{n}(X_{i}-\overline{X}_{n})^{2}$ is an unbiased estimator of the population variance $\sigma^{2}$
-  $$E[S_{n}^{2}]=\sigma^{2}$$
+    $$E[S_{n}^{2}]=\sigma^{2}$$
 
 ### Unbiasedness is not preserved under general transformations
 
 * In general, if $T$ is an unbiased estimator of $\theta$, $g(T)$ is not an unbiased estimate of $g(\theta)$
 * Example:
-  * $\overline{X}_{n}$ is unbiased for $E[X_{i}]=\mu$
-  * But $\overline{X}_{n}^{2}$ is not unbiased for $E[X_{i}]^{2}=\mu^{2}$, Because by Jensen's inequality $E[\overline{X}_{n}^{2}]>E[\overline{X}_{n}]^{2}=\mu^{2}$
+    * $\overline{X}_{n}$ is unbiased for $E[X_{i}]=\mu$
+    * But $\overline{X}_{n}^{2}$ is not unbiased for $E[X_{i}]^{2}=\mu^{2}$, Because by Jensen's inequality $E[\overline{X}_{n}^{2}]>E[\overline{X}_{n}]^{2}=\mu^{2}$
 * **Jensen's inequality:** if $g(t)$ is a convex function, then $E[g(T)]\ge g(E[T])$. Equality holds only if $g(x)=at+b$
 * If $g$ linear $g(t)=at+b, E[g(T)]=E[aT+b]=aE[T]+b=g(E[T])$ so $g(T)$ is unbiased for $g(\theta)$
+
 
 # Week 9 – Unbiased estimation - Efficiency, MSE
 
@@ -2484,7 +2487,7 @@ for (i in 1:nsims){
 
 ### Choosing among unbiased estimators-Example
 
-<img src="Final.assets/Screenshot 2025-11-30 at 10.25.31 PM.png" alt="Screenshot 2025-11-30 at 10.25.31 PM" style="zoom:67%;" />
+<img src="Lecture 9.assets/Screenshot 2025-11-30 at 10.25.31 PM.png" alt="Screenshot 2025-11-30 at 10.25.31 PM" style="zoom:67%;" />
 
 ### Choosing among unbiased estimators-Example
 
@@ -2524,11 +2527,13 @@ Simulation to see how the two estimators behave
 
 * True $p_{0}=e^{-2} \approx 0.135$
 
-<img src="Final.assets/Screenshot 2025-11-30 at 10.47.20 PM.png" alt="Screenshot 2025-11-30 at 10.47.20 PM" style="zoom:50%;" />
+<img src="Lecture 9.assets/Screenshot 2025-11-30 at 10.47.20 PM.png" alt="Screenshot 2025-11-30 at 10.47.20 PM" style="zoom:50%;" />
 
 ### Mean square error - example
 
-<img src="Final.assets/Screenshot 2025-11-30 at 10.47.59 PM.png" alt="Screenshot 2025-11-30 at 10.47.59 PM" style="zoom:50%;" />
+<img src="Lecture 9.assets/Screenshot 2025-11-30 at 10.47.59 PM.png" alt="Screenshot 2025-11-30 at 10.47.59 PM" style="zoom:50%;" />
+
+
 
 # Week 10 – Maximum Likelihood Estimation
 
@@ -2558,7 +2563,7 @@ So, both $\widetilde{\theta}$ and $\widehat{\theta}$ are unbiased estimators of 
 
 ### Last Class - Choosing among unbiased estimators-Example
 
-<img src="Final.assets/Screenshot 2025-11-30 at 10.50.08 PM.png" alt="Screenshot 2025-11-30 at 10.50.08 PM" style="zoom:50%;" />
+<img src="Lecture 10.assets/Screenshot 2025-11-30 at 10.50.08 PM.png" alt="Screenshot 2025-11-30 at 10.50.08 PM" style="zoom:50%;" />
 
 ### Last Class - Choosing among unbiased estimators example.
 
@@ -2587,7 +2592,6 @@ So, both $\widetilde{\theta}$ and $\widehat{\theta}$ are unbiased estimators of 
 $X_{1}, \dots, X_{n} \stackrel{i.i.d}{\sim} Poisson(\mu)$
 
 Two candidate estimators for $p_{0}=P(X_{i}=0)=e^{-\mu}$:
-
 * $\widetilde{p}_{0}=\frac{\text{number of } X_{i}=0}{n}$
 * $\widehat{p}_{0}=e^{-\overline{X_{n}}}$
 
@@ -2599,11 +2603,11 @@ Simulation to see how the two estimators behave
 
 * True $p_{0}=e^{-2} \approx 0.135$
 
-<img src="Final.assets/Screenshot 2025-11-30 at 10.52.13 PM.png" alt="Screenshot 2025-11-30 at 10.52.13 PM" style="zoom:50%;" />
+<img src="Lecture 10.assets/Screenshot 2025-11-30 at 10.52.13 PM.png" alt="Screenshot 2025-11-30 at 10.52.13 PM" style="zoom:50%;" />
 
 ### Last Class - Mean square error example
 
-<img src="Final.assets/Screenshot 2025-11-30 at 10.52.42 PM.png" alt="Screenshot 2025-11-30 at 10.52.42 PM" style="zoom:50%;" />
+<img src="Lecture 10.assets/Screenshot 2025-11-30 at 10.52.42 PM.png" alt="Screenshot 2025-11-30 at 10.52.42 PM" style="zoom:50%;" />
 
 ### Maximum likelihood estimation
 
@@ -2649,7 +2653,7 @@ $$\frac{d^{2}l}{d\lambda^{2}}=-\frac{5}{\lambda^{2}}<0$$
 
 ### Maximum likelihood estimation – exponential example
 
-<img src="Final.assets/Screenshot 2025-11-30 at 10.55.34 PM.png" alt="Screenshot 2025-11-30 at 10.55.34 PM" style="zoom:50%;" />
+<img src="Lecture 10.assets/Screenshot 2025-11-30 at 10.55.34 PM.png" alt="Screenshot 2025-11-30 at 10.55.34 PM" style="zoom:50%;" />
 
 ### Maximum likelihood estimation - exponential example
 
@@ -2667,7 +2671,7 @@ $$\frac{dl}{d\lambda}=\frac{n}{\lambda}-\sum_{i=1}^{n}T_{i}=0 \Rightarrow \hat{\
 
 Number of cycles until pregnancy:
 
-<img src="Final.assets/Screenshot 2025-11-30 at 10.56.42 PM.png" alt="Screenshot 2025-11-30 at 10.56.42 PM" style="zoom:50%;" />
+<img src="Lecture 10.assets/Screenshot 2025-11-30 at 10.56.42 PM.png" alt="Screenshot 2025-11-30 at 10.56.42 PM" style="zoom:50%;" />
 
 ### MLE - a more complex example
 
@@ -2689,12 +2693,11 @@ Number of cycles until pregnancy:
   $$=p^{93}(1-p)^{322}$$
 
 * We want to find $0\le p\le1$ that makes $L(p)$ as large as possible, i.e. find the value of $p$ that maximizes $L(p)$
-
 * Equivalent to finding the maximizer of $l(p)=\log(L(p))$
 
 ### MLE - a more complex example
 
-<img src="Final.assets/Screenshot 2025-11-30 at 10.59.55 PM.png" alt="Screenshot 2025-11-30 at 10.59.55 PM" style="zoom:50%;" />
+<img src="Lecture 10.assets/Screenshot 2025-11-30 at 10.59.55 PM.png" alt="Screenshot 2025-11-30 at 10.59.55 PM" style="zoom:50%;" />
 
 $$l(p)=93\log(p)+322\log(1-p)$$
 
@@ -2718,7 +2721,7 @@ $X_{i} \sim Exp(\lambda)$ with probability $\frac{1}{2}$ and $Exp(2\lambda)$ wit
 
 $$f(x)=\frac{1}{2}\lambda e^{-\lambda x}+\frac{1}{2}2\lambda e^{-2\lambda x}$$
 
-<img src="Final.assets/Screenshot 2025-11-30 at 11.01.00 PM.png" alt="Screenshot 2025-11-30 at 11.01.00 PM" style="zoom:50%;" />
+<img src="Lecture 10.assets/Screenshot 2025-11-30 at 11.01.00 PM.png" alt="Screenshot 2025-11-30 at 11.01.00 PM" style="zoom:50%;" />
 
 ### MLE with no analytical solution
 
@@ -2745,7 +2748,7 @@ optimize(f=negloglik, interval=c(0.01, 10), data=dataset)
 
 ### MLE with no analytical solution
 
-<img src="Final.assets/Screenshot 2025-11-30 at 11.01.00 PM.png" alt="Screenshot 2025-11-30 at 11.01.00 PM" style="zoom:50%;" />
+<img src="Lecture 10.assets/Screenshot 2025-11-30 at 11.01.00 PM.png" alt="Screenshot 2025-11-30 at 11.01.00 PM" style="zoom:50%;" />
 
 ### Properties of Maximum likelihood estimators
 
@@ -2764,7 +2767,6 @@ $$\hat{\theta}_{n} \stackrel{P}{\longrightarrow} \theta \text{ as } n\rightarrow
 * No other consistent estimator has lower asymptotic mean squared error.
 
 **Asymptotic normality**
-
 * In most situations of interest (but not always, e.g. $U[0, \theta]$) the sampling distribution of the MLE gets closer and closer to a **normal distribution** as $n\rightarrow\infty$.
 
 With few exceptions MLE's are generally **biased estimators**.
@@ -2791,6 +2793,8 @@ $$
 The standard error of the MLE is $se(\hat{\theta})=\frac{1}{\sqrt{nI(\theta)}}$
 
 We can estimate the standard error of the MLE by $\widehat{se}(\hat{\theta})=\frac{1}{\sqrt{nI(\hat{\theta})}}$
+
+
 
 # Week 11 – Confidence Intervals
 
@@ -2820,16 +2824,13 @@ $$\hat{\theta}_{n}\rightarrow\theta \text{ as } n\rightarrow+\infty$$
 * Consistency is **stronger than asymptotic unbiasedness** (which MLEs also have)
 
 **Invariance**:
-
 * If $\hat{\theta}$ is the MLE of $\theta$ then $g(\hat{\theta})$ is the MLE of $g(\theta)$.
 * E.g. MLE of $\theta^{2}$ is $\hat{\theta}^{2}$
 
 **Asymptotic minimum variance**
-
 * Lowest asymptotic mean squared error.
 
 **Asymptotic normality**
-
 * The distribution of the MLE gets closer and closer to a **normal distribution** as $n\rightarrow\infty$.
 
 * MLE's are generally **biased estimators** - But bias disappears as sample size increases (asymptotically unbiased).
@@ -2848,7 +2849,6 @@ If $f(x;\theta)$ is 'well behaved' (e.g. its support does not depend on $\theta$
 $$
 \sqrt{n}(\hat{\theta}-\theta) \stackrel{d}{\longrightarrow} N\left(0, \frac{1}{I(\theta)}\right)
 $$
-
 * $\frac{1}{nI(\theta)}$ is the asymptotic variance of $\hat{\theta}$
 
 
@@ -2900,7 +2900,7 @@ $X_{1}, \dots, X_{n} \stackrel{i.i.d}{\sim} N(\mu, \sigma^{2})$, with $\sigma^{2
 
 One hundred $95\%$ confidence intervals for $\mu=7.7$
 
-<img src="Final.assets/Screenshot 2025-11-30 at 11.12.41 PM.png" alt="Screenshot 2025-11-30 at 11.12.41 PM" style="zoom:50%;" />
+<img src="Lecture 11.assets/Screenshot 2025-11-30 at 11.12.41 PM.png" alt="Screenshot 2025-11-30 at 11.12.41 PM" style="zoom:50%;" />
 
 ### Confidence interval for the normal mean - variance unknown
 
@@ -2913,7 +2913,7 @@ $X_{1}, \dots, X_{n} \stackrel{i.i.d}{\sim} N(\mu, \sigma^{2})$ with $\sigma^{2}
 
 ### t-distribution
 
-<img src="Final.assets/Screenshot 2025-11-30 at 11.13.16 PM.png" alt="Screenshot 2025-11-30 at 11.13.16 PM" style="zoom:50%;" />
+<img src="Lecture 11.assets/Screenshot 2025-11-30 at 11.13.16 PM.png" alt="Screenshot 2025-11-30 at 11.13.16 PM" style="zoom:50%;" />
 
 ### Confidence interval for the normal mean - variance unknown
 
@@ -3014,7 +3014,7 @@ nsims = 100; n = 70; p = 0.3
 p_hat = replicate(nsims, {X = rgeom(n, p) + 1; 1/mean(X)})
 ```
 
-<img src="Final.assets/Screenshot 2025-11-30 at 11.17.12 PM.png" alt="Screenshot 2025-11-30 at 11.17.12 PM" style="zoom:50%;" />
+<img src="Lecture 11.assets/Screenshot 2025-11-30 at 11.17.12 PM.png" alt="Screenshot 2025-11-30 at 11.17.12 PM" style="zoom:50%;" />
 
 ### Asymptotic confidence intervals based on MLEs
 
