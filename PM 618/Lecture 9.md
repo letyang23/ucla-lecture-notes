@@ -43,108 +43,83 @@ Formally, if $F_{n}(x)=F_{Z_{n}}(x)$ denotes the cdf of $Z_{n}$, then $F_{n}(x)\
 
 * E.g. $X_{i}\sim N(\mu,\sigma^{2})$ with known $\sigma^{2}$ but unknown $\mu$
 
-### Estimation
+### Choosing among unbiased estimators. Example
 
-- We want to learn about a distribution in a population
+* $X_{1}, \dots, X_{n} \stackrel{i.i.d}{\sim} U[0, \theta]$
+* $f_{X}(x) = \frac{1}{\theta}I_{[0,\theta]}(x)$
+* $E[X_{i}] = \frac{\theta}{2}$, so $E[\overline{X_{n}}] = \frac{\theta}{2}$
+* Then $\widehat{\theta} = 2\overline{X_{n}}$ is an unbiased estimator of $\theta$
 
-* e.g. proportion of democrat voters in CA, average blood pressure among covid survivors aged $70+$, vaping frequency among young adults in the US, rate of patient ER night admissions in LA county hospitals
+Intuitively a natural estimate for theta could also be based on $T = \max\{X_{1}, \dots, X_{n}\}$
 
-* We take a sample of size $n$ from the population and conceptualize it as a random sample $X_{1},...,X_{n}$ from a distribution $F_{X}(x)$ that is **totally or partially unknown to us.**
+* $f_{T}(t) = n\frac{t^{n-1}}{\theta^{n}}I_{[0,\theta]}(t)$
+* $E[T] = \frac{n}{n+1}\theta$ so $\widetilde{\theta} = \frac{n+1}{n} T$ is an unbiased estimator of $\theta$
 
-* We want to estimate specific characteristics or **parameters** of the underlying distribution:
-    * true mean $E[X_{i}]=\mu$ (e.g. blood pressure)
-    * the true variance, $Var[X_{i}]=\sigma^{2}$ (e.g. blood pressure)
-    * or a probability like $P(X_{i}=1)$ (e.g. $X_{i}=1$ if democrat voter; $0=$ if not democrat voter)
-    * or a rate (e.g. expected number of ER patients per hour) ($X_{i}=$ number of patients within a period of 1-hour)
+So, both $\widehat{\theta}$ and $\widetilde{\theta}$ are unbiased estimators of $\theta$, which one is better?
 
----
+### Choosing among unbiased estimators-Example.
 
-Example 1: To estimate the unknown mean of a population $\mu$ (e.g. blood pressure)
+Let's perform a simulation to see how the two estimators behave:
 
-- Natural to use the **sample mean** $\overline{X_{n}}$ to estimate $\mu$ because we know that for large $n$ the sample mean will be close to the true mean.
+```r
+set.seed(101)
+theta = 2
+n = 50
+nsims = 500
+theta_hat = theta_tilde = numeric(nsims)
 
-Example 2. We can model the number of arrivals per hour at an ER unit as a $Poisson(\lambda)$. Suppose we count the arrivals during each on $n$ (non-overlapping) 1-hour intervals to get the random sample $X_{1},...,X_{n}$. Here $\lambda$ is unknown and we want to estimate it.
-
-- A natural estimate is also the **sample mean** $\overline{X_{n}}$ because $E[X_{i}]=\lambda$
-
-- But using the **sample variance** $S_{n}^{2}$ is also reasonable because $Var[X_{i}]=\lambda$
-
-- Today we'll learn how to choose among different options for estimating a parameter of interest
-
-### Estimator vs. estimate
-
-* **Estimate**: value t that only depends on the dataset $x_{1},x_{2},...,x_{n},$ i.e., t is some function of the dataset $t=h(x_{1},x_{2},...,x_{n})$. Example: $t=\overline{x_{n}}=\frac{x_{1}+...+x_{n}}{n}$
-
-* An **estimate** is a number (or a vector of numbers in more complex problems)
-
-* **Estimator**: Let $t=h(x_{1},x_{2},...,x_{n})$ be an estimate based on the dataset $x_{1},x_{2},...,x_{n}$. Then t is a realization of the random variable $T=h(X_{1},X_{2},...,X_{n})$. The random variable $T$ is called an estimator.
-
-* An **estimator** is a random variable
-
-* An **estimate** is a realization of random variable
-
-### Sampling distribution
-
-Example: estimating the proportion $p$ of LA teenagers that vape from a sample $X_{1},...X_{n}$
-$X_{i}\sim Bernoulli(p)$.
-
-$X_{i}$ records whether the teenager vapes (yes=1 vs. no=0)
-
-* The sample proportion $\hat{p}_{n}=\frac{S_{n}}{n}$ of vapers is a natural estimator of $p$ ($S_{n}=X_{1}+...+X_{n}$ is the total number of vapers in the sample), because by the LLN $\hat{p}{\rightarrow}p$
-
-* The **sampling distribution** is just the standard distribution (pdf, pmf, cdf) of the random variable we call the **estimator**.
-
-* For example of vapers, the sampling distribution of $\hat{p}_{n}$ is the distribution of the random variable $$\hat{p}_{n}=\frac{S_{n}}{n}$$
-
-### Sampling distribution of the sample proportion
-
-Simulating one study: $X_{1},...,X_{n}\sim Bernoulli(p)$
-
-```R
-set.seed (2023)
-$n=200$ # sample size
-$p=0.35$ # True population frequency (eg. vaping among teenagers)
-$x=$ rbinom(n, size $=1$, prob=p)
-mean (x)
-
-## [1] 0.37
-```
-
-### Sampling distribution of the sample proportion
-
-Simulating MULTIPLE studies
-
-```R
 for (i in 1:nsims){
-    X = rbinom(n, size = 1, prob=p)
-    p_hat[i] = mean(X)
+    x = runif(n=n, max=theta)
+    theta_hat[i] = 2 * mean(x)
+    theta_tilde[i] = ((n+1)/n) * max(x)
 }
 ```
 
-<img src="Lecture 9.assets/image-20251129163933199.png" alt="image-20251129163933199" style="zoom:67%;" />
+### Choosing among unbiased estimators-Example
 
-### Sampling distribution of the sample mean
+<img src="Lecture 9.assets/Screenshot 2025-11-30 at 10.25.31 PM.png" alt="Screenshot 2025-11-30 at 10.25.31 PM" style="zoom:67%;" />
 
-Simulating one study: $X_{1},...,X_{n}\sim Pareto(x_{m},\alpha)$
+### Choosing among unbiased estimators-Example
 
-```r
-library(EnvStats)
-set.seed(2023)
+* We see empirically that $\widetilde{\theta}$ is much less variable than $\widehat{\theta}$
+* But also theoretically, $Var[\widetilde{\theta}]=\frac{\theta^{2}}{n(n+2)}$ and $Var[\widehat{\theta}]=\frac{\theta^{2}}{3n}$
+* So, $Var[\widetilde{\theta}] < Var[\widehat{\theta}]$, for $n \ge 2$ and goes much faster to zero!
+* Additionally, $\widehat{\theta}$ can take values way over the true $\theta$
+* So, $\widetilde{\theta}$ is a much better estimate of $\theta$ than $\widehat{\theta}$
 
-n = 200 # sample size
+### Mean square error
 
-loc = 10; alpha = 2 # E[X_i] = 20; e.g. income distribution in $1000
-x = rpareto(n, location = loc, shape=alpha)
-mean(x)
+* Although **unbiasedness** is a desirable property, unbiased estimators do not always exist
+* Even when they exist, requiring unbiasedness maybe too stringent (i.e. there can be other good estimators that are biased)
+* A general performance of an estimator can be judged by the way it spreads around the parameter to be estimated:
+  - If $T$ is an estimator for a parameter $\theta$, the **mean squared error** of $T$ is the number:
+    $$MSE(T) = E[(T-\theta)^2]$$
 
-## [1] 21.14341
-```
+* It's easy to show that $MSE(T) = Var(T) + Bias(T)^2$ where $Bias(T) = E[T]-\theta$
+* A **biased estimator** with a small bias could be more useful than an **unbiased estimator** with a large variance.
+* Better to use $MSE(T)$ to choose between estimators
+* When $Bias(T)=0$, $MSE(T) = Var(T)$
 
-```r
-for (i in 1:nsims) {
-    x = rpareto(n, location = loc, shape=alpha)
-    mu_hat[i] = mean(x)
-}
-```
+### Mean square error - example
 
-<img src="Lecture 9.assets/image-20251129164115939.png" alt="image-20251129164115939" style="zoom:80%;" />
+$X_{1}, \dots, X_{n} \stackrel{i.i.d}{\sim} Poisson(\mu)$
+
+Two candidate estimators for $p_{0}=P(X_{i}=0)=e^{-\mu}$:
+
+* $\widetilde{p}_{0}=\frac{\text{number of } X_{i}=0}{n}$
+* $\widehat{p}_{0}=e^{-\overline{X_{n}}}$
+
+$\widetilde{p}_{0}$ is unbiased but $\widehat{p}_{0}$ is not? Which one is better?
+
+### Mean square error - example
+
+Simulation to see how the two estimators behave
+
+* True $p_{0}=e^{-2} \approx 0.135$
+
+<img src="Lecture 9.assets/Screenshot 2025-11-30 at 10.47.20 PM.png" alt="Screenshot 2025-11-30 at 10.47.20 PM" style="zoom:50%;" />
+
+### Mean square error - example
+
+<img src="Lecture 9.assets/Screenshot 2025-11-30 at 10.47.59 PM.png" alt="Screenshot 2025-11-30 at 10.47.59 PM" style="zoom:50%;" />
+
