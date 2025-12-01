@@ -326,7 +326,7 @@ $$
 
 possible outcomes for the sequence of $r$ experiments.
 
-Example 1: Need to choose a password for an online account. Password must consist of two lowercase letters (a to z) followed by one capital letter (A to Z) followed by four digits (0,1, \dots, 9).
+Example 1: Need to choose a password for an online account. Password must consist of two lowercase letters (a to z) followed by one capital letter (A to Z) followed by four digits (0,1, $\dots$, 9).
 
 Example 2: How many subsets does a set with $n$ elements have?
 
@@ -529,7 +529,7 @@ A set is countable if its elements can be put in one-to-one correspondence with 
 $$
 \mathbb{N}=\{1,2,3,\dots\}
 $$
-E.g. The set of natural numbers, the set of odd numbers $(n \rightarrow 2n+1)$, the set of even numbers $(n \rightarrow 2n)$, the set of primes, the set of rational numbers ($\mathbb{Q}$)\textbf{!!}
+E.g. The set of natural numbers, the set of odd numbers $(n \rightarrow 2n+1)$, the set of even numbers $(n \rightarrow 2n)$, the set of primes, the set of rational numbers ($\mathbb{Q}$)$\textbf{!!}$
 
 Examples of infinite non-countable sets:
 $$

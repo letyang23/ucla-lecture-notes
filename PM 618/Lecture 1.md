@@ -39,6 +39,8 @@ For discrete sample spaces event space is typically all possible subsets of $\Om
     -   $\mathcal{F} = \{\emptyset, \{Jan\}, \dots, \{Dec\}, \{Jan, Feb\}, \dots, \{Jan, \dots, Dec\}\}$
 
 *   Q: how many elements in $\mathcal{F}$?
+    *   If your sample space $\Omega$ has **$n$** elements (outcomes), then the event space $\mathcal{F}$ contains **$2^n$** elements.
+
 
 We require that union of events and intersection of events are also events:
 
@@ -529,7 +531,7 @@ A set is countable if its elements can be put in one-to-one correspondence with 
 $$
 \mathbb{N}=\{1,2,3,\dots\}
 $$
-E.g. The set of natural numbers, the set of odd numbers $(n \rightarrow 2n+1)$, the set of even numbers $(n \rightarrow 2n)$, the set of primes, the set of rational numbers ($\mathbb{Q}$)\textbf{!!}
+E.g. The set of natural numbers, the set of odd numbers $(n \rightarrow 2n+1)$, the set of even numbers $(n \rightarrow 2n)$, the set of primes, the set of rational numbers ($\mathbb{Q}$)$\textbf{!!}$
 
 Examples of infinite non-countable sets:
 $$

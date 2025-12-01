@@ -102,7 +102,6 @@ By extension of the rule for finite sample spaces, the probability defined above
 ## Conditional Probability
 
 **Example:** You roll a fair 6-faced die. Let $A$ be the event that the outcome is an odd number, $A = \{1, 3, 5\}$. Let $B$ be the event that the outcome is less than 4, $B = \{1, 2, 3\}$. What is the probability of $A$? What is the probability of $A$ given $B$?
-
 $$
 P(A) = \frac{|A|}{|S|} = \frac{|\{1,3,5\}|}{|S|} = \frac{3}{6} = \frac{1}{2}
 $$
@@ -152,8 +151,6 @@ $$
 P(B | A) = \frac{P(A | B) P(B)}{P(A)} \quad \text{(if } P(A) > 0\text{)}
 $$
 
-### 
-
 Example: There are approximately 2.6 physicians per 1,000 people in the US (from world public health data by country)
 
 Probability of choosing a physician if randomly choose a US inhabitant = $\frac{2.6}{1000} = 0.0026$
@@ -198,7 +195,7 @@ $$
 P(B) = P(B | A)P(A) + P(B | A^c)P(A^c)
 $$
 
-### Law oftotal probability example
+### Law of total probability example
 
 The probability of infection from a certain virus upon exposure is 10% for children age < 13, 5% for ages 13-60, and 15% for ages 60+. What is the probability that a random individual is infected upon exposure in a population where $P(\text{Age} < 13) = 0.2$, $P(13 \leq \text{Age} \leq 60) = 0.6$, $P(\text{Age} > 60) = 0.2$?
 
