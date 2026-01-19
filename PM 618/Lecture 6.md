@@ -24,7 +24,7 @@
 
 ## Random vectors
 
-We are typically interested in not one, but multiple related random variables defined on the same space.
+We are typically ineterested in not one, but multiple related random variables defined on the same space.
 
 * $X, Y$ random variables or $(X, Y)$ a random vector in $\mathbb{R}^{2}$
     * E.g. weight and height of a randomly selected person
@@ -141,7 +141,7 @@ $$
 2. Determine the joint cumulative distribution functions of $(X, Y)$.
 3. Determine the marginal probability density functions of $X$ and $Y$.
 4. Find out whether $X$ and $Y$ are independent.
-5. Determine \text{Cov}(X,Y) and $\rho(X,Y)$
+5. Determine $\text{Cov}(X,Y)$ and $\rho(X,Y)$
 
 ## Independence of random variables
 
