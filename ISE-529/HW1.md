@@ -1,17 +1,23 @@
 # ISE529 Homework 1
 
 1. (15 points)
-For each of parts (a) through (d), indicate whether we would generally expect the performance of a flexible statistical learning method to be better or worse than an inflexible method. Justify your answer.
-(a) The sample size \(n\) is extremely large, and the number of predictors \(p\) is small.
-(b) The number of predictors \(p\) is extremely large, and the number of observations \(n\) is small.
-(c) The relationship between the predictors and response is highly non-linear.
-(d) The variance of the error terms, i.e. \(\sigma^2 = \text{Var}(\epsilon)\), is extremely high.
+  For each of parts (a) through (d), indicate whether we would generally expect the performance of a flexible statistical learning method to be better or worse than an inflexible method. Justify your answer.
+  (a) The sample size \(n\) is extremely large, and the number of predictors \(p\) is small.
+  (b) The number of predictors \(p\) is extremely large, and the number of observations \(n\) is small.
+  (c) The relationship between the predictors and response is highly non-linear.
+  (d) The variance of the error terms, i.e. \(\sigma^2 = \text{Var}(\epsilon)\), is extremely high.
+
+  ###### Answer
+
+  (a) Better, because with a huge sample size, the variance penalty of flexibility shrinks. We can afford to fit a richer model without overfitting, and with small $p$ the model space isn’t exploding. So flexible methods can reduce bias without blowing up variance, which results in lower test error.
+
+  (b) Worse, 
 
 2. (20 points)
-Answer the following questions.
-(a) Provide a sketch of typical (squared) bias, model variance, training error, test error, and irreducible error curves, on a single plot, as we go from less flexible statistical learning methods towards more flexible approaches. The x-axis should represent the amount of flexibility in the method, and the y-axis should represent the values for each curve. There should be five curves. Make sure to label each one.
-(b) Explain why each of the five curves has the shape displayed in part (a).
-(c) According to the bias-variance decomposition, show that the following equation holds.
+  Answer the following questions.
+  (a) Provide a sketch of typical (squared) bias, model variance, training error, test error, and irreducible error curves, on a single plot, as we go from less flexible statistical learning methods towards more flexible approaches. The x-axis should represent the amount of flexibility in the method, and the y-axis should represent the values for each curve. There should be five curves. Make sure to label each one.
+  (b) Explain why each of the five curves has the shape displayed in part (a).
+  (c) According to the bias-variance decomposition, show that the following equation holds.
 
 $$
 E[f(x_0) - \hat{f}(x_0)]^2 = Var(\hat{f}(x_0)) + [Bias(\hat{f}(x_0))]^2
