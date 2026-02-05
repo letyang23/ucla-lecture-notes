@@ -159,7 +159,9 @@ $$\text{Var}(Y) = 0.00805 \text{ oz}^2$$
 
 Thus, both companies deliver essentially the same average amount (about 16 oz). However, Company B has a smaller variance, indicating greater consistency in bottle filling. In particular, Company B places much higher probability on exactly 16 oz, while Company A’s distribution is more spread out. Therefore, although both companies meet the target on average, Company B demonstrates better quality control due to its lower variability.
 
+---
 
+### Question 5 and Question 6 answer on python notebook (.ipynb)
 
 5. (15 points)
 The table below provides a training data set containing six observations, three predictors, and one qualitative response variable. Use Jupyter Lab with Python to answer the following questions.
@@ -177,72 +179,6 @@ Suppose we wish to use this data set to make a prediction for Y when $X1 = X2 = 
 (a) Compute the Euclidean distance between each observation and the test point, $X1 = X2 = X3 = 0$.
 (b) What is our prediction with K = 1 or 3? Why?
 (c) If the Bayes decision boundary in this problem is highly nonlinear, then what would be the best choice for the value of K? Why?
-
-###### Answer
-
-```python
-import pandas as pd
-import numpy as np
-
-# Define the dataset
-data = {
-    'Obs': [1, 2, 3, 4, 5, 6],
-    'X1': [0, 2, 0, 0, -1, 1],
-    'X2': [3, 0, 1, 1, 0, 1],
-    'X3': [0, 0, 3, 2, 1, 1],
-    'Y': ['Red', 'Red', 'Red', 'Green', 'Green', 'Red']
-}
-
-df = pd.DataFrame(data)
-
-# Test point
-test_point = np.array([0, 0, 0])
-
-# Calculate Euclidean distance
-# distance = sqrt((x1-0)^2 + (x2-0)^2 + (x3-0)^2) = sqrt(x1^2 + x2^2 + x3^2)
-df['Distance'] = np.sqrt((df['X1'] - test_point[0])**2 + 
-                         (df['X2'] - test_point[1])**2 + 
-                         (df['X3'] - test_point[2])**2)
-
-# Sort by distance
-df_sorted = df.sort_values(by='Distance')
-
-print("Distances for each observation:")
-print(df[['Obs', 'Distance', 'Y']])
-
-# Predictions
-# K=1
-k1_neighbors = df_sorted.head(1)
-k1_prediction = k1_neighbors['Y'].mode()[0]
-print(f"\nK=1 Prediction: {k1_prediction}")
-print("Nearest Neighbor for K=1:")
-print(k1_neighbors)
-
-# K=3
-k3_neighbors = df_sorted.head(3)
-k3_prediction = k3_neighbors['Y'].mode()[0]
-print(f"\nK=3 Prediction: {k3_prediction}")
-print("Nearest Neighbors for K=3:")
-print(k3_neighbors)
-```
-
-
-
-(a)We calculated the Euclidean distance between each observation and the test point $X = (0, 0, 0)$ using the formula:
-
-$$d = \sqrt{(X_1 - 0)^2 + (X_2 - 0)^2 + (X_3 - 0)^2} = \sqrt{X_1^2 + X_2^2 + X_3^2}$$
-
-| **Obs.** | **X1** | **X2** | **X3** | **Calculation**                        | **Distance** | **Y** |
-| -------- | ------ | ------ | ------ | -------------------------------------- | ------------ | ----- |
-| 1        | 0      | 3      | 0      | $\sqrt{0^2 + 3^2 + 0^2} = \sqrt{9}$    | **3.00**     | Red   |
-| 2        | 2      | 0      | 0      | $\sqrt{2^2 + 0^2 + 0^2} = \sqrt{4}$    | **2.00**     | Red   |
-| 3        | 0      | 1      | 3      | $\sqrt{0^2 + 1^2 + 3^2} = \sqrt{10}$   | **3.16**     | Red   |
-| 4        | 0      | 1      | 2      | $\sqrt{0^2 + 1^2 + 2^2} = \sqrt{5}$    | **2.24**     | Green |
-| 5        | -1     | 0      | 1      | $\sqrt{(-1)^2 + 0^2 + 1^2} = \sqrt{2}$ | **1.41**     | Green |
-| 6        | 1      | 1      | 1      | $\sqrt{1^2 + 1^2 + 1^2} = \sqrt{3}$    | **1.73**     | Red   |
-
-
-
 
 6. (25 points)
     Given the Auto data set (see attached Auto.csv), use Jupyter Lab with Python to answer the following questions. Make sure that the missing values in the data set have been removed before analysis is performed.
