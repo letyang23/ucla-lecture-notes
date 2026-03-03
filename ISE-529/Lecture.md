@@ -250,6 +250,9 @@ The instructor demonstrated core Python tasks using **JupyterLab**, the expected
 #### **4. Linear Regression with Statsmodels**
 
 - **Library:** `statsmodels` is used for statistical modeling.
+  - Use `import statsmodels.api as sm`
+
+- **Model Structure:** The goal is to estimate coefficients ($\beta$) for a linear regression model formatted as: $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p$.
 - **Procedure:**
   1. **Prepare Data:** Define input matrix $X$ (predictors) and output vector $Y$ (response). The instructor used `Boston` housing data for this example .
   2. **Estimate Model:** Use Ordinary Least Squares (OLS).
@@ -412,7 +415,7 @@ The lecture began by reviewing foundational probability distributions that are c
 
   - To calculate probabilities for any Normal variable $X \sim N(\mu, \sigma^2)$, you must standardize it first:
 
-    $$Z = \frac{X - \mu}{\sigma}$$
+    $$Z = \frac{X - \mu}{\sigma}$$ (X-mean / std deviation)
 
   - Then, use the **Standard Normal Table (Z-table)** to find probabilities .
 
