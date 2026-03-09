@@ -648,8 +648,6 @@ $$E[Y|X] = f(X)$$
 
 # 1/28 Lecture 5
 
-Here is a detailed "cheatsheet" style lecture note based on the provided transcript.
-
 # **ISE 529 Lecture Notes: Model Estimation, Bias-Variance Trade-off, and Model Assessment**
 
 **Lecture Date:** Jan 28, 2026 | **Topic:** Predictive Modeling & Assessment
@@ -756,7 +754,7 @@ $$MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{f}(x_i))^2$$
 
 1. **Training MSE:** Calculated using the same data used to train the model.
    - *Property:* Usually small because the model is designed to minimize this error.
-   - *Flaw:* A low training MSE does not guarantee a good model; it typically decreases monotonically as flexibility increases.
+   - *Flaw:* A low training MSE does not guarantee a good model; it typically decreases monotonically as flexibility increases .
 2. **Test MSE:** Calculated using a **new, unseen dataset** ($x_0, y_0$).
    - *Purpose:* The true measure of prediction accuracy.
    - *Property:* Follows a **U-shaped curve** when plotted against model flexibility.
@@ -817,3 +815,1253 @@ A brief review of statistical bias was provided to support the theorem.
 ------
 
 **Next Class:** Will continue proving the Bias-Variance theorem and further discussing how to choose the best model.
+
+
+
+# 2/2 Lecture 6
+
+**ISE 529 Lecture Cheatsheet: Bias-Variance Tradeoff, K-NN, and Linear Regression**
+
+**Date:** February 2, 2026
+
+---
+
+### **I. The Bias-Variance Trade-off Theorem**
+
+This theorem is fundamental for selecting the best model for prediction. The golden indicator used to measure the performance of model prediction is the **Test MSE (Mean Squared Error)**.
+
+**The Test MSE Formula:**
+The Test MSE can be decomposed into three distinct components:
+
+1. **Variance of the Model:** The variance introduced by the specific methodology chosen.
+
+
+2. **Bias of the Model:** The error introduced by approximating a real-life problem with a simpler model.
+
+
+3. **Variance of the Data (Irreducible Error):** The inherent noise or variation in the data itself.
+
+**Detailed Breakdown of Components:**
+
+* **Variance of the Model:**
+
+  * *Calculation:* Expectation of the squared difference between a single estimated model's output ($\hat{f}(x_0)$) and the theoretical long-term average model output ($E[\hat{f}(x_0)]$).
+  
+  
+    * *Concept:* Models are estimated based on one sample data set. If you drew multiple samples, you would get different models. This variability is the model's variance.
+  
+  
+    * *Rule of Thumb:* More flexible/complex methods (e.g., neural networks) generally have **higher variance** because small changes in training data result in large changes in the model output.
+  
+* **Bias of the Model:**
+
+
+    * *Calculation:* Difference between the underlying true model ($f(x)$) and the theoretical expected value of the chosen method's model ($E[\hat{f}(x)]$), squared.
+
+
+    * *Concept:* The underlying true model is invisible. No method will perfectly match it.
+
+
+    * *Rule of Thumb:* More flexible methods generally result in **less bias** because they fit the training data better. However, fitting the data *too* well can capture noise, leading to overfitting.
+
+
+
+* **Variance of the Data (Irreducible Error - $\epsilon$):**
+
+
+    * *Calculation:* Expectation of the squared difference between the observed response ($y_0$) and the true model's output ($f(x_0)$).
+
+
+    * *Concept:* This error cannot be reduced regardless of the chosen method. It often represents unmeasured but important predictor variables.
+
+
+
+**Visualizing the Trade-off:**
+When plotted against model flexibility, the Test MSE curve is the sum of three curves:
+
+* **Blue Curve (Bias):** Decreases as flexibility increases.
+
+
+* 
+**Orange Curve (Variance):** Increases as flexibility increases.
+
+
+* 
+**Gray Line (Irreducible Error):** Remains constant.
+
+
+* **Red Curve (Test MSE):** U-shaped. **Goal:** Choose the flexibility level that minimizes the Test MSE (the lowest point on the red curve).
+
+---
+
+### **II. Classification and Error Rates**
+
+When the response variable is qualitative (e.g., Yes/No, Dog/Cat), MSE is not appropriate. Instead, use Error Rates.
+
+**Training / Test Error Rate:**
+
+* *Formula:* Relies on an **Indicator Function ($I$)**.
+
+
+* *Indicator Function logic:* Outputs 1 if the predicted class ($\hat{y}_i$) does not equal the observed class ($y_i$) (a misclassification); outputs 0 if they match.
+
+
+* *Calculation:* Sum the misclassifications and divide by the total number of observations ($n$).
+
+
+* Training Error Rate is equivalent to Training MSE; Test Error Rate is equivalent to Test MSE.
+
+---
+
+## Slide 03 Linear Regression (I)
+
+### **III. K-Nearest Neighbors (K-NN) Classifier**
+
+The Bayes Classifier requires knowing the probability distributions of both input and output variables, which is often impossible . K-NN is a simple method to approximate the Bayes Classifier.
+
+**How K-NN Works:**
+
+1. 
+**Choose $K$:** Select the number of nearest neighborhood points to consider (e.g., $K=3$).
+
+
+2. **Calculate Distance:** Find the $K$ closest points in the training dataset to the new observation. Distance is typically calculated using the **Euclidean distance formula** for vectors.
+
+
+3. **Approximate Probability:** Calculate the proportion of the $K$ neighbors that belong to a specific class.
+
+
+4. **Classify:** Assign the new observation to the class with the highest estimated probability (threshold typically $> 0.5$).
+
+**Flexibility in K-NN:**
+
+* **$K=1$:** The most flexible, highly variable model. Decision is based entirely on the single closest point.
+
+
+* **High $K$ (e.g., $K=100$):** The least flexible, most rigid model. The decision boundary becomes smoother, almost linear.
+
+
+* *Note:* In flexibility graphs, the x-axis is often $1/K$, meaning flexibility increases as you move right. Choose $K$ that minimizes the Test Error Rate (e.g., $K=10$).
+
+---
+
+### **IV. Simple Linear Regression**
+
+Linear regression checks model adequacy and determines correlation between a predictor and response variable.
+
+**The Model:**
+
+* 
+  **Equation:** $Y_i = \beta_0 + \beta_1X_i + \epsilon_i$.
+  
+  
+    * 
+      $Y$: Response / Dependent Variable.
+  
+  
+    * 
+      $X$: Predictor / Independent Variable.
+  
+  
+    * 
+      $\beta_0$: Intercept.
+  
+  
+    * 
+      $\beta_1$: Slope (Coefficient representing correlation).
+  
+  
+    * 
+      $\epsilon$: Random noise/error (assumed to follow Normal Distribution, mean=0, variance=$\sigma^2$).
+  
+* **Expectation:** Taking the expectation of the model yields $E[Y|X] = \beta_0 + \beta_1X$. The model output represents the long-term average (expectation) of the observed response given an input.
+
+**Method of Least Squares:**
+The goal is to find values for $\beta_0$ and $\beta_1$ that minimize the distance between the model output ($\hat{y}_i$) and the observed values ($y_i$).
+
+* **Objective Function (SSE):** Minimize the Sum of Squared Errors (SSE): $\sum (y_i - \hat{y}_i)^2$.
+
+
+* 
+**Optimization:** Take the first-order partial derivatives of the objective function with respect to $\beta_0$ and $\beta_1$, and set them to 0.
+
+
+* This results in a system of equations called **Normal Equations**.
+
+
+* **Solutions:**
+
+
+    * 
+      $\hat{\beta}_1 = S_{xy} / S_{xx}$.
+    
+      * $S_{xx}$ is equivalent to variance of X; $S_{xy}$ is equivalent to covariance of X and Y.
+    
+    * 
+      $\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}$ (where $\bar{y}$ and $\bar{x}$ are sample means).
+
+
+**Estimating Variance ($\sigma^2$):**
+
+* 
+  $\sigma^2 = SSE / (n - p)$.
+  
+  
+    * 
+      $n$ = sample size.
+  
+  
+    * 
+      $p$ = number of parameters estimated (for simple linear regression, $p=2$ because we estimate $\beta_0$ and $\beta_1$).
+  
+
+
+---
+
+### **V. Hypothesis Testing for Regression Coefficients**
+
+Hypothesis testing is used to verify if the estimated model is statistically significant.
+
+**The 4 Steps of Hypothesis Testing:**
+
+1. 
+    **State the Hypothesis ($H_0$ and $H_1$):** 
+    
+    
+      * *Null ($H_0$):* Assume the theoretical parameter equals a specific value (e.g., $H_0: \beta_1 = 0$). If $\beta_1 = 0$, it means there is no relationship between X and Y.
+    
+    
+      * *Alternative ($H_1$):* Assume it does not equal that value (e.g., $H_1: \beta_1 \neq 0$).
+    
+2. **Calculate the Test Statistic ($t$):** 
+
+
+     * Formula: $t = (\text{Estimated Value} - \text{Assumed Value}) / \text{Standard Deviation of the Estimate}$.
+    
+       * $$T = \frac{\bar{X} - \mu}{S/\sqrt{n}}$$
+    
+     * For slope: $t = (\hat{\beta}_1 - 0) / SE(\hat{\beta}_1)$.
+
+
+     * This statistic follows a $t$-distribution with $n-2$ degrees of freedom.
+
+
+3. **Find the Critical Value:** 
+     * Given a significance level $\alpha$ (e.g., $0.05$ or $0.01$) and degrees of freedom, use a $t$-distribution table to find the critical boundary values that correspond to the probability $1 - \alpha$.
+
+
+4. **Compare and Conclude:** 
+
+
+     * If the calculated $t$-statistic falls **outside** the critical value boundaries (i.e., it is greater than the positive critical value or less than the negative critical value), the probability model is broken.
+
+
+     * **Conclusion:** **Reject $H_0$**. This means the data does not support the assumption that $\beta_1 = 0$. Therefore, $\hat{\beta}_1 \neq 0$, indicating a statistically meaningful relationship exists between X and Y.
+
+
+     * If the $t$-statistic falls **inside** the boundaries, you **fail to reject $H_0$**, meaning the assumption holds.
+
+
+
+
+# 2/4 Lecture 6
+
+### **1. Hypothesis Testing for Regression Coefficients (t-test)**
+
+Hypothesis testing is used to determine if an estimated linear regression model is statistically significant by evaluating its coefficients .
+
+* 
+**Step 1: Make Assumptions.** Establish a null hypothesis ($H_0$) assuming the population parameter equals a specific value (e.g., $\beta_1 = 0$), and an alternative hypothesis ($H_1$) assuming it does not .
+
+
+* 
+**Step 2: Calculate the t-statistic.** Standardize the estimate by dividing the difference between the estimated value and the assumed value by the standard deviation (e.g., $t = (\hat{\beta}_1 - 0) / SE(\hat{\beta}_1)$) .
+
+
+* **Step 3: Find Critical Value.** Choose a level of significance ($\alpha$, usually 0.05) to determine the probability model, and look up the critical boundaries in a t-distribution table . 
+* **Step 4: Compare and Conclude.** If the calculated t-statistic falls outside the interval of the critical values, the probability model is broken, and you must reject the null hypothesis .
+* **Interpretation:** Rejecting $H_0$ ($\beta_1 = 0$) means $\hat{\beta}_1 \neq 0$, concluding that the model is meaningful and a true relationship exists between the predictor ($x$) and response ($y$) .
+
+---
+
+### **2. Confidence Intervals**
+
+Because an estimated regression line is a random model based on a single sample, point estimates are insufficient on their own . Confidence intervals provide a theoretical lower and upper bound for coefficients and predictions .
+
+* **Calculation Formula:** The interval is calculated as the estimated value plus or minus the critical value multiplied by the standard deviation .
+
+
+* **Fitted Value vs. Prediction:** The model output for training data is called a "fitted value," whereas the output for future, unseen data is a "prediction" .
+
+
+* 
+**Interval Width:** The confidence interval for a future prediction is *always wider* than the interval for a fitted value .
+
+
+* **Reasoning:** Prediction intervals must account for the baseline model error *plus* the additional, unknown error ($\sigma^2$) associated with future observations .
+
+---
+
+### **3. Checking Model Adequacy (4 Methods)**
+
+Once a model is estimated, its adequacy must be verified using one of four primary methods .
+
+**Method A: The t-test**
+
+* Checks the significance of every single individual coefficient in the model.
+
+**Method B: ANOVA and R-Squared**
+
+* 
+**Total Variation:** The Sum of Squares Total ($SST$) measures the variation of all observed response variables from the data's center point ($\bar{y}$) .
+
+
+* **Decomposition:** $SST = SSR + SSE$. 
+* **SSR (Regression Sum of Squares):** The portion of total variation successfully explained by the model .
+
+
+* **SSE (Error Sum of Squares):** The remaining random variation (residuals) that the model cannot explain .
+
+
+* 
+**R-Squared ($R^2$):** Known as the coefficient of determination, calculated as $SSR / SST$.
+
+
+* **Interpretation:** $R^2$ represents the percentage of total variation explained by the model; a higher value indicates a better-performing model .
+
+**Method C: The F-test (ANOVA Table)**
+
+* Unlike the t-test, the F-test checks if the *overall* model is statistically significant.
+
+
+* The null hypothesis ($H_0$) assumes all slope coefficients simultaneously equal zero .
+
+
+* The alternative hypothesis ($H_1$) assumes *at least one* coefficient does not equal zero, though it cannot specify which one .
+
+
+* The F-statistic is calculated by dividing the Mean Square Regression ($MSR$) by the Mean Square Error ($MSE$) .
+
+| Source | Sum of Squares | Degree of Freedom | Mean Square | F-Statistic |
+| --- | --- | --- | --- | --- |
+| Regression | $SSR$ | $k$ | $MSR = SSR / k$ | $F = MSR / MSE$ |
+| Error | $SSE$ | $n - p$ | $MSE = SSE / (n-p)$ |  |
+| Total | $SST$ | $n - 1$ |  |  |
+
+Table notes: The first row plus the second row equals the total row for both Sum of Squares and Degrees of Freedom . The number of predictors is $k$, and the total number of coefficients is $p$ ($p = k + 1$) .
+
+**Method D: Residual Analysis**
+
+* Residuals (the difference between observed values and model outputs) should act as pure noise, being independently and identically distributed (i.i.d.) and following a normal distribution .
+
+
+* Use a QQ plot to verify normal distribution; the residuals should fall along a straight line . * Use a scatter plot to visualize residuals against predictors; any visible pattern indicates the model failed to capture important information .
+
+---
+
+### **4. Correlation**
+
+* Correlation measures the rhythm and directional relationship (positive or negative) between two random variables .
+
+
+* It is calculated by dividing the covariance by the standard deviations of both variables .
+
+
+* Because standard deviations cancel out the original units, correlation is a unitless indicator .
+
+
+* In simple linear regression, the estimated slope coefficient ($\hat{\beta}_1$) is effectively the standardized ratio of this correlation.
+
+---
+
+### **5. Maximum Likelihood Estimation (MLE)**
+
+* MLE is a more powerful estimation method than Least Squares because it can be applied to almost any type of model, not just regression.
+
+
+* It assumes the response variable follows a specific probability distribution, such as a normal distribution.
+
+
+* The "likelihood function" calculates the total joint probability of observing the specific dataset by multiplying individual observation likelihoods together.
+
+
+* The goal of MLE is to find the parameter values ($\theta$) that maximize this joint probability function.
+
+
+* A log-likelihood function is typically used to convert multiplication into summation, making it easier to take derivatives and solve.
+
+
+* For simple linear regression, MLE yields the exact same slope and intercept coefficient formulas as the Least Squares method.
+
+
+* However, MLE results in a *biased* formula for the variance ($\sigma^2$), dividing the error by $n$ instead of $n - 2$.
+
+
+
+# 2/9 Lecture 7
+
+## Slide 05. Multiple Linear Regresssion
+
+### 1. Multiple Linear Regression Model Foundation
+
+* The model aims to explain a response variable using multiple predictors instead of just one.
+
+
+* The theoretical equation is $y = \beta_0 + \beta_1 x_1 + \dots + \beta_k x_k + \epsilon$.
+
+
+* There are $k$ predictors in the model.
+
+
+* Model estimation requires finding values for the intercept ($\beta_0$) and all coefficients ($\beta_1$ to $\beta_k$).
+
+
+* In matrix form, the dataset involves a column of observed response variables ($Y$) and a matrix of predictors ($X$).
+
+
+* The $X$ matrix requires an artificially added first column of 1s to accommodate the intercept $\beta_0$.
+
+
+* The compact matrix representation of the model is $Y = X\beta + \epsilon$.
+
+### 2. Parameter Estimation (Least Squares Method)
+
+* The objective is to minimize the Sum of Squared Errors (SSE) between the observed responses and the model outputs.
+
+
+* The error function is $L = \sum (y_i - \hat{y}_i)^2$.
+
+
+* Minimization involves taking the first-order partial derivatives of the objective function for every $\beta$ and setting them to zero.
+
+
+* This creates a system of $k+1$ normal equations to solve for the coefficients.
+
+
+* A key property from the first normal equation is that the sum of observed values equals the sum of model outputs ($\sum y_i = \sum \hat{y}_i$).
+
+
+* In matrix notation, the objective function to minimize is $(Y - X\beta)^T(Y - X\beta)$.
+
+
+* The derived matrix solution for the coefficients is $\hat{\beta} = (X^T X)^{-1} X^T Y$.
+
+
+* The term $X^T X$ represents the covariance matrix of the inputs.
+
+
+* The error variance estimate is calculated as $\hat{\sigma}^2 = SSE / (n - p)$.
+
+
+* The value $p$ equals $k + 1$ (the total number of estimated coefficients, including the intercept).
+
+### 3. Hypothesis Testing & Adequacy
+
+* 
+**F-Test (Overall Regression):** Checks the adequacy of the entire model.
+
+
+* The null hypothesis assumes all predictor coefficients equal zero ($\beta_1 = \beta_2 = \dots = \beta_k = 0$).
+
+
+* The alternative hypothesis states that at least one coefficient does not equal zero.
+
+
+* The F-statistic is calculated as $F = MSR / MSE$.
+
+
+* Rejecting the null hypothesis means at least one predictor has a significant relationship with the response variable.
+
+
+* 
+**T-Test (Marginal Test):** Used to check if an individual predictor coefficient is statistically significant.
+
+
+* The t-statistic is the estimated coefficient divided by its standard error ($t = \hat{\beta}_j / se(\hat{\beta}_j)$).
+
+
+* Standard errors are derived using the major diagonal elements of the inverse covariance matrix $C = (X^T X)^{-1}$.
+
+
+* The variance for a specific beta is $\sigma^2 \times C_{jj}$.
+
+
+* **ANOVA Table Breakdown:** Total Sum of Squares (SST) equals Regression Sum of Squares (SSR) plus Error Sum of Squares (SSE).
+
+
+* 
+$SST = Y^T Y - n\bar{y}^2$.
+
+
+* 
+$SSR = \hat{\beta}^T X^T Y - n\bar{y}^2$.
+
+
+* 
+$SSE = Y^T Y - \hat{\beta}^T X^T Y$.
+
+### 4. Confidence Intervals
+
+* The confidence interval for a coefficient is estimated by taking the parameter estimate $\pm$ the critical value multiplied by the standard error.
+
+
+* Estimating the confidence interval for the fitted response ($\hat{y}$) requires calculating the variance of the model output.
+
+
+* The variance calculation uses a quadratic form involving the $C$ matrix.
+
+
+* The prediction interval for a new observation is wider than the confidence interval for the fitted mean.
+
+
+* The prediction interval variance is greater by exactly one $\sigma^2$.
+
+### 5. R-Squared vs. Adjusted R-Squared
+
+* Standard $R^2$ represents the percentage of total variation in the response variable explained by the predictors.
+
+
+* Adding any predictor, even an irrelevant one, will artificially increase standard $R^2$ and cause overfitting.
+
+
+* Adjusted $R^2$ is a modified formula that accounts for the model's degrees of freedom.
+
+
+* Adjusted $R^2$ penalizes the introduction of unnecessary variables as it increases the model size ($p$).
+
+### 6. Residual Analysis
+
+* Residuals are assumed to follow a normal distribution.
+
+
+* Standardized residuals are calculated by taking the absolute residual minus zero, divided by the square root of MSE.
+
+
+* A Q-Q plot is used to verify the normality assumption by checking if points fall along a straight line. * Scatterplots of residuals versus fitted values or predictors help identify hidden patterns.
+
+
+* A visible pattern in the residual plot indicates an inadequate model that is failing to capture a specific relationship (e.g., non-linearity).
+
+### 7. Advanced Regression Considerations
+
+* **Interaction Effects:** Captures the synergy between two variables by introducing their product (e.g., $x_1 \times x_2$) as a brand new predictor feature.
+
+
+* If an interaction term is kept in the model because it is significant, the individual main effects must also be kept, even if their isolated p-values are not significant.
+
+
+* **Polynomial Regression:** Uses a linear model to capture non-linear (curved) relationships by raising an existing predictor to a power, such as $x^2$.
+
+
+* Polynomial regression remains "linear" because the estimated coefficients ($\beta$) themselves remain linear.
+
+
+* 
+**Categorical Variables:** Handled by converting categories into dummy variables containing values of 0 or 1.
+
+
+* The model requires creating one fewer dummy variable than the total number of categories available.
+
+
+* 
+**Extra Sum of Squares Method:** Used to select important variables by testing if an entire sub-group of predictors is significant.
+
+
+* This method compares the SSR of the full model against the SSR of a reduced model to compute an F-statistic.
+
+# **2/11 Lecture 8**
+
+## ISE 529 Lecture Cheatsheet: Variable Selection and Logistic Regression
+
+### Part 1: Variable Selection in Multiple Linear Regression
+
+When working with large datasets containing many predictors, it is crucial to select only the most important variables rather than building a regression model with all of them.
+
+**Five Key Indicators for Model Selection**
+
+* 
+**AIC (Akaike Information Criterion):** Uses log-likelihood with a negative sign, meaning the smaller the AIC value, the better the model. It adds a penalty term of $2p$ (where $p$ is the model size/number of predictors) to penalize unnecessarily large models and favor compact ones.
+
+
+* 
+**BIC (Bayesian Information Criterion):** A more powerful indicator similar to AIC, but it uses a penalty term of $p \times \log(n)$, where $n$ is the sample size. Lower BIC indicates a better model.
+
+
+* **Mallows's $C_p$:** Calculated using the residual sum of squares from the evaluated model divided by the variance ($\sigma^2$) from the full model. The guiding principle is to choose a model where the $C_p$ value is close to the model size $p$.
+
+
+* 
+**Adjusted $R^2$:** An adjusted version of the coefficient of determination that helps overcome overfitting problems to some extent.
+
+
+* **PRESS (Predicted Residual Error Sum of Squares):** Uses the leave-one-out cross-validation method. The dataset is split so that $n-1$ observations train the model, and the single remaining observation tests it, calculating the squared difference of the prediction. A shortcut formula allows you to calculate PRESS by estimating the full model only once using the "hat matrix" ($H = X(X^T X)^{-1}X^T$), where smaller PRESS values indicate a better model.
+
+**Three Methods for Selecting Variables**
+
+* 
+**All Possible Regression:** Estimates every possible model combination ($2^p$ models). This is feasible for a small number of predictors (e.g., 5 predictors yield 32 models) but impossible for large datasets (e.g., 40 predictors).
+
+
+* 
+**Forward Selection:** Begins with a null model containing zero predictors. Predictors are added one at a time, and their significance (p-value) is checked to determine if they should be kept.
+
+
+* **Backward Selection (Elimination):** Starts with the full model containing all possible predictors. The predictor with the highest, most insignificant p-value (e.g., $> 0.05$) is removed, and the model is re-estimated until only significant variables remain.
+
+---
+
+### Part 2: Multicollinearity
+
+* Multicollinearity occurs when two or more predictors in a linear regression model have a very strong correlation with each other.
+
+
+* If strong multicollinearity is present, the estimated coefficients become non-unique, unreliable, and unstable.
+
+
+* It is measured using the **VIF (Variance Inflation Factor)**, calculated as $\frac{1}{1 - R_j^2}$.
+
+
+* 
+$R_j^2$ is found by regressing the predictor $X_j$ against all other predictors to see how much of its variation they explain.
+
+
+* If a predictor's VIF is greater than 5 (strict) or 10 (loose), it indicates a problem and the variable should likely be removed.
+
+---
+
+# Slide 05: Classification (I)
+
+### Part 3: Logistic Regression for Classification
+
+* Classification models always output a probability indicating whether an input belongs to a certain class.
+
+
+* Logistic regression assumes the response variable follows a Bernoulli distribution, which is used for binary outcomes (1 for success, 0 for failure).
+
+
+* A standard linear regression model cannot be used because its output maps from $-\infty$ to $\infty$, while probabilities must strictly fall between 0 and 1.
+
+
+* To solve this, the model uses the **Odds Ratio** ($\frac{\pi}{1 - \pi}$), which has a range from 0 to $\infty$.
+
+
+* By taking the log of the odds ratio (log-odds), the range becomes $-\infty$ to $\infty$, allowing it to perfectly match the linear combination equation on the right-hand side.
+
+
+* Isolating the probability ($\pi$) results in the final logistic function: $\pi = \frac{e^{\text{linear output}}}{1 + e^{\text{linear output}}}$.
+
+
+* 
+**Decision Rule:** By default, 0.5 is used as the comparative threshold; if the output probability is $> 0.5$, the input is assigned to class 1, otherwise to class 0.
+
+
+* Visualizing a single-predictor model creates an "S-curve" graph, where the horizontal axis is the input $X$ and the vertical axis is the probability from 0 to 1.
+
+
+* If the model assigns a probability $> 0.5$ but the real observed data falls into class 0, this is a misclassification.
+
+
+* The **Misclassification Error Rate** is calculated by dividing the total number of misclassified points by the total number of observations.
+
+---
+
+### Part 4: Estimating and Evaluating Logistic Models
+
+* Logistic regression models cannot be estimated using the least squares method.
+
+
+* Instead, they are estimated using the **Maximum Likelihood Method**.
+
+
+* The first step is constructing a joint probability likelihood function by multiplying the mass functions of all observed values.
+
+
+* Taking the log of this function (log-likelihood) turns the multiplication into summation.
+
+
+* Because $\beta$ cannot be isolated directly, numerical iteration via the **Newton-Raphson method** is used.
+
+
+* Newton-Raphson updates the $\beta$ coefficients step-by-step by subtracting a gradient (calculated using the Jacobian vector and Hessian matrix) from the initial values until the log-likelihood improvement stops.
+
+
+* To test if a logistic model is significant, a **Chi-Square test** is used instead of a t-test.
+
+
+* The Chi-Square statistic compares the likelihood ratio of a full model against a reduced model (without a specific predictor).
+
+
+* 
+**Interpreting Coefficients:** If a variable's coefficient is positive, a one-unit increase in that variable increases the log-odds, resulting in a higher probability of the outcome occurring.
+
+
+* Always perform sanity checks on the estimated model, as improper model specification can yield conflicting or illogical results (e.g., student status lowering default probability in a multivariate model but raising it in a univariate model).
+
+
+
+# 2/18 Lecture 9
+
+### ISE 529 Lecture Notes: Logistic Regression & Generative Classifiers
+
+---
+
+### 1. Data Formats for Logistic Regression
+
+The lecture covers two mathematical formats for binary classification data that yield the exact same logistic regression model and coefficients .
+
+* 
+**Binary Data (Bernoulli Distribution):** The response variable is recorded as a single observation per row with only two possible outcomes, such as success or failure (often coded as 1 or 0) .
+
+
+* 
+**Binomial Data (Aggregated):** This format groups identical predictor variables together . The response variable represents the number of successes out of the total number of experimental trials for that group .
+
+
+* **Python Implementation (`statsmodels`):** For binary data, the dependent variable `y` is a single column of 1s and 0s . For binomial data, `y` must be formatted as a two-column matrix containing the number of successes in the first column and the number of failures in the second column . Both methods utilize the `family=binomial` parameter within the GLM (Generalized Linear Model) function.
+
+### 2. Maximum Likelihood Estimation (MLE)
+
+Logistic regression models cannot be solved using a simple, closed-form equation to isolate beta coefficients like linear regression can .
+
+* The model relies on the Maximum Likelihood Estimation method.
+
+
+* The joint probability of observed values is transformed from a multiplication function into a summation by taking the log, creating the log-likelihood function .
+
+
+* Numerical methods, specifically the Newton-Raphson method, are used to iteratively estimate the optimal beta values until the log-likelihood function is maximized .
+
+### 3. Multinomial Logistic Regression
+
+When a dataset contains more than two classes, standard binary logistic regression must be expanded .
+
+* 
+**Baseline Class Approach:** One class is established as the baseline. If there are $K$ classes, the model will output $K-1$ sets of beta coefficients to calculate probabilities .
+
+
+* **Softmax Function:** An alternative mathematical formulation where no single class acts as a baseline . Every single class receives its own set of beta coefficients . This softmax format is frequently used in neural networks, such as CNNs .
+
+### 4. Generative Models (Bayes Classifiers)
+
+Logistic regression has vulnerabilities: it is unstable when classes are perfectly separated, struggles with very small sample sizes, and scaling to multiple classes can be complex . Generative models solve this by utilizing Bayes' Theorem .
+
+* 
+**Bayes' Theorem Application:** Instead of directly estimating the probability of a class given an input, these models flip the condition to calculate the probability of the input given the class .
+
+
+* 
+**Posterior Probability:** The model multiplies the prior probability (the historical probability of a class occurring) by the density function (the distribution of the input variables) to output the posterior probability .
+
+
+* 
+**Linear Discriminant Analysis (LDA):** This model assumes that predictor variables follow a Normal (Gaussian) distribution within every class . It also simplifies calculations by assuming that the variance (or covariance matrix) is identical across all classes .
+
+
+* **Discriminant Function:** To avoid complex probability calculations, taking the log of the full model yields the discriminant function . The input observation is assigned to the class that generates the highest discriminant score . Due to the equal variance assumption, the resulting decision boundary is strictly linear .
+
+### 5. Evaluating Performance: Confusion Matrix
+
+Model accuracy is evaluated using a confusion matrix .
+
+* **Major Diagonal:** Represents correct predictions by the model . Adding these values and dividing by the total sample size calculates the model's overall accuracy.
+
+
+* **Minor Diagonal:** Represents the model's misclassifications . Adding these values and dividing by the total sample size determines the model's error rate.
+
+### 6. Exam Preparation Notes
+
+* The exam evaluates theoretical understanding; understanding the theory makes application a "piece of cake" .
+
+
+* There will be no coding required on the exam .
+
+
+* You must be able to read computer output tables and construct the logistic regression mathematical equations by hand .
+
+
+* Be prepared to calculate the probability of an observation belonging to a certain class given the predictor values .
+
+
+
+# 2/23 Lecture
+
+### Linear Discriminant Analysis (LDA) Recap
+
+* **Core Approach:** LDA is a linear classification model that calculates discriminant scores using Bayes' theorem.
+
+
+* **Predictor Assumption:** It assumes that multiple predictors ($x_1, x_2, \dots, x_p$) follow a joint normal distribution.
+
+
+* 
+**Covariance Assumption:** The model implicitly assumes that the covariance matrix ($\Sigma$) is identical across all different classes.
+
+
+* 
+**Model Linearity:** The shared covariance matrix across the dataset is the specific reason why the resulting discriminant equation remains linear.
+
+
+* **Prediction:** New inputs are plugged into the discriminant function to calculate scores, which can then be converted into probabilities to classify the input.
+
+### Confusion Matrix & Performance Evaluation
+
+* 
+**Matrix Structure:** The columns represent the true observed classes, while the rows represent the model's predictions.
+
+
+* 
+**Correct Predictions:** Values along the major diagonal represent correct classifications, where the model output matches the true observations.
+
+
+* 
+**Misclassifications:** Values on the minor diagonal represent errors, such as False Positives and False Negatives.
+
+
+* 
+**Accuracy:** Calculated by summing the major diagonal values and dividing by the total number of samples.
+
+
+* **Error Rate:** Calculated by summing the minor diagonal values and dividing by the total number of samples.
+
+
+* 
+**Sensitivity:** The percentage of true positives that are correctly identified by the model.
+
+
+* 
+**Specificity:** The percentage of true negatives that are correctly identified by the model.
+
+
+* 
+**Threshold Tuning:** You can adjust the probability threshold (e.g., changing 0.5 to 0.2) to purposely make the model stricter and reduce costly misclassifications, such as false negatives in banking loans.
+
+
+* **ROC Curve:** Evaluates model performance visually; an ideal curve hugs the top-left corner, indicating a high true positive rate and a low false positive rate.
+
+---
+
+### Quadratic Discriminant Analysis (QDA)
+
+* 
+**Core Approach:** QDA is a non-linear model where the boundary between classes is a curve rather than a straight line.
+
+
+* 
+**Covariance Assumption:** Unlike LDA, QDA assumes that every individual class has its own distinct covariance matrix ($\Sigma_k$).
+
+
+* 
+**Mathematical Form:** The discriminant function contains a quadratic term to the power of two due to vector-matrix multiplication involving the distinct covariance matrices.
+
+
+* 
+**Parameter Cost:** Because it calculates separate covariance matrices, QDA requires estimating significantly more parameters than LDA.
+
+
+* 
+**Data Requirements:** QDA is highly flexible and requires a much larger dataset to properly estimate the parameters without overfitting.
+
+
+* **Model Selection:** LDA performs better when classes share similar correlations, while QDA is superior when classes exhibit vastly different correlations.
+
+---
+
+### Naive Bayes Classifier
+
+* 
+**Core Philosophy:** The model simplifies complex joint probability calculations by making a "naive" assumption.
+
+
+* 
+**The Assumption:** It assumes that every single predictor is strictly independent of all other predictors.
+
+
+* 
+**Joint Probability Calculation:** Because variables are assumed independent, the joint probability is calculated simply by multiplying the individual probabilities together.
+
+
+* 
+**Continuous Data:** For continuous predictors, the model typically assumes a normal distribution or uses kernel density estimation to estimate probabilities.
+
+
+* 
+**Discrete Data:** For qualitative predictors, probabilities are estimated by calculating the proportion of counts in the training data.
+
+
+* **Final Output:** It uses Bayes' Theorem by multiplying the prior probability by the product of the independent density functions, resulting in a conditional probability model.
+
+---
+
+### Poisson Regression
+
+* 
+**Use Case:** Applied exclusively when the response variable ($y$) is a non-negative integer "count", such as the number of bike riders.
+
+
+* 
+**Linear Model Failure:** Linear regression is inappropriate for count data because it outputs continuous real numbers and can predict physically impossible negative values.
+
+
+* 
+**Distribution Assumption:** The response variable is modeled following a Poisson distribution.
+
+
+* 
+**Expectation:** The expected value of the response variable is denoted as $\lambda$, which has a domain from zero to positive infinity.
+
+
+* 
+**Log Transformation (Link):** To match the mathematical domain of the linear predictors (negative to positive infinity) with $\lambda$ (zero to positive infinity), a log transformation is taken on both sides.
+
+
+* **The Model:** The final expectation is modeled as $\lambda = e^{\beta_0 + \beta_1x_1 + \dots + \beta_px_p}$.
+
+
+* 
+**Optimization:** The coefficients ($\beta$) are estimated by maximizing the log-likelihood function using numerical methods like Newton-Raphson.
+
+
+* **Interpretation:** A one-unit increase in a predictor $x_j$ multiplies the expected count by $e^{\beta_j}$.
+
+---
+
+### Generalized Linear Models (GLM)
+
+* 
+**Unified Framework:** GLM provides a single mathematical umbrella that unifies linear regression, logistic regression, and Poisson regression.
+
+
+* 
+**Link Function:** It introduces a "link function" to connect the linear combination of predictors to the expected value of the response.
+
+
+* 
+**Specific Links:** Linear regression uses an identity link ($\mu$), logistic uses a logit link ($\log(\frac{\pi}{1-\pi})$), and Poisson uses a log link ($\log(\lambda)$).
+
+
+* 
+**Exponential Family:** GLM accommodates any response variable that follows a distribution from the Exponential Family, which includes Gaussian, Bernoulli, Poisson, Exponential, Gamma, and Negative Binomial distributions.
+
+
+* **Implementation:** In Python's `statsmodels` module, these diverse models are all estimated using the unified `GLM` function.
+
+---
+
+### K-Nearest Neighbors (KNN)
+
+* 
+**Use Case:** A non-parametric classification method used when the underlying probability distribution of the dataset is completely unknown.
+
+
+* 
+**Distance Metric:** It relies on calculating the Euclidean distance between a new observation and every single point in the training dataset.
+
+
+* 
+**Classification Rule:** It identifies the $k$ closest neighbors and assigns the new observation to the majority class among those neighbors.
+
+
+* 
+**Scale Sensitivity:** KNN performance is highly sensitive to the scale of the predictors; variables with larger magnitudes will unfairly dominate the distance calculation.
+
+
+* **Standardization:** It is absolutely mandatory to standardize every predictor (subtract the mean, divide by standard deviation) before applying the Euclidean distance formula.
+
+
+
+# 2/25 Lecture
+
+### Exam Logistics & Preparation
+
+* The midterm exam is scheduled for next Wednesday, and a step-by-step problem-solving review session will happen next Monday. 
+
+
+* The exam is entirely paper-based, meaning laptops, iPads, cell phones, and internet access are strictly prohibited. 
+
+
+* You are only permitted to use a calculator, pen, or pencil. 
+
+
+* The test is open-book, allowing you to bring printed materials such as notes, old slides, or handwritten cheat sheets. 
+
+
+* You are responsible for bringing your own formula sheets, as technical questions about forgotten formulas will not be answered during the test. 
+
+
+* There are absolutely no makeup or retake exams offered; missing the exam results in an automatic zero. 
+
+---
+
+### Python & Data Preparation Basics
+
+* Instead of building complex algorithms from scratch, utilize existing modules like `statsmodels`, `pandas` (often aliased as `pd`), and `numpy`. 
+
+
+* Use `pd.read_csv()` to load spreadsheet data into a Pandas DataFrame. 
+
+
+* A DataFrame differs from a standard matrix because it includes specific row indices and column title blocks. 
+
+
+* You can check the structure of your objects using built-in functions like `type()`, `.shape`, or `.corr()` to view correlation matrices. 
+
+
+* To select specific data blocks, use the `.iloc[]` function with row and column index ranges (e.g., isolating rows 5 through 7 and columns 2 through 5). 
+
+
+* When preparing your predictor matrix ($X$), you must manually add a column of ones to account for the intercept, which can be done using numpy's `np.ones()` matched to the dataset's row count. 
+
+---
+
+### Linear & Multiple Regression Evaluation (Homework 2)
+
+* Use `sm.OLS(y, x).fit()` from the `statsmodels` package to estimate your regression model. 
+
+
+* The `.summary()` function outputs critical metrics, including the F-statistic, p-values, R-squared, coefficients, standard errors, t-statistics, and confidence intervals. 
+
+
+* Alternatively, coefficients can be calculated manually using the matrix algebra formula $\beta = (X^T X)^{-1} X^T y$ by utilizing numpy functions like `np.transpose()`, `np.linalg.inv()`, and `np.dot()` or the `@` symbol. 
+
+
+* 
+**T-statistic:** Calculated by taking the estimated coefficient divided by its standard error. 
+
+
+* The null hypothesis for a t-test assumes the coefficient equals zero ($\beta_j = 0$), meaning no relationship exists between the predictor and response. 
+
+
+* 
+**R-squared ($R^2$):** Represents the percentage of variance explained by the model, calculated as $SSR/SST$ or $1 - (SSE/SST)$. 
+
+
+* 
+**ANOVA Relationships:** Total Sum of Squares ($SST$) equals Regression Sum of Squares ($SSR$) plus Error Sum of Squares ($SSE$). 
+
+
+* Mean Square Error ($MSE$) is calculated as $SSE$ divided by its degrees of freedom ($n-p$), and it represents the estimated variance of your residuals ($\sigma^2$). 
+
+
+* **Extra Sum of Squares Method:** Used to test if adding new predictors or interaction terms significantly improves the model. 
+
+
+* To run this test, calculate the difference in $SSR$ between the full model and the reduced sub-model, divide by the number of added predictors, and divide that entire result by the $MSE$ of the full model. 
+
+
+* **Mallows' $C_p$:** A metric to evaluate reduced models, calculated using the $SSE$ of the reduced model, the $\sigma^2$ of the full model, the sample size, and the number of predictors. 
+
+
+* You should select the reduced model where the $C_p$ value is closest to the number of predictors ($p$). 
+
+
+* **Collinearity:** When two predictors are strongly correlated, one may appear statistically insignificant (high p-value) and should be removed from the model. 
+
+---
+
+### Classification & Advanced Models (Homework 3)
+
+* 
+**Quadratic Discriminant Analysis (QDA):** Unlike linear models, QDA assumes that the variance/covariance ($\Sigma_k$) is different for every single class, leading to a non-linear, quadratic decision boundary. 
+
+
+* **Logistic Regression Data Formats:** 
+
+
+  * *Bernoulli format:* Every individual row represents one outcome (e.g., one person survived or died). 
+
+
+  * *Binomial format:* Data is grouped or aggregated (e.g., by age ranges), requiring the response variable ($y$) to include two columns representing successes and failures. 
+
+* 
+**Multinomial Logistic Regression:** Used when the response variable has more than two classes (e.g., three different high school programs), applying functions like `MNLogit`. 
+
+
+* When building models in Python, if a predictor is purely categorical (like race or school type), you must wrap the variable name in `C()` within your formula so the module handles it correctly. 
+
+
+* 
+**Poisson Regression:** Applied when the response variable is a count of events represented by non-negative integers (e.g., the number of awards earned). 
+
+
+* To estimate a Poisson model, use the `sm.GLM` function and specify the Poisson family. 
+
+
+
+# 3/2 Lecture
+
+### Exam Logistics & Policies
+
+* 
+**Format**: The midterm is a paper-based, open-book, and open-notes exam.
+
+
+* 
+**Allowed Materials**: You may bring your own prepared cheat sheet, printed lecture slides, or textbook. A standard calculator capable of computing exponential functions is required.
+
+
+* **Prohibited Items**: Laptops, iPads, internet access, and other electronic communication devices are strictly forbidden. There is no Python coding required on the exam.
+
+
+* **Attendance Policy**: There are no make-up or retake exams available due to resource and time constraints. Missing the exam for any reason will result in a zero.
+
+---
+
+### 1. Linear Regression & Matrix Formulation
+
+* 
+**Input Matrix ($X$)**: The first column of the input matrix $X$ is filled with ones to estimate the intercept $\beta_0$, and subsequent columns contain values for predictors $X_1$ to $X_p$.
+
+
+* 
+**Model Size ($p$)**: If you have $k$ predictors, the size of the model $p = k + 1$ (accounting for the intercept). A covariance matrix that is $3 \times 3$ indicates $k = 2$ predictors.
+
+
+* 
+**Coefficient Estimation**: The formula to estimate the regression coefficients is $\hat{\beta} = (X^T X)^{-1} X^T Y$.
+
+
+* 
+**Covariance & Variance**: The covariance matrix for the $\beta$ coefficients is $\sigma^2 C$, where $C = (X^T X)^{-1}$.
+
+
+* **Standard Error**: The variance of a specific coefficient $\hat{\beta}_j$ is calculated as $\sigma^2 C_{jj}$. The standard error is the square root of its variance.
+
+---
+
+### 2. ANOVA, $R^2$, and Hypothesis Testing
+
+* **Sum of Squares**:
+
+  * **$SST$ (Total Sum of Squares)**: Measures total variation in $Y$ ($SST = \sum (y_i - \bar{y})^2$). $SST$ remains unchanged even if you add new predictors to the model.
+
+
+  * **$SSR$ (Regression Sum of Squares)**: Represents the amount of variation explained by your model.
+
+
+  * **$SSE$ (Error Sum of Squares)**: Represents the unexplained variation, calculated as $SST - SSR$.
+
+
+
+* **$R^2$ and Adjusted $R^2$**:
+
+
+  * 
+    $R^2 = \frac{SSR}{SST}$.
+
+
+  * Adjusted $R^2$ accounts for degrees of freedom: $1 - \frac{SSE / (n-p)}{SST / (n-1)}$.
+
+
+
+* **Overall Significance (F-Test)**:
+
+
+  * Tests the null hypothesis ($H_0$) that all coefficients $\beta_1 = \beta_2 = ... = 0$ against the alternative that at least one $\beta_j \neq 0$.
+
+
+  * 
+  $F = \frac{MSR}{MSE} = \frac{SSR / k}{SSE / (n-p)}$.
+
+
+  * Degrees of freedom: Numerator $df_1 = k$, Denominator $df_2 = n - p$.
+
+
+  * If the calculated F-statistic is greater than the critical value from the F-distribution table, you reject $H_0$ and conclude the model is statistically significant.
+
+
+  * **Partial F-Test (Adding Predictors)**:
+
+
+  * Evaluates if adding new regressors significantly improves the model.
+
+
+  * 
+  $F = \frac{(SSR_{full} - SSR_{reduced}) / r}{MSE_{full}}$, where $r$ is the number of new predictors added.
+
+
+  * Degrees of freedom: Numerator $df_1 = r$, Denominator $df_2 = n - p_{full}$.
+
+
+  * If $F < F_{critical}$, you fail to reject $H_0$, meaning the coefficients of the added predictors are statistically zero and any apparent benefit is due to randomness.
+
+
+
+* **Mallows' $C_p$**: Used to compare sub-models. You evaluate which model's $C_p$ value is closest to $p$ (the number of parameters).
+
+---
+
+### 3. Model Flexibility: LDA vs. QDA & Polynomial Regression
+
+* **Linear True Decision Boundary**:
+
+  * **Training Error**: Flexible models like QDA or Cubic Regression will always have a lower training error (smaller SSE) because they fit the training data more closely.
+
+
+  * **Test Error**: Simpler models like LDA or Simple Linear Regression will perform better on unseen test data, as flexible models will overfit the true linear relationship.
+
+
+
+* **Non-Linear True Decision Boundary**:
+
+
+  * **Training Error**: Flexible models (QDA, Cubic) again perform better.
+
+
+  * **Test Error**: Generally, flexible models perform better for prediction. However, if the true relationship is non-linear but very close to linear, a linear model might still=yield better predictions.
+
+
+
+* **Sample Size Impact**: As the sample size ($n$) increases, the prediction accuracy of more flexible methods (like QDA) improves relative to simpler methods.
+
+---
+
+### 4. Logistic Regression
+
+* 
+**Distribution**: Logistic regression is used when the response variable $Y$ has binary outcomes (e.g., 1 for success, 0 for failure) and follows a Bernoulli distribution.
+
+
+* **Probability Equations**:
+
+
+  * 
+    $P(Y=1|X) = \frac{e^{\beta_0 + \beta_1 X_1 + \beta_2 X_2}}{1 + e^{\beta_0 + \beta_1 X_1 + \beta_2 X_2}}$.
+
+
+  * 
+  $P(Y=0|X) = \frac{1}{1 + e^{\beta_0 + \beta_1 X_1 + \beta_2 X_2}}$.
+
+
+
+* 
+**Solving for Predictors**: To find the value of a predictor needed to achieve a specific probability, use the log-odds format: $\ln(\frac{p}{1-p}) = \beta_0 + \beta_1 X_1 + \beta_2 X_2$.
+
+
+* **Variable Coding**: Coding a binary response variable as $\{0, 1\}$ versus $\{-1, 1\}$ alters the mathematical form of the model equations and mass functions, but it remains consistent and will yield the exact same probabilities given the same inputs.
+
+---
+
+### 5. Bayes Classifiers
+
+* **Model Assumptions**:
+
+  * **LDA**: Assumes all classes share a common variance ($\sigma^2$).
+
+
+  * **QDA**: Assumes variances differ between classes.
+
+
+
+* 
+  **Bayes Theorem**: To calculate the conditional probability $P(Y=k|X)$, use the formula: $\frac{\pi_k f_k(x)}{\sum \pi_l f_l(x)}$.
+
+
+  * 
+  $\pi_k$ is the prior probability of class $k$ (e.g., the proportion of the population belonging to that class).
+
+
+  * $f_k(x)$ is the density function for class $k$. If assuming a normal distribution, $f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu_k)^2}{2\sigma^2}}$.
+
+
+
+* **Naive Bayes**: Used when there are multiple predictors. It assumes that predictors $X_1, X_2, \dots$ are completely independent, meaning you can calculate the joint probability by simply multiplying the individual marginal probabilities (likelihoods) together.

@@ -270,11 +270,7 @@ The potential disadvantage of a parametric approach is that the model we choose 
 
 A linear model fit by least squares to the Income data . The observations are shown in red, and the yellow plane indicates the **least squares** fit to the data.
 
-![3D scatter plot showing a linear regression fit.](c17eaf807acd5faec68da19dd16929be_img.jpg)
-
-A 3D scatter plot illustrating a linear model fit. The vertical axis is labeled 'Income'. The two horizontal axes are labeled 'Years of Education' and 'Seniority'. Red dots represent individual data observations. A yellow grid plane represents the least squares fit to the data, showing a positive linear relationship between the predictors and income.
-
-3D scatter plot showing a linear regression fit.
+<img src="slide 02 datalab.assets/image-20260302195717448.png" alt="image-20260302195717448" style="zoom:80%;" />
 
 We have fit a linear model of the form
 
@@ -294,9 +290,9 @@ It suffers from overfitting problem. It may fit the training data well but **wil
 
 A smooth thin-plate *spline* fit to the Income data, the observations are displayed in red.
 
-![A 3D surface plot showing a thin-plate spline fit to income data based on years of education and seniority. The vertical axis is labeled 'Income', the horizontal axis is 'Years of Education', and the depth axis is 'Seniority'. The surface is a smooth, undulating yellow grid. Red dots representing data points are scattered across the surface, mostly following its contours.](b86f4fd2c05bc69b4e99efd5f15b743d_img.jpg)
+<img src="slide 02 datalab.assets/image-20260302195743576.png" alt="image-20260302195743576" style="zoom:80%;" />
 
-A 3D surface plot showing a thin-plate spline fit to income data based on years of education and seniority. The vertical axis is labeled 'Income', the horizontal axis is 'Years of Education', and the depth axis is 'Seniority'. The surface is a smooth, undulating yellow grid. Red dots representing data points are scattered across the surface, mostly following its contours.
+(A 3D surface plot showing a thin-plate spline fit to income data based on years of education and seniority. The vertical axis is labeled 'Income', the horizontal axis is 'Years of Education', and the depth axis is 'Seniority'. The surface is a smooth, undulating yellow grid. Red dots representing data points are scattered across the surface, mostly following its contours.)
 
 ### How to estimate $f$ ?
 
@@ -306,68 +302,21 @@ $$\hat{f}(x_i) = \text{Ave}(Y \mid X \in N(x_i))$$
 
 where  $N(x_i)$  is some neighborhood of  $x_i$ . The parameter is bin width  $q$ .
 
-![A scatter plot with a moving average trend line showing data over time from 1950 to 1980.](484cfbdc05aee471306eeb11c0ee2543_img.jpg)
+<img src="slide 02 datalab.assets/image-20260302200048210.png" alt="image-20260302200048210" style="zoom:80%;" />
 
-The figure is a scatter plot with a moving average trend line. The x-axis represents years from 1950 to 1980. The y-axis represents values in thousands, ranging from 3.5 to 6.0. The data points are represented by open squares, and the moving average trend is shown as a solid blue line. The trend line follows the general pattern of the data points, smoothing out the fluctuations.
-
-| Year | Data (thousands) | Moving Average (thousands) |
-|------|------------------|----------------------------|
-| 1950 | 4.8              | 4.9                        |
-| 1951 | 5.1              | 4.8                        |
-| 1952 | 5.0              | 4.6                        |
-| 1953 | 4.5              | 4.4                        |
-| 1954 | 3.5              | 4.0                        |
-| 1955 | 4.2              | 3.8                        |
-| 1956 | 3.7              | 3.7                        |
-| 1957 | 3.6              | 3.6                        |
-| 1958 | 3.6              | 3.5                        |
-| 1959 | 3.4              | 3.5                        |
-| 1960 | 3.3              | 3.4                        |
-| 1961 | 3.3              | 3.4                        |
-| 1962 | 3.6              | 3.5                        |
-| 1963 | 3.7              | 3.7                        |
-| 1964 | 4.0              | 4.0                        |
-| 1965 | 4.2              | 4.3                        |
-| 1966 | 4.5              | 4.7                        |
-| 1967 | 5.0              | 5.1                        |
-| 1968 | 5.1              | 5.2                        |
-| 1969 | 5.7              | 5.4                        |
-| 1970 | 5.7              | 5.3                        |
-| 1971 | 5.0              | 5.2                        |
-| 1972 | 5.0              | 5.4                        |
-| 1973 | 5.4              | 5.3                        |
-| 1974 | 5.5              | 5.4                        |
-| 1975 | 5.5              | 5.3                        |
-| 1976 | 5.4              | 5.1                        |
-| 1977 | 4.2              | 4.8                        |
-| 1978 | 4.8              | 4.5                        |
-| 1979 | 3.9              | 4.1                        |
-| 1980 | 3.9              | 4.1                        |
-
-A scatter plot with a moving average trend line showing data over time from 1950 to 1980.
+(The figure is a scatter plot with a moving average trend line. The x-axis represents years from 1950 to 1980. The y-axis represents values in thousands, ranging from 3.5 to 6.0. The data points are represented by open squares, and the moving average trend is shown as a solid blue line. The trend line follows the general pattern of the data points, smoothing out the fluctuations.)
 
 Example: we use moving average filter to estimate trend  $m_t$  over years.
 
 $$\hat{m}_t = (2q + 1)^{-1} \sum_{j=-q}^{q} X_{t-j}, \quad q + 1 \le t \le n - q.$$
 
+### Trade-Off
+
 How do we choose a model form of  $f$  between inflexible and flexible approaches, such as linear regression versus smoothing spline ?
 
-![A scatter plot showing the tradeoff between flexibility and interpretability for various statistical learning methods. The y-axis is 'Interpretability' (High to Low) and the x-axis is 'Flexibility' (Low to High).](1b1bb497e39fcc025a3fc8bd4fc78d9a_img.jpg)
+![image-20260302200622663](slide 02 datalab.assets/image-20260302200622663.png)
 
-The figure is a scatter plot illustrating the tradeoff between flexibility and interpretability for various statistical learning methods. The vertical axis is labeled 'Interpretability' with 'High' at the top and 'Low' at the bottom. The horizontal axis is labeled 'Flexibility' with 'Low' on the left and 'High' on the right. The methods are plotted as follows:
-
-| Method                      | Flexibility (Low to High) | Interpretability (High to Low) |
-|-----------------------------|---------------------------|--------------------------------|
-| Subset Selection            | Low                       | High                           |
-| Lasso                       | Low                       | High                           |
-| Least Squares               | Low                       | Medium-High                    |
-| Generalized Additive Models | Medium                    | Medium                         |
-| Trees                       | Medium                    | Medium                         |
-| Bagging, Boosting           | Medium-High               | Medium-Low                     |
-| Support Vector Machines     | High                      | Low                            |
-| Deep Learning               | High                      | Low                            |
-
-A scatter plot showing the tradeoff between flexibility and interpretability for various statistical learning methods. The y-axis is 'Interpretability' (High to Low) and the x-axis is 'Flexibility' (Low to High).
+> (The figure is a scatter plot illustrating the tradeoff between flexibility and interpretability for various statistical learning methods. The vertical axis is labeled 'Interpretability' with 'High' at the top and 'Low' at the bottom. The horizontal axis is labeled 'Flexibility' with 'Low' on the left and 'High' on the right. A scatter plot showing the tradeoff between flexibility and interpretability for various statistical learning methods. The y-axis is 'Interpretability' (High to Low) and the x-axis is 'Flexibility' (Low to High).
 
 The figure above represents the tradeoff between flexibility and interpretability, using different statistical learning methods. In general, as the flexibility of a method increases, its interpretability decreases.
 
@@ -434,31 +383,29 @@ True  $f$  shown in black, three estimates of  $f$  are shown: the linear regres
 Training MSE (grey curve)  
 Test MSE (red curve)
 
-![Two plots illustrating the bias-variance trade-off. The left plot shows data points (circles) and three fitted curves: a black true function, an orange linear regression line, and two smoothing splines (blue and green). The right plot shows Mean Squared Error (MSE) versus Flexibility. The grey curve represents Training MSE, which decreases as flexibility increases. The red curve represents Test MSE, which follows a U-shape, indicating overfitting at high flexibility. A horizontal dashed line at MSE = 1.0 represents the irreducible error Var(ε).](010f64870d9b7d9e04dc4059b1cf5f45_img.jpg)
+<img src="slide 02 datalab.assets/image-20260302202456557.png" alt="image-20260302202456557" style="zoom:80%;" />
 
-The figure consists of two plots. The left plot shows a scatter plot of data points (circles) and three fitted curves: a black solid line representing the true function  $f$ , an orange solid line representing the linear regression fit, and two smoothing spline fits in blue and green. The x-axis is labeled  $X$  and the y-axis is labeled  $Y$ . The right plot shows the Mean Squared Error (MSE) on the y-axis versus Flexibility on the x-axis. The grey curve represents the Training MSE, which decreases as flexibility increases. The red curve represents the Test MSE, which follows a U-shape, indicating overfitting at high flexibility. A horizontal dashed line at MSE = 1.0 represents the irreducible error  $\text{Var}(\epsilon)$ .
-
-Two plots illustrating the bias-variance trade-off. The left plot shows data points (circles) and three fitted curves: a black true function, an orange linear regression line, and two smoothing splines (blue and green). The right plot shows Mean Squared Error (MSE) versus Flexibility. The grey curve represents Training MSE, which decreases as flexibility increases. The red curve represents Test MSE, which follows a U-shape, indicating overfitting at high flexibility. A horizontal dashed line at MSE = 1.0 represents the irreducible error Var(ε).
+> Two plots illustrating the bias-variance trade-off. The left plot shows data points (circles) and three fitted curves: a black true function, an orange linear regression line, and two smoothing splines (blue and green). The right plot shows Mean Squared Error (MSE) versus Flexibility. The grey curve represents Training MSE, which decreases as flexibility increases. The red curve represents Test MSE, which follows a U-shape, indicating overfitting at high flexibility. A horizontal dashed line at MSE = 1.0 represents the irreducible error Var(ε).
 
 The grey curve displays the average training MSE as a function of flexibility for a number of smoothing splines. The red curve denotes the test MSE. The horizontal dashed line indicates  $\text{Var}(\epsilon)$ , the lowest achievable test MSE.
 
 ### Overfitting Phenomenon
 
 - As the flexibility of the statistical learning method increases, there is a monotone decrease in the training MSE and a **U-shape** in the test MSE. This is a fundamental property of statistical learning that holds regardless of the data set at hand and regardless of the statistical method being used.
+
 - As model flexibility increases, the training MSE will decrease, **but the test MSE may not**. When a given method yields a small training MSE but a large test MSE, it is said to be **overfitting** the data.
+
 - This is because our statistical learning procedure is working too hard to find patterns in the training data, and may be **picking up some** patterns that are just caused by random chance (**noise**) rather than by true properties of the unknown function  $f$ .
 
-![A line graph illustrating the overfitting phenomenon. The x-axis is labeled 'Flexibility' and ranges from 0 to 25. The y-axis is labeled 'Mean Squared Error' and ranges from 0.0 to 2.5. A red curve represents the test MSE, which follows a U-shape, starting at approximately 1.75 for flexibility 2, reaching a minimum of about 1.1 at flexibility 5, and then increasing to about 2.4 at flexibility 25. A gray curve represents the training MSE, which decreases monotonically from approximately 1.75 at flexibility 2 to about 0.3 at flexibility 25. A horizontal dashed line is drawn at a Mean Squared Error of 1.0. Data points are marked with colored squares: yellow squares at flexibility 2 for both curves, blue squares at flexibility 5 for both curves, and green squares at flexibility 20 for both curves. The green square for the test MSE is significantly higher than the green square for the training MSE at flexibility 20, illustrating overfitting.](bf30e154f82662d212f21fccdfa2980f_img.jpg)
+  <img src="slide 02 datalab.assets/image-20260302221240623.png" alt="image-20260302221240623" style="zoom:80%;" />
 
-| Flexibility | Training MSE (Gray Curve) | Test MSE (Red Curve) |
-|-------------|---------------------------|----------------------|
-| 2           | 1.75                      | 1.75                 |
-| 5           | 0.90                      | 1.10                 |
-| 20          | 0.30                      | 1.50                 |
+> A line graph illustrating the overfitting phenomenon. The x-axis is labeled 'Flexibility' and ranges from 0 to 25. The y-axis is labeled 'Mean Squared Error' and ranges from 0.0 to 2.5. A red curve represents the test MSE, which follows a U-shape, starting at approximately 1.75 for flexibility 2, reaching a minimum of about 1.1 at flexibility 5, and then increasing to about 2.4 at flexibility 25. A gray curve represents the training MSE, which decreases monotonically from approximately 1.75 at flexibility 2 to about 0.3 at flexibility 25. A horizontal dashed line is drawn at a Mean Squared Error of 1.0. Data points are marked with colored squares: yellow squares at flexibility 2 for both curves, blue squares at flexibility 5 for both curves, and green squares at flexibility 20 for both curves. The green square for the test MSE is significantly higher than the green square for the training MSE at flexibility 20, illustrating overfitting.]
 
-A line graph illustrating the overfitting phenomenon. The x-axis is labeled 'Flexibility' and ranges from 0 to 25. The y-axis is labeled 'Mean Squared Error' and ranges from 0.0 to 2.5. A red curve represents the test MSE, which follows a U-shape, starting at approximately 1.75 for flexibility 2, reaching a minimum of about 1.1 at flexibility 5, and then increasing to about 2.4 at flexibility 25. A gray curve represents the training MSE, which decreases monotonically from approximately 1.75 at flexibility 2 to about 0.3 at flexibility 25. A horizontal dashed line is drawn at a Mean Squared Error of 1.0. Data points are marked with colored squares: yellow squares at flexibility 2 for both curves, blue squares at flexibility 5 for both curves, and green squares at flexibility 20 for both curves. The green square for the test MSE is significantly higher than the green square for the training MSE at flexibility 20, illustrating overfitting.
+
 
 ### Overfitting Phenomenon
+
+<img src="slide 02 datalab.assets/image-20260302221300870.png" alt="image-20260302221300870" style="zoom:80%;" />
 
 ![Two plots illustrating overfitting. The left plot shows data points (circles) and three fitted curves (black, orange, green) against X (0 to 100) and Y (2 to 12). The right plot shows Mean Squared Error (0.0 to 2.5) versus Flexibility (2 to 20), with a U-shaped curve and a horizontal dashed line at MSE = 1.0.](e714d8aca168c4854edebc4a4f2e9bd1_img.jpg)
 
@@ -470,13 +417,11 @@ Another example: using a different true  $f$  that is much closer to linear. obs
 
 #### Overfitting Phenomenon
 
-![Two plots illustrating the overfitting phenomenon. The left plot shows data points (circles) and three fitted curves (yellow, blue, green) on a coordinate system with X from 0 to 100 and Y from -10 to 20. The right plot shows Mean Squared Error (MSE) versus Flexibility, with training MSE (red curve) and test MSE (gray curve) both decreasing as flexibility increases, but the test MSE eventually increasing due to overfitting.](16c69c0dacd3c57ae91acd114e5f5bd2_img.jpg)
-
-The figure consists of two plots. The left plot shows a set of data points (circles) and three fitted curves (yellow, blue, and green) on a coordinate system with X from 0 to 100 and Y from -10 to 20. The yellow curve is a simple linear fit, while the blue and green curves are more complex, non-linear fits that pass through more data points. The right plot shows the Mean Squared Error (MSE) versus Flexibility. The training MSE (red curve) starts high and decreases rapidly as flexibility increases. The test MSE (gray curve) also starts high and decreases, but it follows a different path, eventually increasing as flexibility continues to increase, indicating overfitting. A horizontal dashed line at MSE = 1 represents a baseline error level.
-
-Two plots illustrating the overfitting phenomenon. The left plot shows data points (circles) and three fitted curves (yellow, blue, green) on a coordinate system with X from 0 to 100 and Y from -10 to 20. The right plot shows Mean Squared Error (MSE) versus Flexibility, with training MSE (red curve) and test MSE (gray curve) both decreasing as flexibility increases, but the test MSE eventually increasing due to overfitting.
+<img src="slide 02 datalab.assets/image-20260302221309802.png" alt="Two plots illustrating the overfitting phenomenon. The left plot shows data points (circles) and three fitted curves (yellow, blue, green) on a coordinate system with X from 0 to 100 and Y from -10 to 20. The right plot shows Mean Squared Error (MSE) versus Flexibility, with training MSE (red curve) and test MSE (gray curve) both decreasing as flexibility increases, but the test MSE eventually increasing due to overfitting." style="zoom:80%;" />
 
 Another example: using a different true  $f$  that is highly non-linear. The training and test MSE curves still exhibit the same general patterns, but now there is a rapid decrease in both curves before the **test MSE** starts to increase slowly.
+
+### Unbiased estimators
 
 An estimator should be “close” in some sense to the true value of the unknown parameter.
 
@@ -503,9 +448,7 @@ $$\bar{X} = \frac{X_1 + X_2 + \dots + X_n}{n} \quad S^2 = \frac{1}{n-1} \sum_{i=
 
 If we consider all unbiased estimators of  $\theta$ , the one with the smallest variance is called the **minimum variance unbiased estimator**.
 
-![A graph showing two probability density functions for unbiased estimators of a parameter theta. The x-axis is labeled theta. The first curve, labeled 'Distribution of \hat{\theta}_1', is taller and narrower, indicating a smaller variance. The second curve, labeled 'Distribution of \hat{\theta}_2', is shorter and wider, indicating a larger variance. Both curves are centered on the same vertical line representing the true parameter value theta.](54bab05b404ce895e109a02e758a548a_img.jpg)
-
-A graph showing two probability density functions for unbiased estimators of a parameter theta. The x-axis is labeled theta. The first curve, labeled 'Distribution of \hat{\theta}\_1', is taller and narrower, indicating a smaller variance. The second curve, labeled 'Distribution of \hat{\theta}\_2', is shorter and wider, indicating a larger variance. Both curves are centered on the same vertical line representing the true parameter value theta.
+![A graph showing two probability density functions for unbiased estimators of a parameter theta. The x-axis is labeled theta. The first curve, labeled 'Distribution of \hat{\theta}_1', is taller and narrower, indicating a smaller variance. The second curve, labeled 'Distribution of \hat{\theta}_2', is shorter and wider, indicating a larger variance. Both curves are centered on the same vertical line representing the true parameter value theta.](slide 02 datalab.assets/image-20260302221426497.png)
 
 For example, we wish to estimate the mean of a population, two possible unbiased estimators for  $\mu$ : the sample mean  $\bar{X}$  and a single observation from the sample, say,  $X_i$ , which one should we use?
 
@@ -549,18 +492,7 @@ $$= \underbrace{Var\left(\hat{f}(x_0)\right) + \left[Bias\left(\hat{f}(x_0)\righ
 
 As a general rule, as we use more flexible methods, the variance will increase, and the bias will decrease and vice versa. Good test set performance of a statistical learning method requires low variance as well as low squared bias.
 
-![Three plots illustrating the bias-variance trade-off. Each plot shows Flexibility on the x-axis (log scale: 2, 5, 10, 20) and a performance metric on the y-axis. The red curve is MSE, the blue curve is Bias, and the orange curve is Variance. A dashed horizontal line represents Var(epsilon). A vertical dotted line indicates the flexibility level corresponding to the smallest test MSE.](0e2f908bcaa3136175994fcf0c9c1a9f_img.jpg)
-
-The figure consists of three side-by-side plots illustrating the bias-variance trade-off. Each plot has 'Flexibility' on the x-axis (log scale: 2, 5, 10, 20) and a performance metric on the y-axis. The legend indicates: MSE (red curve), Bias (blue curve), and Var (orange curve). A dashed horizontal line represents  $\text{Var}(\epsilon)$ . A vertical dotted line indicates the flexibility level corresponding to the smallest test MSE.
-
-| Flexibility | MSE (Red) | Bias (Blue) | Var (Orange) |
-|-------------|-----------|-------------|--------------|
-| 2           | ~2.1      | ~1.0        | ~0.05        |
-| 5           | ~1.1      | ~0.05       | ~0.1         |
-| 10          | ~1.2      | ~0.02       | ~0.2         |
-| 20          | ~2.4      | ~0.01       | ~1.4         |
-
-Three plots illustrating the bias-variance trade-off. Each plot shows Flexibility on the x-axis (log scale: 2, 5, 10, 20) and a performance metric on the y-axis. The red curve is MSE, the blue curve is Bias, and the orange curve is Variance. A dashed horizontal line represents Var(epsilon). A vertical dotted line indicates the flexibility level corresponding to the smallest test MSE.
+![Three plots illustrating the bias-variance trade-off. Each plot shows Flexibility on the x-axis (log scale: 2, 5, 10, 20) and a performance metric on the y-axis. The red curve is MSE, the blue curve is Bias, and the orange curve is Variance. A dashed horizontal line represents Var(epsilon). A vertical dotted line indicates the flexibility level corresponding to the smallest test MSE.](slide 02 datalab.assets/image-20260302221441790.png)
 
 Squared bias (blue curve), variance (orange curve),  $\text{Var}(\epsilon)$  (dashed line), and test MSE (red curve is the sum of these three quantities.) for the three data sets in previous examples. The vertical dotted line indicates the flexibility level corresponding to the smallest test MSE.
 
@@ -602,9 +534,7 @@ where  $\Pr(y_0 | x_0)$  is a conditional probability, i.e., it is the probabili
 
 $$1 - E \left( \max_j \Pr(y_0 = j | X = x_0) \right)$$
 
-![A scatter plot illustrating the Bayes Classifier. The horizontal axis is labeled X1 and the vertical axis is labeled X2. The plot shows two classes of data points: orange circles and blue circles. A purple dashed line, representing the Bayes decision boundary, separates the two classes. The background is a light blue grid. The orange points are concentrated in the upper-left region, while the blue points are concentrated in the lower-right region. The purple dashed line is a non-linear boundary that separates the two classes with some overlap.](f9625fa3465b009051f85d91cfa1da7e_img.jpg)
-
-A scatter plot illustrating the Bayes Classifier. The horizontal axis is labeled X1 and the vertical axis is labeled X2. The plot shows two classes of data points: orange circles and blue circles. A purple dashed line, representing the Bayes decision boundary, separates the two classes. The background is a light blue grid. The orange points are concentrated in the upper-left region, while the blue points are concentrated in the lower-right region. The purple dashed line is a non-linear boundary that separates the two classes with some overlap.
+![A scatter plot illustrating the Bayes Classifier. The horizontal axis is labeled X1 and the vertical axis is labeled X2. The plot shows two classes of data points: orange circles and blue circles. A purple dashed line, representing the Bayes decision boundary, separates the two classes. The background is a light blue grid. The orange points are concentrated in the upper-left region, while the blue points are concentrated in the lower-right region. The purple dashed line is a non-linear boundary that separates the two classes with some overlap.](slide 02 datalab.assets/image-20260302221526294.png)
 
 #### Example: KNN classifier
 
@@ -629,9 +559,7 @@ $$d(p, q) = \|p - q\|_2 = \sqrt{\sum_{i=1}^{n} (q_i - p_i)^2}$$
 
 $p, q$  = Euclidean vectors represent two points in Euclidean  $n$  dimensional space
 
-![Two plots illustrating the KNN classifier. The left plot shows a black cross point surrounded by a green circle, with six blue and six orange training points. The right plot shows a KNN decision boundary on a grid of points, separating blue and orange classes.](8a4275b35551f2ec9825a1aa442c0db1_img.jpg)
-
-Two plots illustrating the KNN classifier. The left plot shows a black cross point surrounded by a green circle, with six blue and six orange training points. The right plot shows a KNN decision boundary on a grid of points, separating blue and orange classes.
+![Two plots illustrating the KNN classifier. The left plot shows a black cross point surrounded by a green circle, with six blue and six orange training points. The right plot shows a KNN decision boundary on a grid of points, separating blue and orange classes.](slide 02 datalab.assets/image-20260302221544472.png)
 
 The training data set consists of six blue and six orange observations. Choose  $K=3$ ,  $KNN$  identifies the three nearest observations around black cross point, two blue points and one orange, resulting in estimated probabilities of  $2/3$  for the blue class and  $1/3$  for the orange class. Hence  $KNN$  will predict that the black cross belongs to the blue class. The right graph shows **KNN decision boundary** after applied the  $KNN$  at all the possible values for  $X_1$  and  $X_2$ .
 
@@ -641,11 +569,7 @@ Even though the true distribution is not known by the *KNN* classifier, the *KNN
 
 KNN:  $K=10$
 
-![A scatter plot illustrating the KNN classifier with K=10. The plot shows two classes of data points: orange circles and blue circles, plotted on a grid. The x-axis is labeled X1 and the y-axis is labeled X2. A solid black line represents the decision boundary, and a dashed purple line represents the Bayes classifier decision boundary. The two lines are very close, indicating that the KNN classifier with K=10 closely approximates the Bayes classifier.](6dda36bad0978e272ca0420b0902b73a_img.jpg)
-
-The figure is a scatter plot on a grid. The horizontal axis is labeled  $X_1$  and the vertical axis is labeled  $X_2$ . The plot contains two classes of data points: orange circles and blue circles. A solid black line represents the decision boundary of the KNN classifier with  $K=10$ . A dashed purple line represents the decision boundary of the Bayes classifier. The two lines are very close to each other, demonstrating that the KNN classifier with  $K=10$  closely approximates the Bayes classifier.
-
-A scatter plot illustrating the KNN classifier with K=10. The plot shows two classes of data points: orange circles and blue circles, plotted on a grid. The x-axis is labeled X1 and the y-axis is labeled X2. A solid black line represents the decision boundary, and a dashed purple line represents the Bayes classifier decision boundary. The two lines are very close, indicating that the KNN classifier with K=10 closely approximates the Bayes classifier.
+![A scatter plot illustrating the KNN classifier with K=10. The plot shows two classes of data points: orange circles and blue circles, plotted on a grid. The x-axis is labeled X1 and the y-axis is labeled X2. A solid black line represents the decision boundary, and a dashed purple line represents the Bayes classifier decision boundary. The two lines are very close, indicating that the KNN classifier with K=10 closely approximates the Bayes classifier.](slide 02 datalab.assets/image-20260302221557929.png)
 
 #### KNN vs. Bayes classifier
 
@@ -653,17 +577,13 @@ The choice of  $K$  has a drastic effect on the  $KNN$  classifier.
 
 KNN:  $K=1$
 
-![Scatter plot showing KNN classification with K=1. The plot displays two classes of data points: orange circles and blue circles. A highly irregular, jagged black line represents the decision boundary, which follows the local distribution of the training points very closely, indicating high flexibility and high variance.](11a2ed9ad059f4289e4475247d633e88_img.jpg)
-
-Scatter plot showing KNN classification with K=1. The plot displays two classes of data points: orange circles and blue circles. A highly irregular, jagged black line represents the decision boundary, which follows the local distribution of the training points very closely, indicating high flexibility and high variance.
+![Scatter plot showing KNN classification with K=1. The plot displays two classes of data points: orange circles and blue circles. A highly irregular, jagged black line represents the decision boundary, which follows the local distribution of the training points very closely, indicating high flexibility and high variance.](slide 02 datalab.assets/image-20260302221617111.png)
 
 When  $K = 1$ , the decision boundary is overly flexible. This corresponds to a classifier that has low bias but very high variance.
 
 KNN:  $K=100$
 
-![Scatter plot showing KNN classification with K=100. The plot displays the same two classes of data points as the previous figure. A much smoother, more linear black line represents the decision boundary, indicating that the classifier is less flexible and more generalizable.](e6d17113d3c65cc31531ae8a73fe011f_img.jpg)
-
-Scatter plot showing KNN classification with K=100. The plot displays the same two classes of data points as the previous figure. A much smoother, more linear black line represents the decision boundary, indicating that the classifier is less flexible and more generalizable.
+![Scatter plot showing KNN classification with K=100. The plot displays the same two classes of data points as the previous figure. A much smoother, more linear black line represents the decision boundary, indicating that the classifier is less flexible and more generalizable.](slide 02 datalab.assets/image-20260302221628326.png)
 
 As  $K=100$ ,  $KNN$  becomes less flexible and produces a decision boundary that is close to linear. This corresponds to a low variance but high bias classifier.
 
@@ -671,18 +591,6 @@ As  $K=100$ ,  $KNN$  becomes less flexible and produces a decision boundary tha
 
 In general, as we use more flexible classification methods, the training error rate will decline but the test error rate may not. The graph plotted the  $KNN$  test and training errors as a function of  $1/K$ . As  $1/K$  increases, the method becomes more flexible.
 
-![A line graph showing KNN training and test error rates as a function of 1/K. The x-axis is 1/K (ranging from 0.01 to 1.00) and the y-axis is Error Rate (ranging from 0.00 to 0.20). A horizontal dashed line is at approximately 0.13. The Training Errors (blue line) start at ~0.185 and decrease steadily to ~0.01. The Test Errors (orange line) start at ~0.19, decrease to a minimum of ~0.135 at 1/K ≈ 0.1, then increase to ~0.17 at 1/K = 1.0.](6752cee124f693bc4cebc66180f4f91f_img.jpg)
-
-| $1/K$ | Training Errors | Test Errors |
-|-------|-----------------|-------------|
-| 0.01  | 0.185           | 0.190       |
-| 0.02  | 0.145           | 0.175       |
-| 0.05  | 0.115           | 0.150       |
-| 0.10  | 0.095           | 0.135       |
-| 0.20  | 0.060           | 0.145       |
-| 0.50  | 0.065           | 0.170       |
-| 1.00  | 0.010           | 0.165       |
-
-A line graph showing KNN training and test error rates as a function of 1/K. The x-axis is 1/K (ranging from 0.01 to 1.00) and the y-axis is Error Rate (ranging from 0.00 to 0.20). A horizontal dashed line is at approximately 0.13. The Training Errors (blue line) start at ~0.185 and decrease steadily to ~0.01. The Test Errors (orange line) start at ~0.19, decrease to a minimum of ~0.135 at 1/K ≈ 0.1, then increase to ~0.17 at 1/K = 1.0.
+![A line graph showing KNN training and test error rates as a function of 1/K. The x-axis is 1/K (ranging from 0.01 to 1.00) and the y-axis is Error Rate (ranging from 0.00 to 0.20). A horizontal dashed line is at approximately 0.13. The Training Errors (blue line) start at ~0.185 and decrease steadily to ~0.01. The Test Errors (orange line) start at ~0.19, decrease to a minimum of ~0.135 at 1/K ≈ 0.1, then increase to ~0.17 at 1/K = 1.0.](slide 02 datalab.assets/image-20260302221644418.png)
 
 As in the regression setting, the training error rate consistently declines as the flexibility increases. However, the test error exhibits a  $U$ -shape, (with a minimum at approximately  $K = 10$ ) before overfits.

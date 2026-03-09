@@ -127,6 +127,18 @@ A study was performed on wear of a bearing and its relationship to $x_1 =$ oil v
 
 **Answer on ipynb**
 
+> Review
+>
+> <img src="HW2.assets/image-20260303225132994.png" alt="image-20260303225132994" style="zoom:80%;" />
+>
+> $\hat y = 383.8 - 3.638x_1-0.1117x_2$
+>
+> $\hat{\sigma}^2 = MSE = 153$
+> $$
+> F_0 = \frac{[SS_r(full)-SS_r(sub)]/1}{MS_e(full)}
+> $$
+> Full model (with x1 and x2), sub model (with only x1)
+
 ---
 
 ### 3. (20 points)
@@ -207,6 +219,63 @@ $$C_p = 22 - 30 + 10 = 2$$
 
 It is better than the old model because a good model usually has a $C_p$ value that is close to or less than its number of parameters $p$ (here, $p=5$). A $C_p = 2 \le 5$ indicates that the reduced model has very little bias and does not suffer from overfitting. In comparison, the full model's $C_p$ defaults to its parameter count ($p_{full} = 10$). Since a smaller $C_p$ is generally preferred and the reduced model successfully simplified the full model, it is definitively the better choice.
 
+
+
+> Given: n = 30, k = 9, p = 9+1 = 10, $\hat{\sigma}^2 = MS_E = 100$, $R^2 = 0.92$
+>
+> (a) F statistics
+> $$
+> F_0 = \frac{MS_R}{MS_E}
+> $$
+> $MS_E = 100$
+> $MS_R = \frac {SS_R}{K} =\frac{SS_T - SS_E}{K} $ 
+>
+> since $R^2 = \frac {SS_R}{SS_T} = 1-\frac{SS_E}{SS_T}$
+>
+> we can get $SS_E$ from $MS_E$
+>
+> $\hat{\sigma}^2 = MS_E = 100$, which is equal to $\frac{SS_E}{n-p}$
+>
+> and n = 30, p = 10, so $\frac{SS_E}{n-p} = \frac{SS_E}{30-10} = 100$
+>
+> $SS_E = 2000$
+>
+> $R^2 = 0.92 = 1-\frac{SS_E}{SS_T} = 1 - \frac{2000}{SS_T}$
+>
+> $SS_T = 25000$
+>
+> 
+>
+> (b) 
+> $$
+> \hat\sigma^2 = MS_E = \frac{SS_E}{n-p}
+> \\
+> k = 4, p = 5
+> \\
+> SS_E = 2200, n-p = 25
+> \\
+> 2200/25 = 88
+> $$
+> Compare the new 88 and old 100, the new model is doing better job
+>
+>
+> (c)
+> $$
+> C_p = \frac{SS_E(p)}{\hat\sigma^2} - n + 2p
+> \\
+> C_5 = \frac{SS_E(5)}{\hat\sigma^2} - 30 + 10
+> \\
+> C_{10} = \frac{SS_E(10)}{\hat\sigma^2} - 30 + 20
+> $$
+> $SS_E(5) = 2200, SS_E(10) = 2000, \hat\sigma^2 = 100$
+> $$
+> C_5 = \frac{SS_E(5)}{\hat\sigma^2} - 30 + 10 = \frac{2200}{100} - 30+10 = 2
+> \\
+> C_{10} = \frac{SS_E(10)}{\hat\sigma^2} - 30 + 20 = \frac{2000}{100} - 30+20 = 10
+> $$
+
+
+
 ---
 
 ### 4. (20 points)
@@ -222,6 +291,10 @@ Use `Carseats.csv` dataset.
 
 
 **Answer on ipynb**
+
+>![image-20260303232530758](HW2.assets/image-20260303232530758.png)
+>
+>$S = 13.04 - 0.05 price -0.02 Urban + 1.2 US$
 
 ---
 
@@ -240,3 +313,5 @@ y = 2 + 2 * x1 + 0.3 * x2 + rng.normal(size=100)
 (d) Fit least squares predicting $y$ using only $x_1$, then only $x_2$. Comment on results. If $x_1$ and $x_2$ are not simultaneously significant in (c), what is implied?
 
 ##### Answer on ipynb
+
+> df = pd.Dataframe ({'x1':x1, 'x2':x2}), and then call df.corr(), you can get the correlation

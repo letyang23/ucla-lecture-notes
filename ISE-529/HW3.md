@@ -61,6 +61,18 @@ The decision boundary between any two classes $k$ and $l$ is found where $\delta
 
 
 
+> $$
+> f_k(x) = \frac{1}{\sqrt{2\pi\sigma_k^2}} e^{\left(-\frac{(x - \mu_k)^2}{2\sigma_k^2}\right)}
+> \\
+> p(y=k | x) = \frac{\pi_k f(x)}{\sum_{l=1}^k}
+> $$
+>
+> 
+>
+> take log for each side, and 分母去掉
+
+
+
 
 
 2. (25 points)
