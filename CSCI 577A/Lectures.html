@@ -1,0 +1,772 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'><style type='text/css'>html {overflow-x: initial !important;}</style>
+<style type='text/css'  id="style-base">:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; --title-bar-height: 20px; }
+.mac-os-11 { --title-bar-height: 28px; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, "Segoe UI Emoji", "SF Pro", sans-serif; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4, h5 { white-space: pre-wrap; }
+body { margin: 0px; padding: 0px; height: auto; inset: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 36px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p *, #write.first-line-indent svg * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; position: relative; }
+#write svg h1, #write svg h2, #write svg h3, #write svg h4, #write svg h5, #write svg h6, #write svg p { position: static; }
+.nodeLabel p { padding-right: 2px; padding-left: 2px; }
+.typora-export .nodeLabel p { padding-right: 0px; padding-left: 0px; }
+foreignobject { overflow: visible; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+li p { orphans: 1; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+thead, tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror-linenumber { user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-fences-adv-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+svg { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li blockquote { margin: 1rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; border-color: transparent !important; padding-top: 0px !important; padding-bottom: 0px !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+  #write > p:nth-child(1) { margin-top: 0px; }
+  .typora-export-show-outline .typora-export-sidebar { display: none; }
+  figure { overflow-x: visible; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+.MathJax_ref { fill: currentcolor; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.reversefootnote { font-family: ui-monospace, sans-serif; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.6; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+.md-expand mark .md-meta { opacity: 0.3 !important; }
+mark .md-meta { color: rgb(0, 0, 0); }
+@media print {
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+.md-diagram-panel .messageText { stroke: none !important; }
+.md-diagram-panel .start-state { fill: var(--node-fill); }
+.md-diagram-panel .edgeLabel rect { opacity: 1 !important; }
+.md-fences.md-fences-math { font-size: 1em; }
+.md-fences-advanced:not(.md-focus) { padding: 0px; white-space: nowrap; border: 0px; }
+.md-fences-advanced:not(.md-focus) { background: inherit; }
+.mermaid-svg { margin: auto; }
+.typora-export-show-outline .typora-export-content { max-width: 1440px; margin: auto; display: flex; flex-direction: row; }
+.typora-export-sidebar { width: 300px; font-size: 0.8rem; margin-top: 80px; margin-right: 18px; }
+.typora-export-show-outline #write { --webkit-flex: 2; flex: 2 1 0%; }
+.typora-export-sidebar .outline-content { position: fixed; top: 0px; max-height: 100%; overflow: hidden auto; padding-bottom: 30px; padding-top: 60px; width: 300px; }
+@media screen and (max-width: 1024px) {
+  .typora-export-sidebar, .typora-export-sidebar .outline-content { width: 240px; }
+}
+@media screen and (max-width: 800px) {
+  .typora-export-sidebar { display: none; }
+}
+.outline-content li, .outline-content ul { margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px; list-style: none; overflow-wrap: anywhere; }
+.outline-content ul { margin-top: 0px; margin-bottom: 0px; }
+.outline-content strong { font-weight: 400; }
+.outline-expander { width: 1rem; height: 1.42857rem; position: relative; display: table-cell; vertical-align: middle; cursor: pointer; padding-left: 4px; }
+.outline-expander::before { content: ""; position: relative; font-family: Ionicons; display: inline-block; font-size: 8px; vertical-align: middle; }
+.outline-item { padding-top: 3px; padding-bottom: 3px; cursor: pointer; }
+.outline-expander:hover::before { content: ""; }
+.outline-h1 > .outline-item { padding-left: 0px; }
+.outline-h2 > .outline-item { padding-left: 1em; }
+.outline-h3 > .outline-item { padding-left: 2em; }
+.outline-h4 > .outline-item { padding-left: 3em; }
+.outline-h5 > .outline-item { padding-left: 4em; }
+.outline-h6 > .outline-item { padding-left: 5em; }
+.outline-label { cursor: pointer; display: table-cell; vertical-align: middle; text-decoration: none; color: inherit; }
+.outline-label:hover { text-decoration: underline; }
+.outline-item:hover { border-color: rgb(245, 245, 245); background-color: var(--item-hover-bg-color); }
+.outline-item:hover { margin-left: -28px; margin-right: -28px; border-left: 28px solid transparent; border-right: 28px solid transparent; }
+.outline-item-single .outline-expander::before, .outline-item-single .outline-expander:hover::before { display: none; }
+.outline-item-open > .outline-item > .outline-expander::before { content: ""; }
+.outline-children { display: none; }
+.info-panel-tab-wrapper { display: none; }
+.outline-item-open > .outline-children { display: block; }
+.typora-export .outline-item { padding-top: 1px; padding-bottom: 1px; }
+.typora-export .outline-item:hover { margin-right: -8px; border-right: 8px solid transparent; }
+.typora-export .outline-expander::before { content: "+"; font-family: inherit; top: -1px; }
+.typora-export .outline-expander:hover::before, .typora-export .outline-item-open > .outline-item > .outline-expander::before { content: "−"; }
+.typora-export-collapse-outline .outline-children { display: none; }
+.typora-export-collapse-outline .outline-item-open > .outline-children, .typora-export-no-collapse-outline .outline-children { display: block; }
+.typora-export-no-collapse-outline .outline-expander::before { content: "" !important; }
+.typora-export-show-outline .outline-item-active > .outline-item .outline-label { font-weight: 700; }
+.md-inline-math-container mjx-container { zoom: 0.95; }
+mjx-container { break-inside: avoid; }
+.md-alert.md-alert-note { border-left-color: rgb(9, 105, 218); }
+.md-alert.md-alert-important { border-left-color: rgb(130, 80, 223); }
+.md-alert.md-alert-warning { border-left-color: rgb(154, 103, 0); }
+.md-alert.md-alert-tip { border-left-color: rgb(31, 136, 61); }
+.md-alert.md-alert-caution { border-left-color: rgb(207, 34, 46); }
+.md-alert { padding: 0px 1em; margin-bottom: 16px; color: inherit; border-left: 0.25em solid rgb(0, 0, 0); }
+.md-alert-text-note { color: rgb(9, 105, 218); }
+.md-alert-text-important { color: rgb(130, 80, 223); }
+.md-alert-text-warning { color: rgb(154, 103, 0); }
+.md-alert-text-tip { color: rgb(31, 136, 61); }
+.md-alert-text-caution { color: rgb(207, 34, 46); }
+.md-alert-text { font-size: 0.9rem; font-weight: 700; }
+.md-alert-text svg { fill: currentcolor; position: relative; top: 0.125em; margin-right: 1ch; overflow: visible; }
+.md-alert-text-container::after { content: attr(data-text); text-transform: capitalize; pointer-events: none; margin-right: 1ch; }
+
+</style>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&amp;subset=latin,latin-ext' type='text/css' />
+<style type='text/css'  id="style-theme_css">:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+/* open-sans-regular - latin-ext_latin */
+  /* open-sans-italic - latin-ext_latin */
+    /* open-sans-700 - latin-ext_latin */
+    /* open-sans-700italic - latin-ext_latin */
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, 'Segoe UI Emoji', 'SF Pro', sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table th:first-child,
+table td:first-child {
+    margin-top: 0;
+}
+table th:last-child,
+table td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    pre {
+        page-break-inside: avoid;
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.mac-os #write{
+    caret-color: AccentColor;
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+/*.html-for-mac {
+    --item-hover-bg-color: #E6F0FE;
+}*/
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+    opacity: 0.4;
+}
+
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+.menu-item-container a.menu-style-btn {
+    background-color: #f5f8fa;
+    background-image: linear-gradient( 180deg , hsla(0, 0%, 100%, 0.8), hsla(0, 0%, 100%, 0)); 
+}
+</style>
+<style type='text/css'  id="style-mathjax">
+mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+  min-height: 1px;
+  min-width: 1px;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line], svg[data-table] > g > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame], svg[data-table] > g > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed, svg[data-table] > g > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted, svg[data-table] > g > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > g > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+mjx-container[jax="SVG2"] path[data-c], mjx-container[jax="SVG2"] use[data-c] {
+  stroke-width: 3;
+}
+
+g[data-mml-node="xypic"] path {
+  stroke-width: inherit;
+}
+
+.MathJax g[data-mml-node="xypic"] path {
+  stroke-width: inherit;
+}
+</style>
+<style type='text/css'  id="style-mathjax-ni">mjx-container[jax="SVG"] path[data-c], mjx-container[jax="SVG"] use[data-c] {
+							stroke-width: 0;
+						}</style>
+<style type='text/css'  id="style-lp">ol, ul {padding-left: 40px}</style>
+
+<title>Lectures</title>
+</head>
+<body class='typora-export os-windows'><div class='typora-export-content'>
+<div id='write'  class=''><h1 id='112-lecture-1'><span>1/12 Lecture 1</span></h1><p><span>Exam - 25%, Inclass quiz 10%, 7% assignment , 43% software project, 10% research paper review, 5% peer review</span></p><p><span>Team Charter</span></p><h3 id='course-overview--logistics'><strong><span>Course Overview &amp; Logistics</span></strong></h3><p><strong><span>Instructors</span></strong></p><ul><li><p><strong><span>Dr. Matti (Matty):</span></strong><span> Focuses on practical application, project management, and economics .</span></p><ul><li><p><em><span>Background:</span></em><span> PhD from UCLA (Compilers), Industry experience (Samsung, Google, Microsoft), former CTO, currently Executive VP at a boutique consultancy (Quant GPC Research) doing technical due diligence for investors .</span></p></li></ul></li><li><p><strong><span>Dr. Jay:</span></strong><span> Focuses on theory (&quot;the boring part&quot;), architecture, and design .</span></p><ul><li><p><em><span>Background:</span></em><span> PhD from USC, Industry experience (Kakao - user identity platform), currently a litigation consultant (patent infringement, copyright) and software advisor .</span></p></li></ul></li></ul><p><strong><span>Course Structure</span></strong></p><ul><li><p><strong><span>Format:</span></strong><span> Two-pronged approach. Matti teaches practical/project tracks; Jay teaches theory (last 60 years of research) .</span></p></li><li><p><strong><span>Schedule:</span></strong><span> Monday 6:00–9:20 PM .</span></p></li><li><p><strong><span>Communication:</span></strong><span> All questions to Brightspace; email for personal/sensitive matters . Office hours by appointment via Zoom .</span></p></li></ul><p><strong><span>Resources &amp; Policies</span></strong></p><ul><li><p><strong><span>Textbook:</span></strong><span> Written by Dr. Matti (approx. $38). Required for weekly reading and two quizzes .</span></p></li><li><p><strong><span>AI Policy:</span></strong><span> Generative AI (e.g., ChatGPT, Cursor) is </span><strong><span>encouraged</span></strong><span> and expected for coding and assignments, but output must be verified .</span></p></li><li><p><strong><span>Late Policy:</span></strong><span> Heavy penalty calculated exponentially: </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="12.596ex" height="2.452ex" role="img" focusable="false" viewBox="0 -833.9 5567.6 1083.9" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.566ex;"><defs><path id="MJX-16-TEX-N-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path><path id="MJX-16-TEX-I-1D437" d="M287 628Q287 635 230 637Q207 637 200 638T193 647Q193 655 197 667T204 682Q206 683 403 683Q570 682 590 682T630 676Q702 659 752 597T803 431Q803 275 696 151T444 3L430 1L236 0H125H72Q48 0 41 2T33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM703 469Q703 507 692 537T666 584T629 613T590 629T555 636Q553 636 541 636T512 636T479 637H436Q392 637 386 627Q384 623 313 339T242 52Q242 48 253 48T330 47Q335 47 349 47T373 46Q499 46 581 128Q617 164 640 212T683 339T703 469Z"></path><path id="MJX-16-TEX-I-1D44E" d="M33 157Q33 258 109 349T280 441Q331 441 370 392Q386 422 416 422Q429 422 439 414T449 394Q449 381 412 234T374 68Q374 43 381 35T402 26Q411 27 422 35Q443 55 463 131Q469 151 473 152Q475 153 483 153H487Q506 153 506 144Q506 138 501 117T481 63T449 13Q436 0 417 -8Q409 -10 393 -10Q359 -10 336 5T306 36L300 51Q299 52 296 50Q294 48 292 46Q233 -10 172 -10Q117 -10 75 30T33 157ZM351 328Q351 334 346 350T323 385T277 405Q242 405 210 374T160 293Q131 214 119 129Q119 126 119 118T118 106Q118 61 136 44T179 26Q217 26 254 59T298 110Q300 114 325 217T351 328Z"></path><path id="MJX-16-TEX-I-1D466" d="M21 287Q21 301 36 335T84 406T158 442Q199 442 224 419T250 355Q248 336 247 334Q247 331 231 288T198 191T182 105Q182 62 196 45T238 27Q261 27 281 38T312 61T339 94Q339 95 344 114T358 173T377 247Q415 397 419 404Q432 431 462 431Q475 431 483 424T494 412T496 403Q496 390 447 193T391 -23Q363 -106 294 -155T156 -205Q111 -205 77 -183T43 -117Q43 -95 50 -80T69 -58T89 -48T106 -45Q150 -45 150 -87Q150 -107 138 -122T115 -142T102 -147L99 -148Q101 -153 118 -160T152 -167H160Q177 -167 186 -165Q219 -156 247 -127T290 -65T313 -9T321 21L315 17Q309 13 296 6T270 -6Q250 -11 231 -11Q185 -11 150 11T104 82Q103 89 103 113Q103 170 138 262T173 379Q173 380 173 381Q173 390 173 393T169 400T158 404H154Q131 404 112 385T82 344T65 302T57 280Q55 278 41 278H27Q21 284 21 287Z"></path><path id="MJX-16-TEX-I-1D460" d="M131 289Q131 321 147 354T203 415T300 442Q362 442 390 415T419 355Q419 323 402 308T364 292Q351 292 340 300T328 326Q328 342 337 354T354 372T367 378Q368 378 368 379Q368 382 361 388T336 399T297 405Q249 405 227 379T204 326Q204 301 223 291T278 274T330 259Q396 230 396 163Q396 135 385 107T352 51T289 7T195 -10Q118 -10 86 19T53 87Q53 126 74 143T118 160Q133 160 146 151T160 120Q160 94 142 76T111 58Q109 57 108 57T107 55Q108 52 115 47T146 34T201 27Q237 27 263 38T301 66T318 97T323 122Q323 150 302 164T254 181T195 196T148 231Q131 256 131 289Z"></path><path id="MJX-16-TEX-I-1D43F" d="M228 637Q194 637 192 641Q191 643 191 649Q191 673 202 682Q204 683 217 683Q271 680 344 680Q485 680 506 683H518Q524 677 524 674T522 656Q517 641 513 637H475Q406 636 394 628Q387 624 380 600T313 336Q297 271 279 198T252 88L243 52Q243 48 252 48T311 46H328Q360 46 379 47T428 54T478 72T522 106T564 161Q580 191 594 228T611 270Q616 273 628 273H641Q647 264 647 262T627 203T583 83T557 9Q555 4 553 3T537 0T494 -1Q483 -1 418 -1T294 0H116Q32 0 32 10Q32 17 34 24Q39 43 44 45Q48 46 59 46H65Q92 46 125 49Q139 52 144 61Q147 65 216 339T285 628Q285 635 228 637Z"></path><path id="MJX-16-TEX-I-1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path><path id="MJX-16-TEX-I-1D452" d="M39 168Q39 225 58 272T107 350T174 402T244 433T307 442H310Q355 442 388 420T421 355Q421 265 310 237Q261 224 176 223Q139 223 138 221Q138 219 132 186T125 128Q125 81 146 54T209 26T302 45T394 111Q403 121 406 121Q410 121 419 112T429 98T420 82T390 55T344 24T281 -1T205 -11Q126 -11 83 42T39 168ZM373 353Q367 405 305 405Q272 405 244 391T199 357T170 316T154 280T149 261Q149 260 169 260Q282 260 327 284T373 353Z"></path><path id="MJX-16-TEX-N-29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path><path id="MJX-16-TEX-N-32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="28" xlink:href="#MJX-16-TEX-N-28"></use></g><g data-mml-node="mi" transform="translate(389,0)"><use data-c="1D437" xlink:href="#MJX-16-TEX-I-1D437"></use></g><g data-mml-node="mi" transform="translate(1217,0)"><use data-c="1D44E" xlink:href="#MJX-16-TEX-I-1D44E"></use></g><g data-mml-node="mi" transform="translate(1746,0)"><use data-c="1D466" xlink:href="#MJX-16-TEX-I-1D466"></use></g><g data-mml-node="mi" transform="translate(2236,0)"><use data-c="1D460" xlink:href="#MJX-16-TEX-I-1D460"></use></g><g data-mml-node="mi" transform="translate(2705,0)"><use data-c="1D43F" xlink:href="#MJX-16-TEX-I-1D43F"></use></g><g data-mml-node="mi" transform="translate(3386,0)"><use data-c="1D44E" xlink:href="#MJX-16-TEX-I-1D44E"></use></g><g data-mml-node="mi" transform="translate(3915,0)"><use data-c="1D461" xlink:href="#MJX-16-TEX-I-1D461"></use></g><g data-mml-node="mi" transform="translate(4276,0)"><use data-c="1D452" xlink:href="#MJX-16-TEX-I-1D452"></use></g><g data-mml-node="msup" transform="translate(4742,0)"><g data-mml-node="mo"><use data-c="29" xlink:href="#MJX-16-TEX-N-29"></use></g><g data-mml-node="mn" transform="translate(422,363) scale(0.707)"><use data-c="32" xlink:href="#MJX-16-TEX-N-32"></use></g></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">(</mo><mi>D</mi><mi>a</mi><mi>y</mi><mi>s</mi><mi>L</mi><mi>a</mi><mi>t</mi><mi>e</mi><msup><mo stretchy="false">)</mo><mn>2</mn></msup></math></mjx-assistive-mml></mjx-container><script type="math/tex">(Days Late)^2</script><span> deduction .</span></p></li></ul><hr /><h3 id='grading--evaluation'><strong><span>Grading &amp; Evaluation</span></strong></h3><p><strong><span>Assignments (Weekly)</span></strong></p><ul><li><p><strong><span>Frequency:</span></strong><span> 9 assignments total; 7 are required (1% each) .</span></p></li><li><p><strong><span>Format:</span></strong><span> 8 questions, 1 case study, 1 research topic .</span></p></li><li><p><strong><span>First Assignment:</span></strong><span> Optional (due to add/drop period), covers first two chapters .</span></p></li></ul><p><strong><span>Exams</span></strong></p><ul><li><p><strong><span>Written Exam:</span></strong><span> March 23rd (Tentative). 6–8 PM. Essay/discussion style (approx. 10 questions) .</span></p></li><li><p><strong><span>Quizzes:</span></strong><span> Two in-class quizzes based on the textbook .</span></p></li></ul><p><strong><span>Team Tasks</span></strong></p><ul><li><p><strong><span>Team Presentation:</span></strong><span> Critique a notable research paper (act as a committee reviewer) .</span></p></li><li><p><strong><span>Peer Review:</span></strong><span> Evaluates team members (prevents &quot;free-riding&quot;) .</span></p></li><li><p><strong><span>Project:</span></strong><span> Main deliverable (detailed below) .</span></p></li></ul><hr /><h3 id='the-semester-project-the-startup'><strong><span>The Semester Project (&quot;The Startup&quot;)</span></strong></h3><p><strong><span>Concept</span></strong></p><ul><li><p><strong><span>Team Size:</span></strong><span> 10 students per team .</span></p></li><li><p><strong><span>Role-Play:</span></strong><span> Students are a startup; Dr. Matti is the investor. Teams must pitch ideas to get &quot;funding&quot; (grades) .</span></p></li><li><p><strong><span>Goal:</span></strong><span> Build an </span><strong><span>MVP</span></strong><span> (Minimum Viable Product). You do not need a fully featured product, but a working MVP is required .</span></p></li></ul><p><strong><span>Timeline &amp; Deliverables</span></strong></p><ol start='' ><li><p><strong><span>Team Formation:</span></strong><span> Immediate. Create a &quot;Team Charter&quot; assigning roles (e.g., CEO, Product Manager) .</span></p></li><li><p><strong><span>The Pitch:</span></strong><span> Elevator pitch (3–4 minutes) to the investor at a specific station .</span></p></li><li><p><strong><span>Demo 1 (POC):</span></strong><span> Focus on UI/UX (Figma), Proof of Concept, and product validation data .</span></p></li><li><p><strong><span>Demo 2 (Quality):</span></strong><span> Focus on software quality, scalability, modularity, and infrastructure (e.g., EC2, APIs) .</span></p></li><li><p><strong><span>D-Day (Final Demo):</span></strong><span> Presentation of the MVP to the class .</span></p><ul><li><p><em><span>Incentive:</span></em><span> Teams volunteering to present in earlier weeks (Week 1 or 2 of demos) receive extra credit (10% or 5%) .</span></p></li></ul></li></ol><hr /><h3 id='lecture-topic-what-is-software-engineering'><strong><span>Lecture Topic: What is Software Engineering?</span></strong></h3><p><strong><span>Definition &amp; Scope</span></strong></p><ul><li><p><strong><span>Definition:</span></strong><span> &quot;Multi-person construction of multi-version programs&quot; (1975) .</span></p></li><li><p><strong><span>Scope:</span></strong><span> Development of systems complex enough to require teams of engineers .</span></p><ul><li><p><em><span>Exclusions:</span></em><span> Single developer projects, simple apps with short lifespans, or one-off &quot;throwaway&quot; code are generally not &quot;software engineering&quot; .</span></p></li></ul></li><li><p><strong><span>Goal:</span></strong><span> Production of quality software, delivered on time, within budget, satisfying user needs .</span></p></li></ul><p><strong><span>The &quot;Nature&quot; of Software (Why it&#39;s hard)</span></strong></p><ul><li><p><strong><span>Malleable:</span></strong><span> It is abstract and easily changeable (unlike physical bridges) .</span></p></li><li><p><strong><span>Human Intensive:</span></strong><span> Heavily reliant on people and sociology .</span></p></li><li><p><strong><span>Intangible:</span></strong><span> You cannot touch or smell it; hard to visualize .</span></p></li><li><p><strong><span>Complex:</span></strong><span> Problems are unprecedentedly complex and depend on hardware .</span></p></li></ul><p><strong><span>Core Axioms &amp; Laws</span></strong></p><ol start='' ><li><p><strong><span>Maintenance &gt; Development:</span></strong><span> Maintenance costs usually exceed development costs. You must design for the next 10–20 years .</span></p></li><li><p><strong><span>Brooks’s Law:</span></strong><span> &quot;Adding manpower to a late software project makes it later&quot; (from </span><em><span>The Mythical Man-Month</span></em><span>) .</span></p></li><li><p><strong><span>Quick </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="1.76ex" height="2.106ex" role="img" focusable="false" viewBox="0 -716 778 931" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.486ex;"><defs><path id="MJX-17-TEX-N-2260" d="M166 -215T159 -215T147 -212T141 -204T139 -197Q139 -190 144 -183L306 133H70Q56 140 56 153Q56 168 72 173H327L406 327H72Q56 332 56 347Q56 360 70 367H426Q597 702 602 707Q605 716 618 716Q625 716 630 712T636 703T638 696Q638 692 471 367H707Q722 359 722 347Q722 336 708 328L451 327L371 173H708Q722 163 722 153Q722 140 707 133H351Q175 -210 170 -212Q166 -215 159 -215Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2260" xlink:href="#MJX-17-TEX-N-2260"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo>≠</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\neq</script><span> Good:</span></strong><span> Higher upfront cost (better design) often reduces downstream costs .</span></p></li></ol><p><strong><span>Development Processes</span></strong></p><ul><li><p><strong><span>Waterfall:</span></strong><span> Requirements </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.181ex" role="img" focusable="false" viewBox="0 -511 1000 522" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.025ex;"><defs><path id="MJX-30-TEX-N-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2192" xlink:href="#MJX-30-TEX-N-2192"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\rightarrow</script><span> Design </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.181ex" role="img" focusable="false" viewBox="0 -511 1000 522" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.025ex;"><defs><path id="MJX-30-TEX-N-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2192" xlink:href="#MJX-30-TEX-N-2192"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\rightarrow</script><span> Implementation </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.181ex" role="img" focusable="false" viewBox="0 -511 1000 522" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.025ex;"><defs><path id="MJX-30-TEX-N-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2192" xlink:href="#MJX-30-TEX-N-2192"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\rightarrow</script><span> Integration </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.181ex" role="img" focusable="false" viewBox="0 -511 1000 522" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.025ex;"><defs><path id="MJX-30-TEX-N-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2192" xlink:href="#MJX-30-TEX-N-2192"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\rightarrow</script><span> Validation. (Often criticized, but sometimes the best model depending on context) .</span></p></li><li><p><strong><span>Others mentioned:</span></strong><span> Spiral Model, Agile, V-Shaped .</span></p></li><li><p><strong><span>Note:</span></strong><span> Every organization eventually customizes their own process (e.g., Google&#39;s version of Agile vs. Spotify&#39;s) .</span></p></li></ul><hr /><h3 id='software-qualities-terminology'><strong><span>Software Qualities (Terminology)</span></strong></h3><p><strong><span>Categorization</span></strong></p><ul><li><p><strong><span>External Qualities:</span></strong><span> Visible to the user (e.g., Reliability, Efficiency, Usability) .</span></p></li><li><p><strong><span>Internal Qualities:</span></strong><span> Concerns for developers (e.g., Verifiability, Maintainability, Extensibility) .</span></p></li><li><p><strong><span>Product vs. Process:</span></strong></p><ul><li><p><em><span>Product:</span></em><span> Artifacts like code (e.g., Performance, Understandability) .</span></p></li><li><p><em><span>Process:</span></em><span> The activity itself (e.g., Productivity, Timeliness) .</span></p></li></ul></li></ul><p><strong><span>Key Definitions</span></strong></p><ul><li><p><strong><span>Correctness:</span></strong><span> Does it satisfy the requirements specification? (The ideal quality) .</span></p></li><li><p><strong><span>Reliability:</span></strong><span> Statistical probability that software operates as expected over a period of time .</span></p></li><li><p><strong><span>Robustness:</span></strong><span> Reasonable behavior in </span><strong><span>unforeseen</span></strong><span> circumstances (scenarios not in requirements, like aliens on Mars) .</span></p></li><li><p><strong><span>Usability:</span></strong><span> Ability for end users to easily use the software (subjective) .</span></p></li><li><p><strong><span>Understandability:</span></strong><span> Ability for developers to understand artifacts (crucial for maintenance; e.g., code comments) .</span></p></li><li><p><strong><span>Verifiability:</span></strong><span> Ease of establishing properties via formal analysis or testing .</span></p></li><li><p><strong><span>Performance:</span></strong><span> Efficiency given specific resources .</span></p></li><li><p><strong><span>Evolvability:</span></strong><span> Ability to add/modify functionality .</span></p></li><li><p><strong><span>Reusability:</span></strong><span> Constructing new software from existing pieces to lower costs .</span></p></li><li><p><strong><span>Interoperability:</span></strong><span> Ability to cooperate with other systems .</span></p></li><li><p><strong><span>Scalability:</span></strong><span> Growing in size while maintaining properties (critical for internet systems) .</span></p></li><li><p><strong><span>Heterogeneity:</span></strong><span> Composing systems from pieces in multiple languages/platforms .</span></p></li><li><p><strong><span>Portability:</span></strong><span> Executing in new environments with reasonable effort (e.g., Java on JVM) .</span></p></li></ul><hr /><h3 id='case-studies-infamous-software-failures'><strong><span>Case Studies: Infamous Software Failures</span></strong></h3><ul><li><p><strong><span>AT&amp;T (1990):</span></strong><span> A single line of buggy code in an upgrade caused a ripple effect, shutting down the landline network .</span></p></li><li><p><strong><span>Ariane 5 Rocket (1996):</span></strong><span> Exploded due to a conversion error (64-bit velocity to 16-bit) causing an overflow .</span></p></li><li><p><strong><span>Casino Slot Machine:</span></strong><span> A variable was &quot;signed&quot; instead of &quot;unsigned,&quot; causing a negative balance to flip to millions of dollars owed to the player .</span></p></li><li><p><strong><span>Y2K (Year 2000):</span></strong><span> Systems stored years as 2 digits, risking confusion between 1900 and 2000. Required massive maintenance costs .</span></p></li><li><p><strong><span>Skype (2007):</span></strong><span> Windows Update restarted many machines simultaneously, crashing Skype&#39;s peer-to-peer architecture .</span></p></li><li><p><strong><span>Southwest Airlines (2022):</span></strong><span> Archaic infrastructure collapsed during the holidays, causing massive cancellations .</span></p></li><li><p><strong><span>CrowdStrike (2024):</span></strong><span> A small update issue caused a meltdown in Windows systems globally (e.g., airports showing blue screens) .</span></p></li><li><p><strong><span>Cloudflare (2025):</span></strong><span> Infrastructure outage illustrating the &quot;ripple effect&quot; of modern internet dependencies .</span></p></li></ul><h3 id='next-steps-for-students'><strong><span>Next Steps for Students</span></strong></h3><ul><li><p><strong><span>Immediate:</span></strong><span> Form a team of 10 and find a partner you trust .</span></p></li><li><p><strong><span>Assignments:</span></strong><span> Read Chapters 1 &amp; 2. Complete the first assignment (Optional but recommended) .</span></p></li><li><p><strong><span>Next Class:</span></strong><span> No lecture next week (Holiday). See you in two weeks .</span></p></li></ul><p>&nbsp;</p><h1 id='126-lecture-2'><span>1/26 Lecture 2</span></h1><h3 id='csci-577a-lecture-cheatsheet-software-process-models--agile'><span>CSCI 577a Lecture Cheatsheet: Software Process Models &amp; Agile</span></h3><p><strong><span>Date:</span></strong><span> January 26, 2026</span></p><p><strong><span>Instructor:</span></strong><span> Dr. Jae</span></p><p><strong><span>Focus:</span></strong><span> Software Process Models (ICSM, Waterfall, V-Model), Value-Based SE, and Agile Methodologies (Scrum, XP).</span></p><hr /><h3 id='i-logistics--announcements'><strong><span>I. Logistics &amp; Announcements</span></strong></h3><ul><li><p><strong><span>Next Week (Feb 2):</span></strong><span> Lecture by Dr. Matti focusing on </span><strong><span>Project Pitching</span></strong><span>.</span></p></li><li><p><strong><span>Two Weeks (Feb 9):</span></strong></p><ul><li><p><strong><span>Quiz 1:</span></strong><span> Will take place at the </span><strong><span>beginning of class (6:00 PM – 6:30 PM)</span></strong><span>.</span></p></li><li><p><strong><span>Format:</span></strong><span> On Brightspace, likely multiple choice, requires a digital device (laptop/tablet/phone).</span></p></li><li><p><strong><span>Content:</span></strong><span> Covers the </span><strong><span>textbook</span></strong><span>, not just the lecture slides.</span></p></li></ul></li><li><p><strong><span>Written Exam (March):</span></strong></p><ul><li><p><span>Tentatively 2 hours long with ~10 problems.</span></p></li><li><p><span>Requires writing descriptions/discussions (4–6 pages).</span></p></li><li><p><strong><span>Open note/Open book</span></strong><span>, but </span><strong><span>no digital devices</span></strong><span> allowed.</span></p></li></ul></li></ul><hr /><h3 id='ii-software-process-concepts'><strong><span>II. Software Process Concepts</span></strong></h3><ul><li><p><strong><span>Code and Fix:</span></strong><span> The &quot;pre-model&quot; approach. Casual, free-form, lack of structure. Typical for hobbyists or indie game developers .</span></p></li><li><p><strong><span>Software Process:</span></strong><span> A set of related activities, methods, practices, and rules to develop, operate, maintain, and improve software.</span></p><ul><li><p><span>Includes supporting processes like Configuration Management, QA, and Peer Reviews.</span></p></li></ul></li><li><p><strong><span>Software Development Life Cycle (SDLC):</span></strong><span> A conceptual representation of stages a system passes through from inception to retirement.</span></p></li><li><p><strong><span>SDLC Models:</span></strong><span> Frameworks defining how SDLC stages are organized (e.g., Waterfall, Agile, Spiral). They are like &quot;ready-made clothing&quot;—you must customize them to fit your specific project context (steakhouse vs. baseball game) .</span></p></li></ul><hr /><h3 id='iii-traditional--iterative-models'><strong><span>III. Traditional &amp; Iterative Models</span></strong></h3><h4 id='1-waterfall-model'><strong><span>1. Waterfall Model</span></strong></h4><ul><li><p><strong><span>Flow:</span></strong><span> Requirements </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.181ex" role="img" focusable="false" viewBox="0 -511 1000 522" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.025ex;"><defs><path id="MJX-30-TEX-N-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2192" xlink:href="#MJX-30-TEX-N-2192"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\rightarrow</script><span> Design </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.181ex" role="img" focusable="false" viewBox="0 -511 1000 522" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.025ex;"><defs><path id="MJX-30-TEX-N-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2192" xlink:href="#MJX-30-TEX-N-2192"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\rightarrow</script><span>  Implementation </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.181ex" role="img" focusable="false" viewBox="0 -511 1000 522" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.025ex;"><defs><path id="MJX-30-TEX-N-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2192" xlink:href="#MJX-30-TEX-N-2192"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\rightarrow</script><span> Verification </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.181ex" role="img" focusable="false" viewBox="0 -511 1000 522" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.025ex;"><defs><path id="MJX-30-TEX-N-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2192" xlink:href="#MJX-30-TEX-N-2192"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\rightarrow</script><span> Maintenance.</span></p></li><li><p><strong><span>Characteristics:</span></strong><span> Front-loaded elaboration. You never go back (rigid).</span></p></li><li><p><strong><span>Usage:</span></strong><span> Still the most commonly used methodology according to some surveys, often due to legacy or specific constraints.</span></p></li></ul><h4 id='2-v-model-and-variants'><strong><span>2. V-Model (and variants)</span></strong></h4><ul><li><p><strong><span>Concept:</span></strong><span> An extension of Waterfall where every development stage has a corresponding verification/testing phase .</span></p></li><li><p><strong><span>Mechanism:</span></strong><span> Allows going back if verification fails, but still a poor fit for highly evolutionary development.</span></p></li><li><p><strong><span>Variations:</span></strong></p><ul><li><p><strong><span>Double V:</span></strong><span> Adds a third dimension (3D) for concurrent development.</span></p></li><li><p><strong><span>V with Multiple Deliveries:</span></strong><span> Multiple V-cycles running concurrently.</span></p></li></ul></li></ul><h4 id='3-rational-unified-process-rup'><strong><span>3. Rational Unified Process (RUP)</span></strong></h4><ul><li><p><strong><span>Origins:</span></strong><span> Created by Rational Software (acquired by IBM).</span></p></li><li><p><strong><span>Best Practices:</span></strong><span> Develop iteratively, manage requirements, use component-based architectures, model visually (UML), verify quality, and control changes.</span></p></li><li><p><strong><span>OpenUP:</span></strong><span> An open-source, lean version of RUP.</span></p></li></ul><hr /><h3 id='iv-the-spiral-lineage--icsm'><strong><span>IV. The Spiral Lineage &amp; ICSM</span></strong></h3><ul><li><p><strong><span>History:</span></strong><span> Developed by Dr. Barry Boehm (USC legend).</span></p><ul><li><p><strong><span>Spiral (1988):</span></strong><span> Risk-driven, multiple rounds (Feasibility </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.181ex" role="img" focusable="false" viewBox="0 -511 1000 522" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.025ex;"><defs><path id="MJX-30-TEX-N-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2192" xlink:href="#MJX-30-TEX-N-2192"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\rightarrow</script><span> Concepts </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.181ex" role="img" focusable="false" viewBox="0 -511 1000 522" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.025ex;"><defs><path id="MJX-30-TEX-N-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2192" xlink:href="#MJX-30-TEX-N-2192"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\rightarrow</script><span> Requirements).</span></p></li><li><p><strong><span>Win-Win Spiral (1994):</span></strong><span> Based on Theory W (Stakeholder Win-Win).</span></p></li><li><p><strong><span>Anchor Point (1996):</span></strong><span> Defined specific milestones.</span></p></li><li><p><strong><span>MBASE (1999):</span></strong><span> Integrated product, process, and property models.</span></p></li><li><p><strong><span>ICSM (2010):</span></strong><span> The &quot;end game&quot; model suitable for rapidly changing environments.</span></p></li></ul></li></ul><h4 id='incremental-commitment-spiral-model-icsm'><strong><span>Incremental Commitment Spiral Model (ICSM)</span></strong></h4><ul><li><p><strong><span>Core Philosophy:</span></strong><span> Promotes continuous risk evaluation. At each point, you decide to commit, go back, or stop based on evidence.</span></p></li><li><p><strong><span>The 4 Principles of ICSM:</span></strong></p><ol start='' ><li><p><strong><span>Stakeholder Value-Based Guidance:</span></strong><span> Based on </span><strong><span>Theory W</span></strong><span> (Enterprise Success Theorem). You succeed </span><em><span>if and only if</span></em><span> you make winners of your success-critical stakeholders .</span></p><ul><li><p><em><span>Scenario:</span></em><span> If developers win but users lose (bad product), everyone eventually loses.</span></p></li></ul></li><li><p><strong><span>Incremental Commitment &amp; Accountability:</span></strong><span> Opposes &quot;Total Commitment&quot; (Roulette) in favor of staged commitment (Poker/Blackjack).</span></p></li><li><p><strong><span>Concurrent Multi-Discipline Engineering:</span></strong><span> Activities (scoping, requirements, coding) happen in parallel but with varying intensity levels over time.</span></p></li><li><p><strong><span>Evidence &amp; Risk-Based Decisions:</span></strong><span> Go/No-Go decisions are based on validated evidence (e.g., feasibility evidence description), not just a calendar schedule.</span></p></li></ol></li></ul><h4 id='case-study-bank-of-america-masternet-failure'><strong><span>Case Study: Bank of America MasterNet Failure</span></strong></h4><ul><li><p><strong><span>Context:</span></strong><span> Bank of America wanted a new Trust Management System (TMS) in the 80s.</span></p></li><li><p><strong><span>The Mistake (Total Commitment):</span></strong><span> Committed </span><strong><span>$22 Million</span></strong><span> and a </span><strong><span>9-month</span></strong><span> timeline upfront to a contractor (Premier Systems) without validating scalability.</span></p></li><li><p><strong><span>The Outcome:</span></strong><span> After 50+ months and $80 Million, the project was abandoned. 3.5 million lines of requirements (feature creep) and zero working demos.</span></p></li><li><p><strong><span>Why it failed (ICSM perspective):</span></strong></p><ul><li><p><span>Violated </span><strong><span>Principle 1:</span></strong><span> Ignored maintainers/operators (only listened to customer wishlists).</span></p></li><li><p><span>Violated </span><strong><span>Principle 2:</span></strong><span> Total commitment removed developer motivation (paid regardless of success).</span></p></li><li><p><span>Violated </span><strong><span>Principle 4:</span></strong><span> No evidence of scalability or feasibility collected before the big check was written.</span></p></li></ul></li></ul><hr /><h3 id='v-value-based-software-engineering-vbse'><strong><span>V. Value-Based Software Engineering (VBSE)</span></strong></h3><ul><li><p><strong><span>Definition:</span></strong><span> Integrating value considerations into all engineering decisions to reconcile stakeholder objectives.</span></p></li><li><p><strong><span>Theory W (Win-Win):</span></strong></p><ul><li><p><strong><span>Theorem:</span></strong><span> Enterprise success depends on making winners of success-critical stakeholders.</span></p></li><li><p><strong><span>Process:</span></strong><span> Identify stakeholders </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.181ex" role="img" focusable="false" viewBox="0 -511 1000 522" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.025ex;"><defs><path id="MJX-30-TEX-N-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2192" xlink:href="#MJX-30-TEX-N-2192"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\rightarrow</script><span> Identify win conditions </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.181ex" role="img" focusable="false" viewBox="0 -511 1000 522" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.025ex;"><defs><path id="MJX-30-TEX-N-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2192" xlink:href="#MJX-30-TEX-N-2192"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\rightarrow</script><span> Negotiate Win-Win </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.181ex" role="img" focusable="false" viewBox="0 -511 1000 522" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.025ex;"><defs><path id="MJX-30-TEX-N-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="2192" xlink:href="#MJX-30-TEX-N-2192"></use></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math></mjx-assistive-mml></mjx-container><script type="math/tex">\rightarrow</script><span> Control progress.</span></p></li></ul></li><li><p><strong><span>Importance:</span></strong><span> Software is intangible and volatile; value trade-offs (cost vs. quality vs. schedule) determine the outcome.</span></p></li></ul><hr /><h3 id='vi-agile-methodologies'><strong><span>VI. Agile Methodologies</span></strong></h3><ul><li><p><strong><span>Definition:</span></strong><span> An umbrella term for a guiding philosophy (Manifesto) and set of principles.</span></p></li><li><p><strong><span>The Agile Manifesto (2001):</span></strong><span> </span></p><ul><li><p><span>Individuals and interactions </span><strong><span>over</span></strong><span> processes and tools.</span></p></li><li><p><span>Working software </span><strong><span>over</span></strong><span> comprehensive documentation.</span></p></li><li><p><span>Customer collaboration </span><strong><span>over</span></strong><span> contract negotiation.</span></p></li><li><p><span>Responding to change </span><strong><span>over</span></strong><span> following a plan.</span></p></li><li><p><em><span>Note:</span></em><span> The instructor calls the manifesto &quot;overly dramatic&quot; and extreme; modern Agile has converged with models like ICSM (adding back some documentation and process for scale).</span></p></li></ul></li></ul><h4 id='1-scrum'><strong><span>1. Scrum</span></strong></h4><ul><li><p><strong><span>Focus:</span></strong><span> How a team organizes and manages work.</span></p></li><li><p><strong><span>Roles:</span></strong></p><ul><li><p><strong><span>Product Owner:</span></strong><span> Champion of the product/business value.</span></p></li><li><p><strong><span>Scrum Master:</span></strong><span> Champion of the process (facilitator).</span></p></li><li><p><strong><span>Development Team:</span></strong><span> Champion of technical implementation.</span></p></li></ul></li><li><p><strong><span>Artifacts:</span></strong></p><ul><li><p><strong><span>Product Backlog:</span></strong><span> List of desired requirements/features.</span></p></li><li><p><strong><span>Sprint Backlog:</span></strong><span> Tasks selected for the current sprint.</span></p></li><li><p><strong><span>Increment:</span></strong><span> The deliverable of a sprint (must meet Definition of Done).</span></p></li></ul></li><li><p><strong><span>Events:</span></strong><span> Sprint Planning, Daily Scrum, Sprint Review (demo), Sprint Retrospective (process improvement) .</span></p></li></ul><h4 id='2-extreme-programming-xp'><strong><span>2. Extreme Programming (XP)</span></strong></h4><ul><li><p><strong><span>Focus:</span></strong><span> Pushes core </span><strong><span>engineering practices</span></strong><span> to the extreme.</span></p></li><li><p><strong><span>Practices:</span></strong><span> Frequent releases, shorter timeboxes, frequent communication, expecting change.</span></p></li><li><p><strong><span>Drawbacks:</span></strong><span> Requires unstable requirements, strong engineering discipline, and </span><strong><span>high customer availability</span></strong><span> (which is rare).</span></p></li></ul><h4 id='3-lean--kanban'><strong><span>3. Lean &amp; Kanban</span></strong></h4><ul><li><p><strong><span>Origins:</span></strong><span> Toyota Production System (TPS).</span></p></li><li><p><strong><span>Key Concepts:</span></strong></p><ul><li><p><strong><span>Muda/Mura/Muri:</span></strong><span> Types of waste (non-value added tasks, unevenness, overburdening).</span></p></li><li><p><strong><span>Kanban (Signboard):</span></strong><span> Visualize workflow and </span><strong><span>Limit Work In Progress (WIP)</span></strong><span> to prevent bottlenecks (like traffic on the 405 freeway).</span></p></li></ul></li></ul><h4 id='4-scaling-agile'><strong><span>4. Scaling Agile</span></strong></h4><ul><li><p><span>Vanilla Agile (Scrum) struggles with scalability (large complex systems).</span></p></li><li><p><strong><span>Solutions:</span></strong><span> SAFe (Scaled Agile Framework), LeSS (Large-Scale Scrum), Nexus, Disciplined Agile. These add process layers back in to handle coordination.</span></p></li></ul><hr /><h3 id='vii-anti-patterns'><strong><span>VII. Anti-Patterns</span></strong></h3><h4 id='general-se-anti-patterns'><strong><span>General SE Anti-Patterns</span></strong></h4><ul><li><p><strong><span>Brooks’s Law:</span></strong><span> Adding manpower to a late software project makes it later (due to coordination overhead).</span></p></li><li><p><strong><span>Feature Creep:</span></strong><span> Uncontrolled growth of project scope after requirements are set.</span></p></li><li><p><strong><span>Gold Plating:</span></strong><span> Continuing work past the point of value (over-engineering).</span></p></li><li><p><strong><span>God Object:</span></strong><span> Putting too many functions/responsibilities into a single class/part of the design.</span></p></li><li><p><strong><span>Dead Code:</span></strong><span> Code that exists but is unreachable or purpose unknown.</span></p></li><li><p><strong><span>Premature Optimization:</span></strong><span> Optimizing for efficiency too early, often wasting effort.</span></p></li></ul><h4 id='agile-specific-anti-patterns'><strong><span>Agile-Specific Anti-Patterns</span></strong></h4><ul><li><p><strong><span>Agile Theater:</span></strong><span> &quot;Doing&quot; Agile (motions/ceremonies) without &quot;Being&quot; Agile (understanding the values).</span></p></li><li><p><strong><span>ScrumBut:</span></strong><span> &quot;We do Scrum, </span><em><span>but</span></em><span>...&quot; (making exceptions like skipping retrospectives or huge user stories).</span></p></li><li><p><strong><span>Agile on the Fly:</span></strong><span> Assuming Agile means &quot;no planning&quot; or purely ad-hoc work .</span></p></li></ul><hr /><h3 id='viii-industry-usage-statistics'><strong><span>VIII. Industry Usage Statistics</span></strong></h3><ul><li><p><strong><span>Small Projects (&lt;50 people):</span></strong><span> Tend to use </span><strong><span>Iterative/Agile</span></strong><span> models.</span></p></li><li><p><strong><span>Large Projects (&gt;10,000 people/High Budget):</span></strong><span> Tend to use </span><strong><span>Traditional</span></strong><span> models (Waterfall/Hybrid).</span></p></li><li><p><strong><span>Critical Projects:</span></strong><span> Surprisingly, over half of &quot;high criticality&quot; projects use Agile.</span></p></li></ul><p>&nbsp;</p><h1 id='29-lecture-3'><span>2/9 Lecture 3</span></h1><h2 id='part-1-analysis-and-planning'><span>Part 1: Analysis and Planning</span></h2><p><span>The primary goal of software analysis and planning is to prevent project failure, which includes missing budgets, deadlines, or system requirements.</span></p><h3 id='risk-analysis'><span>Risk Analysis</span></h3><p><span>Risk is the possibility of loss or injury involving uncertainties; it is not yet a problem.</span></p><ul><li><p><strong><span>Risk Exposure Calculation:</span></strong><span> Risk exposure equals the probability of loss multiplied by the size of the loss.</span></p></li><li><p><strong><span>Opportunity Exposure:</span></strong><span> Risks can sometimes be turned into opportunities, where exposure is calculated by the probability of gaining something multiplied by the size of the gain.</span></p></li><li><p><strong><span>Continuous Assessment:</span></strong><span> Assessing risk helps determine &quot;how much is enough&quot; for tasks like testing or documentation, and helps you proactively tailor your processes.</span></p></li><li><p><strong><span>Day-One Temptations to Avoid:</span></strong><span> Do not assume it is too early to think about risks, do not rush to code before assessing risks, and do not ignore that risks exist out of optimism.</span></p></li></ul><h3 id='risk-management-strategies'><span>Risk Management Strategies</span></h3><ul><li><p><strong><span>Buying Information:</span></strong><span> Spending a small amount early (e.g., prototyping) to gain information and reduce risk exposure.</span></p></li><li><p><strong><span>Avoidance:</span></strong><span> Choosing alternatives to completely bypass the risk.</span></p></li><li><p><strong><span>Transfer:</span></strong><span> Shifting the risk to another party, such as making the customer establish a risk reserve.</span></p></li><li><p><strong><span>Reduction:</span></strong><span> Taking immediate action to minimize potential impacts, like schedule delays.</span></p></li><li><p><strong><span>Acceptance:</span></strong><span> Absorbing the risk and potentially turning it into a competitive advantage.</span></p></li></ul><h3 id='cost-estimation'><span>Cost Estimation</span></h3><p><span>Cost estimation is a difficult but essential prediction of the effort and elapsed time needed for a project.</span></p><ul><li><p><strong><span>The Cone of Uncertainty:</span></strong><span> Estimates are highly inaccurate at the beginning of a project and become more accurate as the project progresses and uncertainties decrease.</span></p></li><li><p><strong><span>Top-Down Approach:</span></strong><span> Uses historical data from similar projects for high-level, fast budgeting, but misses unique project details.</span></p></li><li><p><strong><span>Bottom-Up Approach:</span></strong><span> Breaks the project into individual tasks, offering high accuracy for well-defined scopes (like a sprint), but is highly time-consuming.</span></p></li><li><p><strong><span>COCOMO II:</span></strong><span> A statistical, black-box model created by Dr. Boehm relying on empirical data and regression analysis.</span></p></li><li><p><strong><span>COCOMO Inputs:</span></strong><span> Requires size metrics (traditionally thousands of source lines of code, or KSLOC) and scale/cost drivers (e.g., team cohesion, precedentedness) to calculate person-months of effort.</span></p></li><li><p><strong><span>AI Considerations:</span></strong><span> Writing code has become significantly cheaper with AI, meaning traditional size metrics like KSLOC may need to be heavily discounted today.</span></p></li></ul><h3 id='technical-debt'><span>Technical Debt</span></h3><p><span>Technical debt is the accrued consequence of postponing difficult fixes, coined by Ward Cunningham.</span></p><ul><li><p><strong><span>The Debt Metaphor:</span></strong><span> Shipping first-time code is like taking on debt; it speeds up development but counts as &quot;interest&quot; if not paid back promptly with a rewrite.</span></p></li><li><p><strong><span>Major Causes:</span></strong><span> Business pressures, conspiracy of optimism, and ignoring edge/rainy-day cases.</span></p></li><li><p><strong><span>Categories:</span></strong><span> Debt can be deliberate or inadvertent, and reckless or prudent.</span></p></li><li><p><strong><span>Resolution Methods:</span></strong><span> Solutions include the &quot;Big Bang&quot; (stopping new features to fix debt), establishing a dedicated fixing team, following the Boy Scout rule (fixing little and often), or integrating automated tools like SonarQube into the CI/CD pipeline.</span></p></li></ul><hr /><h2 id='part-2-software-architecture'><span>Part 2: Software Architecture</span></h2><p><span>Software architecture encapsulates the set of principal design decisions about a system, serving as its construction blueprint.</span></p><h3 id='core-architectural-concepts'><span>Core Architectural Concepts</span></h3><ul><li><p><strong><span>Fundamental Truths:</span></strong><span> Every application has at least one architecture, and architecture is not merely a single phase of development.</span></p></li><li><p><strong><span>Temporal Aspect:</span></strong><span> At any given point in time, a system has only one architecture, but this architecture changes over time as new design decisions are made.</span></p></li><li><p><strong><span>Architectural Elements:</span></strong><span> Architectures are made of components (processing/data elements), connectors (regulating interactions), and configurations/topology (specific associations between the two).</span></p></li></ul><h3 id='style-patterns-and-models'><span>Style, Patterns, and Models</span></h3><ul><li><p><strong><span>Architectural Style:</span></strong><span> A named collection of design decisions providing specific benefits, such as Client-Server or Peer-to-Peer.</span></p></li><li><p><strong><span>Architectural Pattern:</span></strong><span> Similar to a style, but applied more specifically to recurring design problems at a smaller scope.</span></p></li><li><p><strong><span>Software Models:</span></strong><span> Artifacts (like UML diagrams or natural language descriptions) that capture and document architectural design decisions.</span></p></li></ul><h3 id='architectural-analysis'><span>Architectural Analysis</span></h3><ul><li><p><strong><span>Purpose:</span></strong><span> Discovering important system properties early to reduce risk and verify completeness, consistency, compatibility, and correctness.</span></p></li><li><p><strong><span>Analysis Types:</span></strong><span> Includes static analysis, dynamic analysis, and scenario-driven analysis.</span></p></li></ul><hr /><h2 id='part-3-prototyping-and-testing'><span>Part 3: Prototyping and Testing</span></h2><p><span>Both practices are essential to reduce risks, seek feedback, and validate assumptions before making expensive mistakes.</span></p><h3 id='prototyping-basics'><span>Prototyping Basics</span></h3><ul><li><p><strong><span>Definition:</span></strong><span> An early sample, model, or release of a product built to buy information inexpensively and gather accurate requirements.</span></p></li><li><p><strong><span>Throwaway Prototyping:</span></strong><span> Built simply to learn information and then discarded.</span></p></li><li><p><strong><span>Evolutionary Prototyping:</span></strong><span> Building a robust prototype and refining it until it becomes the final product.</span></p></li><li><p><strong><span>Horizontal Prototyping:</span></strong><span> A broad view with no underlying depth, such as a static UI mockup built in Figma.</span></p></li><li><p><strong><span>Vertical Prototyping:</span></strong><span> A deep elaboration of a single subsystem or complex algorithm to ensure functionality.</span></p></li></ul><h3 id='testing-fundamentals'><span>Testing Fundamentals</span></h3><p><span>Testing is the process of operating a system under specified conditions to identify bugs or differences between existing and required conditions.</span></p><ul><li><p><strong><span>Verification:</span></strong><span> Answering &quot;Are we building the product right?&quot; (matches intended design) .</span></p></li><li><p><strong><span>Validation:</span></strong><span> Answering &quot;Are we building the right product?&quot; (matches user needs) .</span></p></li><li><p><strong><span>Exhaustive vs. Random:</span></strong><span> Exhaustive testing (testing every possible input combination) is impossible in commercial systems, while random testing might miss critical areas.</span></p></li><li><p><strong><span>Good Test Cases:</span></strong><span> A strong test prioritizes high-impact areas and has a high probability of finding an undiscovered fault without needing to examine the whole codebase.</span></p></li></ul><h3 id='testing-methods-and-levels'><span>Testing Methods and Levels</span></h3><ul><li><p><strong><span>Black-Box Testing:</span></strong><span> Testing to the specification without looking at the code.</span></p></li><li><p><strong><span>Equivalence Partitioning:</span></strong><span> Dividing input data into valid and invalid partitions and testing representative values from each.</span></p></li><li><p><strong><span>Boundary Conditions:</span></strong><span> Testing the edges of equivalence partitions, as errors heavily cluster around boundaries.</span></p></li><li><p><strong><span>White-Box Testing:</span></strong><span> Testing internal code structures, checking metrics like statement coverage, branch coverage, and basic condition coverage to spot unused logic or &quot;dead code&quot;.</span></p></li><li><p><strong><span>Testing Levels:</span></strong><span> Ranges from micro to macro: Unit testing, Integration testing, System testing, Acceptance testing, and post-maintenance Regression testing.</span></p></li></ul><h3 id='quality-of-service-qos'><span>Quality of Service (QoS)</span></h3><ul><li><p><strong><span>Non-Functional Requirements:</span></strong><span> Represented by the &quot;ilities&quot; (usability, reliability, portability, etc.).</span></p></li><li><p><strong><span>Testability:</span></strong><span> QoS requirements are notoriously hard to test unless they are explicitly quantified.</span></p></li><li><p><strong><span>Writing Better Requirements:</span></strong><span> Requirements must be Specific, Measurable, Attainable, Realizable, and Traceable to be effectively tested.</span></p></li></ul><hr /><h2 id='part-4-devops'><span>Part 4: DevOps</span></h2><p><span>DevOps is a set of practices combining development and operations to reduce the time between committing a code change and placing it into production, while ensuring high quality.</span></p><h3 id='continuous-delivery-pipeline-stages'><span>Continuous Delivery Pipeline Stages</span></h3><ul><li><p><strong><span>Continuous Exploration:</span></strong><span> Researching, architecting, and synthesizing new ideas and features.</span></p></li><li><p><strong><span>Continuous Integration:</span></strong><span> Developing the solution, automated building, testing end-to-end, and avoiding massive merge conflicts by merging code frequently.</span></p></li><li><p><strong><span>Continuous Deployment:</span></strong><span> Releasing verified solutions continuously to the production environment.</span></p></li><li><p><strong><span>Release on Demand:</span></strong><span> Decoupling deployments from actual user releases, stabilizing the solution, measuring business value, and reacting.</span></p></li></ul><h3 id='deployment-and-monitoring-strategies'><span>Deployment and Monitoring Strategies</span></h3><ul><li><p><strong><span>Feature Toggles:</span></strong><span> Kill switches that allow code to be deployed but kept inactive until manually flipped.</span></p></li><li><p><strong><span>Dark Launches:</span></strong><span> Releasing features to a specific subset of users to test stability before a full release.</span></p></li><li><p><strong><span>Blue-Green Deployment:</span></strong><span> Maintaining two separate environments to achieve near-zero downtime during releases.</span></p></li><li><p><strong><span>Telemetry and Intelligence:</span></strong><span> Using full-stack monitoring and log collection systems to analyze user behavior and measure business hypotheses.</span></p></li><li><p><strong><span>Recovery:</span></strong><span> Version control and the ability to trigger a quick revert are essential fail-safes during deployment.</span></p></li></ul><p>&nbsp;</p><h1 id='32-lecture-4'><span>3/2 Lecture 4</span></h1><p><strong><span>Date</span></strong><span>: March 2, 2026</span></p><p><strong><span>Instructor</span></strong><span>: Dr. Jay</span></p><hr /><h3 id='1-exam-logistics--preparation'><strong><span>1. Exam Logistics &amp; Preparation</span></strong></h3><ul><li><p><strong><span>Format</span></strong><span>: The written exam will be 2 hours long and consist of 10 descriptive (written) questions. Expect to write 4 to 5 pages.</span></p></li><li><p><strong><span>Rules</span></strong><span>: Open note and open book, but </span><strong><span>analog only</span></strong><span>—no electronics allowed.</span></p></li><li><p><strong><span>Preparation</span></strong><span>: Create a physical cheat sheet. Printing slides multiple to a page (e.g., 8 per page) is recommended to save paper . The exam covers the </span><em><span>lectures</span></em><span>; the textbook is primarily for quizzes .</span></p></li><li><p><strong><span>DEN (Remote) Students</span></strong><span>: The exam will appear on Brightspace at exactly 6:00 PM PT . Students write answers on blank paper and get an extra 30 minutes to scan and upload their work . Local DEN students may take the exam in person if they coordinate with the instructor ahead of time .</span></p></li></ul><hr /><h3 id='2-software-maintenance'><strong><span>2. Software Maintenance</span></strong></h3><ul><li><p><strong><span>Definition</span></strong><span>: The modification of a software product after delivery to correct faults, improve performance, or adapt the product to a modified environment .</span></p></li><li><p><strong><span>The &quot;Iron Law&quot; of Maintenance</span></strong><span>: Useful software systems will spend twice as much on software maintenance as they did for development. Maintenance can account for up to 90% of software lifecycle costs, significantly higher than hardware (12-84%) .</span></p></li><li><p><strong><span>Types of Maintenance</span></strong><span> :</span></p><ol start='' ><li><p><strong><span>Preventive</span></strong><span>: Detecting and correcting latent faults </span><em><span>before</span></em><span> they manifest.</span></p></li><li><p><strong><span>Corrective</span></strong><span>: Reactive modification to fix discovered faults.</span></p></li><li><p><strong><span>Perfective</span></strong><span>: Improving performance or maintainability proactively.</span></p></li><li><p><strong><span>Adaptive</span></strong><span>: Modifying the system to cope with a changing environment.</span></p></li></ol></li><li><p><strong><span>COTS (Commercial Off-The-Shelf) Products</span></strong><span>: Using third-party libraries, SaaS, and open-source APIs saves initial costs but is a &quot;maintenance headache&quot; because developers have no control over updates, security vulnerabilities, or broken interfaces .</span></p></li><li><p><strong><span>Maintenance in the AI Era</span></strong><span>: AI tools boost throughput but reduce delivery stability, causing developers to rewrite (&quot;churn&quot;) code much faster . AI-generated code frequently violates the &quot;DRY&quot; (Don&#39;t Repeat Yourself) principle and lacks architectural awareness due to limited context windows .</span></p></li></ul><hr /><h3 id='3-software-engineering-best-practices'><strong><span>3. Software Engineering Best Practices</span></strong></h3><ul><li><p><strong><span>The Triple Constraint</span></strong><span>: In project management, you have Time, Cost, and Scope. You can only pick two . For example, if you are strictly bound by time and fall behind, you must reduce the scope or increase the budget .</span></p></li><li><p><strong><span>Rational Unified Process (RUP) 6 Best Practices</span></strong><span> :</span></p><ol start='' ><li><p><span>Develop software iteratively.</span></p></li><li><p><span>Manage requirements (crucial today, as bad inputs to LLMs yield worse code).</span></p></li><li><p><span>Use component-based architectures (separation of concerns).</span></p></li><li><p><span>Visually model software.</span></p></li><li><p><span>Verify software quality.</span></p></li><li><p><span>Control changes to avoid feature creep.</span></p></li></ol></li><li><p><strong><span>AI-Era Survival Skills</span></strong><span>: Treat AI output as a draft. Adopt a </span><strong><span>Verification-First</span></strong><span> engineering approach where your test suite acts as your safety net and &quot;oracle&quot; . Human peer review for AI code is non-negotiable. Integrate static analysis and linters into CI/CD pipelines to automatically block flawed AI code from being merged .</span></p></li></ul><hr /><h3 id='4-classic--new-mistakes'><strong><span>4. Classic &amp; New Mistakes</span></strong></h3><ul><li><p><strong><span>People Mistakes</span></strong><span>: Adding people to a late project, failing to deal with problem employees, or ignoring user input .</span></p></li><li><p><strong><span>Process Mistakes</span></strong><span>: Making overly optimistic schedules.</span></p></li><li><p><strong><span>Product Mistakes</span></strong><span>: &quot;Gold Plating&quot; (working past the point of adding value), Feature Creep (uncontrolled expansion of scope), and Developer Gold Plating (adopting shiny new technologies instead of boring, stable ones) .</span></p></li><li><p><strong><span>Technology Mistakes</span></strong><span>: &quot;Silver Bullet Syndrome&quot; (expecting a new tech to solve all essential problems) and switching tools mid-project .</span></p></li><li><p><strong><span>Modern AI Mistakes</span></strong><span>: Blind trust in AI outputs without review (the modern equivalent of &quot;cowboy programming&quot;). Studies show developers using AI write </span><em><span>less</span></em><span> secure code but remain overconfident in its security.</span></p></li></ul><hr /><h3 id='5-laws-of-software-engineering'><strong><span>5. Laws of Software Engineering</span></strong></h3><ul><li><p><strong><span>Bernoulli’s Principle</span></strong><span>: Work of smaller teams proceeds faster than that of larger teams (especially true today with AI amplification) .</span></p></li><li><p><strong><span>Boehm’s Law</span></strong><span>: Errors are most frequent during requirements/design and are exponentially more expensive to fix the later they are caught .</span></p></li><li><p><strong><span>Brooks’s Law</span></strong><span>: Adding people to a late software project makes it later.</span></p></li><li><p><strong><span>Conway’s Law</span></strong><span>: A piece of software will reflect the organizational structure that produced it (e.g., three sub-teams will naturally produce a three-component architecture) .</span></p></li><li><p><strong><span>Crosby’s Law</span></strong><span>: &quot;Quality is free.&quot; Spending effort early on quality prevents massive rework costs later .</span></p></li><li><p><strong><span>Humphrey’s Law</span></strong><span>: Users do not know what they want a system to do until they actually see it working (hence the need for prototypes) .</span></p></li><li><p><strong><span>Goodhart’s Law</span></strong><span>: When a measure becomes a target, it ceases to be a good measure. If you target &quot;number of PRs merged,&quot; developers will game the system by splitting work into tiny, meaningless PRs .</span></p></li><li><p><strong><span>Knuth&#39;s Principle</span></strong><span>: Premature optimization is the root of all evil.</span></p></li><li><p><strong><span>Parkinson’s Law</span></strong><span>: Work expands to fill the time available for its completion.</span></p></li><li><p><strong><span>Pareto Principle (80/20 Rule)</span></strong><span>: &gt;80% of software bugs are found in &lt;20% of the software modules.</span></p></li><li><p><strong><span>The 90-90 Rule</span></strong><span>: The first 90% of the code takes 90% of the development time; the remaining 10% of the code takes the </span><em><span>other</span></em><span> 90% of the time .</span></p></li></ul><hr /><h3 id='6-software-engineering-ethics'><strong><span>6. Software Engineering Ethics</span></strong></h3><ul><li><p><strong><span>Context</span></strong><span>: Software engineers hold immense power over public harm/good, security, and privacy, especially with the rise of autonomous AI systems making nanosecond decisions .</span></p></li><li><p><strong><span>Rawls&#39; Theory of Justice</span></strong><span>: Utilize a &quot;veil of ignorance&quot;—deliberately step outside your race, class, gender, and status to design a system that protects the least advantaged stakeholders .</span></p></li><li><p><strong><span>The Publicity Test</span></strong><span>: Before shipping a feature, ask yourself if you could defend your ethical determination with honor before an informed public or press .</span></p></li><li><p><strong><span>AI Ethics Challenges</span></strong><span>:</span></p><ul><li><p><span>Bias and amplification (e.g., AI resume screeners showing bias).</span></p></li><li><p><span>The Accountability Gap: If AI generates harmful code, the human engineer is still fully responsible.</span></p></li><li><p><span>Unresolved IP and copyright issues stemming from LLMs trained on open-source code.</span></p></li></ul></li></ul><hr /><h3 id='7-the-history--future-of-se'><strong><span>7. The History &amp; Future of SE</span></strong></h3><ul><li><p><strong><span>1950s:</span></strong><span> Software was treated like hardware.</span></p></li><li><p><strong><span>1960s:</span></strong><span> The &quot;Cowboy era&quot; of handcrafting code .</span></p></li><li><p><strong><span>1970s:</span></strong><span> Formal Waterfall processes.</span></p></li><li><p><strong><span>1980s:</span></strong><span> Object-oriented programming and the realization that there is &quot;no silver bullet&quot; to fix essential complexity .</span></p></li><li><p><strong><span>2000s:</span></strong><span> The rise of Agile.</span></p></li><li><p><strong><span>The Future (2026+)</span></strong><span>: Legacy systems (like COBOL programs from the 1970s) never go away and require continuous upkeep . AI will allow engineers to build systems that are 10 times more complex with the same manpower, placing a premium on human architectural/system-level thinking rather than raw coding speed .</span></p><p>&nbsp;</p><p>&nbsp;</p></li></ul></div></div>
+</body>
+</html>
