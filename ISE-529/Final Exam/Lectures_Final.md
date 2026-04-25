@@ -730,3 +730,455 @@ Standard SVM only splits data into two classes. To handle $>2$ classes ($k$), tw
 | ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | **One-Versus-One (OvO)** | Constructs a separate SVM model for every possible pair of classes. Total models = $\binom{k}{2}$. | A new observation is tested on all models. The class that wins the most "votes" is the final prediction. |
 | **One-Versus-All (OvA)** | Constructs $k$ models. Each model compares one specific class against all remaining classes grouped together. | A new observation is tested on all models. The model outputting the highest confidence value determines the class. |
+
+Here is a detailed, cheatsheet-style lecture note based on your transcript. I've structured it to prioritize quick scanning, mathematical clarity, and core concepts.
+
+
+
+# 4/8 Lecture - Neural Networks
+
+## 1. High-Level Overview & Applications
+
+Neural Networks (NNs) are powerful predictive analytics tools used to model complex, non-linear relationships by learning from large datasets.
+
+- **Predictive Analytics & Forecasting:** Weather forecasting, traffic volume prediction.
+- **Computer Vision (CNNs):** Medical image diagnosis (CT scans), License plate recognition (Intelligent Transportation Systems), Facial recognition, Autonomous driving (Tesla, Waymo object detection).
+- **Natural Language Processing (LLMs):** Information surfacing and conversational AI (e.g., ChatGPT).
+
+------
+
+## 2. Anatomy of a Single Neuron (The Operator)
+
+A single neuron acts as a computational unit (an "operator"). Information always flows from **left to right** (Feedforward).
+
+### **The Computation Steps:**
+
+1. **Input Vector ($X$):** Raw inputs enter from the left: $x_1, x_2, \dots, x_n$.
+
+2. **Weights ($\omega$):** Every input is multiplied by a corresponding weight.
+
+3. **Bias ($\beta_0$ or $\omega_0$):** An intercept term is added (similar to linear regression).
+
+4. **Aggregation:** The neuron calculates the weighted sum:
+
+   $$z = \sum_{i=1}^{n} (\omega_i \cdot x_i) + \text{bias}$$
+
+5. **Activation Function ($g(z)$):** The aggregated sum is passed through a non-linear function to generate the final output (called the **Activation**, denoted as $a$).
+
+### **Common Activation Functions:**
+
+- **Sigmoid / Logistic:** Outputs values between 0 and 1 (often used for probabilities).
+
+- **Hyperbolic Tangent (Tanh):** Outputs values between -1 and 1.
+
+- **ReLU (Rectified Linear Unit):** Extremely common in modern NNs.
+
+  $$g(x) = \max(0, x)$$
+
+  *(If $x$ is negative, output is 0; if positive, output is $x$)*
+
+- **Softmax:** Used in the output layer for multi-class classification to generate a probability distribution.
+
+------
+
+## 3. Network Architecture (Multilayer Perceptron - MLP)
+
+Neurons are stacked into layers to create a network.
+
+- **Input Layer:** Takes the raw data. (No activation functions applied here; acts as a pass-through).
+- **Hidden Layer(s):** The intermediate layers where the core feature extraction and non-linear transformations happen.
+- **Output Layer:** Generates the final prediction.
+- **Fully Connected:** Every neuron in a given layer connects to *every* neuron in the subsequent layer. There are **no connections** between neurons within the same layer.
+- **Weight Matrices:** The weights between layers are stored mathematically as matrices. A network with 3 layers (Input, 1 Hidden, Output) requires **2 weight matrices**.
+
+> **💡 The Universal Approximation Theorem:**
+>
+> In theory, a neural network with just **one single hidden layer** containing a sufficient number of neurons can approximate almost any continuous function. However, using two or more hidden layers can often achieve the same result faster and with fewer total neurons, reducing the risk of overfitting.
+
+------
+
+## 4. Mathematical Representation & Training
+
+A neural network is essentially a massive set of **nested functions**.
+
+### **Feedforward Propagation Model**
+
+For a simple network with one hidden layer:
+
+$$f(X) = \sum_{k} \alpha_k \cdot g\left(\sum_{i} \omega_{ik}x_i + \text{bias}_k\right) + \text{bias}_{out}$$
+
+- $\omega$: Weights from Input $\rightarrow$ Hidden Layer.
+- $\alpha$ (or $\beta$): Weights from Hidden $\rightarrow$ Output Layer.
+
+### **Model Training**
+
+"Training" a network means finding the optimal numerical values for the weight matrices and biases. This is framed as an optimization problem:
+
+1. **Regression Problems:** Minimize the Sum of Squared Errors (SSE).
+
+   $$\text{Minimize: } \sum (y_i - f(x_i))^2$$
+
+2. **Classification Problems:** Maximize the Log-Likelihood (or minimize the Negative Log-Likelihood/Cross-Entropy).
+
+------
+
+## 5. Case Study: MNIST Digit Classification
+
+How images are transformed into mathematical inputs:
+
+- **Goal:** Classify handwritten digits (0-9).
+- **Data Size:** 60,000 images.
+- **Digitalization:** A $28 \times 28$ pixel image is flattened into a single vector of **784 elements**.
+- **Architecture Sizing Example:**
+  - **Input Layer:** 784 neurons (one for each pixel).
+  - **Hidden Layer 1:** 256 neurons. *(Weight Matrix 1 Size: $785 \times 256$, including bias)*
+  - **Hidden Layer 2:** 128 neurons. *(Weight Matrix 2 Size: $257 \times 128$)*
+  - **Output Layer:** 10 neurons (one for each digit 0-9). *(Weight Matrix 3 Size: $129 \times 10$)*
+
+------
+
+## 6. Calculation Walkthrough (The $X_1 X_2$ Problem)
+
+This is the specific mathematical example the professor walked through manually on the board to prove how NNs capture non-linear interactions.
+
+**Given Parameters:**
+
+- Inputs: $p=2 \implies (x_1, x_2)$
+- Hidden Nodes: $k=2 \implies (h_1, h_2)$
+- Activation Function: $g(z) = z^2$
+- Weights to Hidden ($\omega$): $w_{11}=1, w_{12}=1, w_{21}=1, w_{22}=-1$
+- Weights to Output ($\alpha$): $\alpha_1=\frac{1}{4}, \alpha_2=-\frac{1}{4}$
+- Biases: All $0$
+
+**Step-by-Step Propagation:**
+
+1. **Hidden Node 1 ($h_1$):**
+   - Weighted sum: $(1\cdot x_1) + (1\cdot x_2) = x_1 + x_2$
+   - Activation: $a_1 = (x_1 + x_2)^2$
+2. **Hidden Node 2 ($h_2$):**
+   - Weighted sum: $(1\cdot x_1) + (-1\cdot x_2) = x_1 - x_2$
+   - Activation: $a_2 = (x_1 - x_2)^2$
+3. **Final Output ($o_1$):**
+   - $f(X) = \frac{1}{4}a_1 - \frac{1}{4}a_2$
+   - $f(X) = \frac{1}{4}(x_1^2 + 2x_1x_2 + x_2^2) - \frac{1}{4}(x_1^2 - 2x_1x_2 + x_2^2)$
+   - **Result:** $f(X) = x_1x_2$
+
+
+
+# 4/13 Lecture - Neural Networks: Architecture & Training Cheatsheet
+
+## 1. Architecture & Core Concepts
+
+A neural network maps an input space to an output space via non-linear transformations. Its capacity is defined by its architecture and the data it is trained on (e.g., supervised learning using image, traffic, or text data).
+
+- **Input Layer:** Takes raw data. No activation functions or aggregations occur here.
+  - *Example (MNIST Handwritten Digits):* A 28x28 pixel image is flattened into a single vector of $784$ elements, requiring $784$ input neurons.
+- **Hidden Layer(s):** Intermediate layers where weighted sums are calculated and passed through activation functions.
+- **Output Layer:** Generates the final model predictions.
+- **Weight Matrices ($\omega$ or $\theta$):** The connections between layers. Training a network is fundamentally the process of finding the optimal values for these matrices.
+
+## 2. Feedforward Propagation (The Forward Pass)
+
+The process of passing data from the input layer to the output layer to generate a prediction.
+
+**Step 1: Calculate Weighted Sums**
+
+For each neuron $j$ in the hidden layer, calculate the sum of the inputs multiplied by their corresponding weights:
+
+$x_j = \sum (y_i \cdot \omega_{ij})$
+
+*(Where $y_i$ is the output from the previous layer, and $\omega_{ij}$ is the connecting weight).*
+
+**Step 2: Apply Activation Function**
+
+Plug the weighted sum into an activation function $g()$ to get the neuron's output (activation):
+
+$y_j = g(x_j)$
+
+*(Example: The Sigmoid/Logistic function).*
+
+**Step 3: Generate Output Probabilities (Softmax)**
+
+For classification tasks (like the 10-digit MNIST problem), the raw output of the final layer ($z$) is converted into probabilities using the **Softmax function**:
+
+$P(class = m | x) = \frac{e^{z_m}}{\sum_{i=1}^{10} e^{z_i}}$
+
+The model classifies the input as the digit with the highest resulting probability.
+
+------
+
+## 3. Model Estimation (Training)
+
+The essence of training is adjusting weight matrices so the model output ($\hat{y}$) is as close as possible to the target/observed value ($y$).
+
+- **Objective Function:** We measure the discrepancy using Sum of Squared Errors (SSE):
+
+  $E = \sum (y_{target} - \hat{y}_{model})^2$
+
+- **Optimization Problem:** We aim to minimize this objective function.
+
+- **Non-Convexity:** Unlike linear regression, neural network optimization is non-convex. The searching domain has many "valleys" (local optima). Gradient descent typically finds a **local optimum**, not the global optimum. Different starting initializations will result in different local optima.
+
+## 4. Gradient Descent Algorithm
+
+An iterative optimization method used to find the minimum of the objective function.
+
+**Algorithm Steps:**
+
+1. **Initialize Parameters:** Start with random guess values for all weight matrices (e.g., random values between $0$ and $1$). Set iteration $t = 0$.
+
+2. **Calculate Gradient ($\Delta$):** Determine the gradient (partial derivative) of the objective function with respect to the weights.
+
+3. **Update Weights:** Adjust the current weight using the gradient and a learning rate ($\rho$):
+
+   $\theta_{t+1} = \theta_t - \rho \cdot \Delta$
+
+4. Repeat until the error stops significantly decreasing.
+
+**The Learning Rate ($\rho$):** A tuning parameter (usually between $0$ and $1$) that controls step size.
+
+- **Too large:** You may overshoot the optimal solution.
+- **Too small:** High probability of hitting the optimum, but requires vastly more iterations (longer training time).
+
+------
+
+## 5. Backward Propagation (Backprop)
+
+The process of going backward (from output to input) to distribute the total error into small pieces (gradients) for every single weight. It uses the **Chain Rule** from calculus.
+
+### Updating Hidden-to-Output Weights ($\omega_{jk}$)
+
+To find how much a specific weight between the hidden layer ($j$) and output layer ($k$) contributed to the total error ($E$):
+
+$\frac{\partial E}{\partial \omega_{jk}} = \frac{\partial E}{\partial y_k} \cdot \frac{\partial y_k}{\partial x_k} \cdot \frac{\partial x_k}{\partial \omega_{jk}}$
+
+- $\frac{\partial E}{\partial y_k}$: Derivative of the error function.
+- $\frac{\partial y_k}{\partial x_k}$: Derivative of the activation function (e.g., for sigmoid, this is $y_k(1 - y_k)$).
+- $\frac{\partial x_k}{\partial \omega_{jk}}$: Derivative of the weighted sum, which simplifies to the activation from the previous node ($y_j$).
+
+### Updating Input-to-Hidden Weights ($\omega_{ij}$)
+
+When moving further back to weights between the input ($i$) and hidden layer ($j$), the chain rule must account for the fact that a single hidden neuron ($j$) contributes to **every** neuron in the output layer ($k$). We must sum these pathways:
+
+$\frac{\partial E}{\partial \omega_{ij}} = \left( \sum_k \frac{\partial E}{\partial x_k} \cdot \frac{\partial x_k}{\partial y_j} \right) \cdot \frac{\partial y_j}{\partial x_j} \cdot \frac{\partial x_j}{\partial \omega_{ij}}$
+
+------
+
+## 6. Network Design, Pros, & Cons
+
+### Hyperparameters & Architecture
+
+- **No theoretical formula** exists to perfectly determine the number of hidden layers or neurons.
+- **Rule of Thumb:** A single hidden layer with a neuron count equal to $2/3$ of the sum of the input and output neurons.
+- **Multiple Hidden Layers:** Used in practice to shorten the time it takes to find a solution.
+- **Learning Rate:** Often determined via cross-validation.
+
+### Advantages
+
+- Excellent at capturing complex, non-linear mappings.
+- Strong anti-noise capacity (though bounded by "garbage in, garbage out").
+
+### Disadvantages
+
+- **Black Box:** No statistical diagnosis or inference. You cannot interpret the meaning of individual weights or calculate confidence intervals (unlike regression coefficients).
+- **Overfitting:** A major risk. The model can memorize training data and fail on unseen data.
+
+### Preventing Overfitting
+
+1. **Cross-Validation:** Split data into training, validation, and testing sets. Use validation to know when to stop training (Early Stopping).
+2. **Regularization:** Penalize overly complex weights.
+3. **Slow Learning Rate:** Use a smaller $\rho$.
+
+
+
+# 4/15 Lecture - Neural Networks & Deep Learning
+
+## Part 1: Training & Mitigating Overfitting
+
+Overfitting occurs when a neural network memorizes training data but fails to generalize to new data. You cannot 100% prevent it, but you can mitigate it.
+
+### 🛡️ Strategies to Prevent Overfitting
+
+- **Slowing Learning Rate:** Reduces the step size during weight adjustments. It takes longer to converge to a local optimum but can yield better generalization.
+- **Regularization (Ridge/Lasso style):** Adding a penalty term to the objective function (e.g., squaring or taking the absolute value of all weight matrices and summing them). This forces less important weights towards zero, highlighting the most significant parameters.
+- **Dropout Learning:**
+  - **Mechanism:** Randomly select a percentage of neurons (the *dropout rate*, e.g., 10%) to ignore during a single feedforward pass (their input/output becomes zero).
+  - **Purpose:** Prevents the network from relying too heavily on a few "strong" neurons.
+  - **Analogy:** Similar to Random Forest in decision trees, where random subsets of predictors are used so every feature gets an equal chance to contribute.
+
+### ⚙️ Training Mechanics & Terminology
+
+- **Feedforward Propagation:** Passing input data layer-by-layer from left to right to get an output and calculate the total error.
+- **Backward Propagation:** Redistributing that total error backwards through the network to adjust the weight matrices.
+- **Stochastic Gradient Descent (SGD):** An algorithm for optimizing weights using batches rather than the whole dataset at once.
+  - **Mini-Batch:** A subset of the training data (e.g., batch size of 128). The network does feedforward 128 times, accumulates the total error, and then does **one** backward propagation to adjust weights.
+  - **Epoch:** One complete cycle where the entire training dataset has been processed.
+  - *Example:* If you have 48,000 training images and a batch size of 128, you will perform 375 backward propagations per epoch ($48,000 / 128 = 375$).
+- **Data Splits:** A common split is 80% training data and 20% validation data. The validation set is used to determine when to stop training (via cross-validation curves).
+
+### 🎛️ Hyperparameters to Tune
+
+Hyperparameters are set before training begins and dictate the network structure and learning process:
+
+- Number of hidden layers & neurons per layer
+- Learning rate ($\rho$)
+- Regularization penalty
+- Dropout rate
+- Optimization algorithm (e.g., SGD)
+- Mini-batch size & Number of epochs
+
+### 🐍 Python Packages for Neural Networks
+
+- **Scikit-Learn:** Simpler package with built-in datasets; good for basic models.
+- **TensorFlow:** Industry-standard, highly flexible, but has complex syntax.
+- **Keras:** A highly user-friendly interface that runs TensorFlow under the hood.
+- **PyTorch:** Another professional library (though noted as occasionally complex to configure).
+
+------
+
+## Part 2: Deep Learning & Convolutional Neural Networks (CNNs)
+
+**Deep Learning Definition:** A neural network containing **two or more hidden layers**. Because each layer acts as a linear combination passed through transformations, stacking them helps capture complex non-linearities.
+
+### 👁️ Convolutional Neural Networks (CNN) Overview
+
+Primarily used for computer vision, image classification, and object recognition (e.g., autonomous vehicles recognizing stop signs). CNNs map visual features to class labels (e.g., "Tiger" or "Car").
+
+#### 1. Image Pre-processing (Digitalization)
+
+Computers cannot "see" colors. Images are converted into a 3D **Tensor** consisting of three matrices corresponding to fundamental color channels: **Red, Green, and Blue (RGB)**. The numerical values represent pixel intensity.
+
+#### 2. Operation A: Convolution
+
+- **The Filter:** A small matrix (e.g., 2x2 or 3x3) containing a specific numerical pattern (weights) designed to extract a specific feature (vertical lines, horizontal lines, etc.).
+- **The Process:** 1. Place the filter on the top-left of the image matrix.
+  2. Multiply corresponding elements and sum the products to create a single new value.
+  3. Shift the filter across the image.
+- **Stride:** The number of pixels the filter shifts at a time (e.g., a stride of 2 means shifting 2 columns over).
+- **Padding:** Adding blank rows/columns to the margins of the original matrix to ensure the filter fits perfectly during shifts.
+- **The Output (Feature Map):** Because the original image has 3 channels, the filter must also have 3 channels. The results of the 3 filter applications are summed into a single 2D matrix called a **Feature Map**.
+- *Note:* Applying $K$ different filters results in $K$ feature maps (a new 3D tensor).
+- **Advantage of Convolution:** Reduces the total number of parameters (compared to standard neural networks) while preserving the "local spatial relationships" (relative positions) of the pixels.
+
+#### 3. Activation: ReLU
+
+After convolution, the feature maps pass through a **ReLU (Rectified Linear Unit)** activation function:
+
+- Positive inputs remain unchanged.
+- Negative inputs become 0.
+
+#### 4. Operation B: Pooling
+
+- **Purpose:** To reduce dimensionality while keeping the most significant extracted features.
+- **Max Pooling:** Places a small grid (e.g., 2x2) over the feature map and extracts only the maximum value in that area. (Results in some information loss, but massive efficiency gains).
+- **Average Pooling:** Takes the average of the values in the grid.
+
+#### 5. Data Augmentation
+
+To train CNNs effectively without gathering millions of new photos, existing images are augmented. You rotate, flip, mirror, or change the angle of a base image. This trains the computer to recognize the object regardless of its orientation.
+
+#### 6. The Final Architecture: Fully Connected Layer (FC)
+
+1. You repeat Convolution -> ReLU -> Pooling multiple times until the matrices are very small.
+2. **Flattening:** You stack the columns of all remaining small matrices into one massive, 1-dimensional vector.
+3. This vector is fed into a standard, **Fully Connected (FC) Neural Network**.
+4. **Softmax Output:** The final layer uses a Softmax function to convert the final node values into **probabilities** (e.g., an 85% chance the image belongs to the "Tiger" class).
+
+
+
+
+
+# 4/20 Lecture - Deep Learning: Recurrent Neural Networks & Beyond
+
+## 1. Sequential Data Fundamentals
+
+Recurrent Neural Networks (RNNs) are specially designed to handle **sequential data** where the order of observations matters due to the correlation between neighboring data points.
+
+- **Examples of Sequential Data:**
+  - **Text/Documents:** Books, movie reviews, language. Word order dictates meaning.
+  - **Time-Series Data:** Weather forecasting, stock prices (financial time-series). Data changes dynamically over time.
+  - **Media:** Video, audio, music. Reordering frames or notes destroys the content.
+- **Stationary vs. Non-Stationary Data:** 
+  - Raw time-series data often has changing variance over time (*heteroscedasticity*), making it non-stationary.
+  - To build a stable model, you must convert it to **stationary data** (e.g., by taking the log of the values to stabilize the variance).
+
+## 2. Recurrent Neural Networks (RNN) Architecture
+
+An RNN can be visualized as multiple "mini" neural networks (columns) connected sequentially.
+
+- **The Core Mechanism:**
+  - Unlike standard networks, the hidden layers of an RNN are connected to each other across time steps.
+  - The input to a hidden layer at time $t$ is a combination of the **raw input at time $t$** AND the **output (activation) from the hidden layer at time $t-1$**.
+  - This allows the network to accumulate historical information as it moves forward.
+- **Shared Matrices:** Despite having many "mini" networks, an RNN only estimates **three shared weight matrices**:
+  1. Input to Hidden Layer ($W$)
+  2. Hidden Layer to next Hidden Layer ($U$)
+  3. Hidden Layer to Output Layer ($V$)
+- **Determining Sequence Length ($L$ / Lag):**
+  - How many past steps should you use to predict the future? Use the **Autocorrelation Function (ACF)**.
+  - ACF measures the correlation between observations at different time gaps (lags). If the gap is small, correlation is usually high; as the gap grows, correlation weakens.
+  - *Example:* If autocorrelation is strong up to a gap of 5 days, you set your sequence length to $L=5$.
+
+## 3. Limitations of RNNs & The LSTM Solution
+
+Standard RNNs struggle with two major problems during backward propagation:
+
+1. **Vanishing / Exploding Gradients:** Gradients can approach zero (weights stop updating) or approach infinity (model breaks).
+2. **Long-Term Dependency:** As the sequence gap grows, the RNN fails to connect relevant information from the far past to the present.
+
+### Long Short-Term Memory (LSTM)
+
+- LSTMs are a specialized, improved version of RNNs designed to solve the above problems (analogous to how Random Forest improves upon standard Bagging).
+- **How it works:** It uses **two parallel lines/tracks** in the hidden layer. One track captures information from the *further past* (long-term memory), and the other captures information from the *recent past* (short-term memory).
+
+## 4. Alternative Architectures for Time-Series
+
+### Elman Neural Network
+
+- Introduces a **Context Layer**.
+- **Mechanism:** It makes a copy of the activation from the **hidden layer** and saves it in the context layer. In the next time step, the new input combines with this saved context layer information before entering the hidden layer.
+
+### Jordan Neural Network
+
+- Also uses a Context Layer, but with a key difference in what it saves.
+- **Mechanism:** Instead of saving the hidden layer's activation, it makes a copy of the **final model output** and saves it to the context layer to be used in the next iteration.
+
+## 5. Restricted Boltzmann Machines (RBM)
+
+A generative model used to estimate probability distributions.
+
+- **Structure:** Contains only two layers: a **Visible Layer** ($v$) and a **Hidden Layer** ($h$).
+- **Key Features:**
+  - Neurons only take binary values ($0$ or $1$).
+  - Connections between layers are **bidirectional**.
+- **Mechanism:** Different binary combinations represent different events. It calculates the probability of an event using a **Softmax function** applied to an **Energy function** ($E$).
+
+## 6. Data Preprocessing: Standardization
+
+> **Critical Rule:** Never feed raw, unstandardized data into a neural network. It will not work properly.
+
+Always preprocess your features using one of these common formulas:
+
+- **Min-Max Scaling:** Scales values between 0 and 1.
+
+  $$x_{scaled} = \frac{x - x_{min}}{x_{max} - x_{min}}$$
+
+- **Z-Score Normalization:** Centers data around a mean of 0 with a standard deviation of 1.
+
+  $$x_{scaled} = \frac{x - \mu}{\sigma}$$
+
+## 7. Model Selection & The Parsimony Principle
+
+Neural Networks are powerful, but they shouldn't be used for everything.
+
+- **The Parsimony Principle:** If multiple models yield similar accuracy, always choose the **simplest model** (e.g., Linear Regression or Lasso over a Neural Network).
+- **Why?** Simpler models are faster to run and easier to interpret. NNs require immense effort to fine-tune hyperparameters (number of hidden layers, neurons, learning rate) and are computationally expensive.
+- **When to use NNs:** Reserve Deep Learning for extremely large, highly complex datasets where simpler models fail to capture the underlying patterns.
+
+------
+
+### 📌 Course Admin Notes
+
+- **Homework 6:** Focuses on setting up and running models on the High-Performance Computing (HPC) facility. It is treated as a **bonus**. You must generate a reasonable, real result to get the extra credit (no points just for logging in).
+- **Final Exam:** Wednesday, April 29th during normal class time. In-person, open-book. Same format and style as the midterm (no coding required).
+- **Review Session:** Next Monday.
