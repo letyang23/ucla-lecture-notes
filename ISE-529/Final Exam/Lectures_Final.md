@@ -1182,3 +1182,263 @@ Neural Networks are powerful, but they shouldn't be used for everything.
 - **Homework 6:** Focuses on setting up and running models on the High-Performance Computing (HPC) facility. It is treated as a **bonus**. You must generate a reasonable, real result to get the extra credit (no points just for logging in).
 - **Final Exam:** Wednesday, April 29th during normal class time. In-person, open-book. Same format and style as the midterm (no coding required).
 - **Review Session:** Next Monday.
+
+
+
+# 4/22 Lecture - CRAC High Performance Computing (HPC)
+
+> Step-by-step setup for the Discovery cluster at USC's Center for Advanced Research Computing (CARC). Follow in order — do **not** skip ahead.
+
+---
+
+## 0. Prerequisites & Files to Download
+
+### From Brightspace → HPC files folder, download ALL of these:
+| File | Purpose |
+|---|---|
+| `VPN` (Windows installer) | Cisco VPN — only needed for Windows users from home |
+| `WinSCP` | File transfer software (Windows) |
+| `FileZilla` | File transfer software (Mac) |
+| `.bashrc` | Backup config file — only needed if Conda fails to auto-create one |
+| 4 Python example files | CNN (MNIST), RNN, SVM, etc. — templates for HW6 |
+| SLURM file | Job submission script (**critical** — easy to miss) |
+
+### Verify access to professor's project:
+- Log into the CARC user portal → choose **University of Southern California** → continue.
+- Confirm your name is listed as a member of the professor's project.
+- If not listed, notify the professor.
+
+---
+
+## 1. Network Connection (REQUIRED before login)
+
+| Where you are | What you need |
+|---|---|
+| **On campus** | Connect to **USC Secure** Wi-Fi (NOT "USC Guest" — guest will not work) |
+| **From home** | Install & start **USC VPN (Cisco AnyConnect)** before SSH |
+
+### Installing VPN
+- **Mac:** Click the VPN link → log in with USC credentials → site auto-detects Mac → download → install.
+- **Windows:** Use the VPN installer from Brightspace → unzip → install.
+
+### Starting VPN (from home)
+1. Open Cisco AnyConnect.
+2. Enter VPN address: `vpn.usc.edu`
+3. Click **Connect** → log in with USC username/password.
+4. Once connected, your laptop appears as an on-campus machine to HPC. Without this, HPC will reject your connection.
+
+---
+
+## 2. SSH Login to Discovery
+
+Open a terminal (Mac: Terminal app | Windows: right-click → terminal / use PowerShell).
+
+```bash
+ssh your_username@discovery.usc.edu
+```
+
+- Replace `your_username` with **your** USC username (NOT the professor's).
+- If hostname fails on Mac, try the **IP address** instead of `discovery.usc.edu`.
+- First time: prompt asks "Are you sure you want to continue connecting?" → type `yes`.
+- Enter password — **it is invisible** (no asterisks, no dots). Just type it and press Enter.
+- **No copy-paste for the password.** Type it manually.
+- Use the **same password as your USC/Brightspace account**.
+
+✅ Success looks like: `(base) your_username@discovery2:~$` (or similar with `discovery2`).
+❌ If you still see your local machine prompt, you are NOT logged in.
+
+> If `ssh` "connection timed out" → check Wi-Fi is USC Secure (not guest), or VPN is on if at home.
+
+---
+
+## 3. Install Miniconda
+
+Run the **three commands line-by-line** from the lecture file (do NOT paste all at once).
+
+```bash
+# Line 1 — downloads installer
+# Line 2 — chmod / makes it executable
+# Line 3 — runs the installer
+```
+
+### During the installation prompts:
+| Prompt | What to do |
+|---|---|
+| License agreement | Press Enter to scroll → type `yes` to accept |
+| Confirm install location | Press **Enter** to accept default |
+| **"Do you wish to update your shell profile to automatically initialize conda?"** | **Type `yes`** ⭐ THIS IS CRITICAL |
+
+> ⚠️ If you accidentally typed `no` → you must manually fix `.bashrc` (see Section 3b).
+
+### After install completes:
+```bash
+exit                         # log out
+ssh your_username@discovery.usc.edu  # log back in
+```
+
+You should now see `(base)` at the front of your prompt.
+
+Test:
+```bash
+conda --version
+```
+
+---
+
+## 3b. Fixing a Missing `.bashrc` (only if you said "no" above)
+
+Symptom: `conda` command does nothing, no `(base)` prefix, `ls -la` shows no `.bashrc` file.
+
+1. Download `.bashrc` from Brightspace HPC folder → **unzip it**.
+2. **Mac users**: `.bashrc` is a hidden file → enable "Show hidden files" in Finder (`Cmd + Shift + .`).
+3. Open `.bashrc` in a text editor:
+   - Windows: Right-click → Open with → Notepad
+   - Mac: Open with TextEdit (plain text mode)
+4. **Find every instance of the professor's username and replace with YOUR username.** Do not touch anything else.
+5. Save the file.
+6. Transfer `.bashrc` to your HPC home directory using WinSCP / FileZilla (see Section 5).
+7. On HPC, run:
+   ```bash
+   ls -la                  # confirm .bashrc is there
+   nano .bashrc            # optional: verify contents
+   source ./.bashrc        # apply config
+   conda --version         # should now work
+   ```
+
+---
+
+## 4. Create Virtual Environment + Install Python
+
+### Verify platform first:
+```bash
+conda info
+```
+Look at the bottom — **platform should be `linux-64`**. If it isn't, tell the professor.
+
+### Create the env:
+```bash
+conda create --platform linux-64 --name py310
+```
+- Type `y` when prompted to proceed.
+
+### Verify it was created:
+```bash
+conda env list
+```
+You should see two entries: `base` and `py310`.
+
+### Activate it:
+```bash
+conda activate py310
+```
+Prompt should now show `(py310)` instead of `(base)`. **Always work inside `py310`** — never install into `base`.
+
+### Install Python 3.10 (REQUIRED — TensorFlow needs this version):
+```bash
+conda install python==3.10
+```
+- Do **not** install 3.11/3.12/3.13 — incompatible with TensorFlow.
+- Verify:
+  ```bash
+  python --version    # should show Python 3.10.x
+  python              # opens REPL
+  >>> exit()          # leave REPL
+  ```
+
+### Install Python libraries
+Run **line-by-line** from the lecture file (each library install command separately).
+
+---
+
+## 5. File Transfer Setup (Local ↔ HPC)
+
+### Windows → install **WinSCP**
+1. Download from Brightspace → unzip → double-click installer.
+2. Open WinSCP → **New Session**:
+   - Host name: `discovery.usc.edu`
+   - Port: `22`
+   - Username + password: your USC credentials
+3. Accept host key → log in.
+4. Layout: **Left pane = your laptop, Right pane = HPC.** Drag files between them.
+
+### Mac → install **FileZilla**
+1. Download from Brightspace → install.
+2. New connection → host: `discovery.usc.edu`, your credentials, port 22 → connect → trust host.
+3. Same drag-and-drop interface.
+
+---
+
+## 6. Submitting a Job (SLURM)
+
+### Transfer the example Python files + SLURM file from local to HPC
+Use WinSCP/FileZilla.
+
+### Edit the SLURM file
+Open it on HPC with nano:
+```bash
+nano slurmfile_name
+```
+
+**Edit these things:**
+
+- ✅ Replace the **folder name / username** in the file with YOUR username.
+- ❌ Do **NOT** change the **project ID / account** line — that's the professor's project; the system only accepts jobs under it.
+- ⚠️ Use **hyphens (`-`)**, not underscores (`_`), where the template uses hyphens.
+
+Save in nano: `Ctrl + X` → `Y` → Enter.
+
+### Submit the job:
+```bash
+sbatch slurmfile_name
+```
+
+### Check results:
+```bash
+ls -la
+```
+Look for new output files — e.g. PNG plots, log files, `.out` files.
+
+### Pull results back to your laptop
+Use WinSCP/FileZilla → drag output file from right (HPC) to left (local) → open it locally.
+
+---
+
+## 7. Quick Command Reference
+
+| Task | Command |
+|---|---|
+| SSH to HPC | `ssh user@discovery.usc.edu` |
+| Reload shell config | `source ~/.bashrc` |
+| Conda version | `conda --version` |
+| List envs | `conda env list` |
+| Create env | `conda create --platform linux-64 --name py310` |
+| Activate env | `conda activate py310` |
+| Deactivate env | `conda deactivate` |
+| Install Python 3.10 | `conda install python==3.10` |
+| Submit SLURM job | `sbatch <slurmfile>` |
+| List files (incl. hidden) | `ls -la` |
+| Edit a file | `nano <filename>` |
+| Save in nano | `Ctrl+X` → `Y` → Enter |
+| Exit Python REPL | `exit()` |
+| Logout | `exit` |
+
+---
+
+## 8. Common Pitfalls (don't do these)
+
+- ❌ Pasting all 3 Miniconda commands at once — run line by line.
+- ❌ Saying "no" to the conda shell-init question (creates the `.bashrc` problem).
+- ❌ Working in `(base)` — always activate `py310` first.
+- ❌ Installing Python 3.11+ — TensorFlow needs **3.10**.
+- ❌ Trying to copy-paste your password during SSH — type it.
+- ❌ Connecting to "USC Guest" Wi-Fi — won't reach HPC.
+- ❌ Editing the project/account ID in the SLURM file — only edit folder/username paths.
+- ❌ Using underscores where the template uses hyphens in SLURM.
+- ❌ Forgetting to start VPN when working from home.
+
+---
+
+## 9. Bonus HW6 Notes
+- Examples provided: **CNN on MNIST** (60k handwritten digit images), **RNN**, **SVM**.
+- Use these as templates for HW6; modify with ChatGPT/Google for additional pieces as needed.
+- HW6 is bonus — completing it adds extra credit and the experience is a strong **resume bullet** ("hands-on with HPC cluster computing").
