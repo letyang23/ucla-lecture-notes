@@ -279,7 +279,8 @@ The network is divided into "cells" around each POI using these two bounds:
   - *Rule:* If a driver is inside a POI's tight cell, that POI is definitively the fastest destination, regardless of real-time traffic variations.
 - **Loose Cells:** Calculated by traveling *as fast as possible* (lower bound) to the target POI, and *as slow as possible* (upper bound) to all others.
   - *Rule:* If a driver is outside a POI's loose cell, that POI can be safely eliminated as a candidate.
-- **Query Processing:** * If in a tight cell $\rightarrow$ Route immediately.
+- **Query Processing:** 
+  - If in a tight cell $\rightarrow$ Route immediately.
   - If in an overlapping area of loose cells $\rightarrow$ Run the exact Dreyfus algorithm *only* on the 2-3 overlapping candidates, drastically reducing computation.
   - *Indexing:* These cells are efficiently indexed using Quad Trees (corrected from earlier use of R-Trees).
 
@@ -921,7 +922,8 @@ If you can hide the basic primitive—a co-location—you break the attack. A co
 ### Grid Representation & Base Model
 
 - **Discretization:** The world is converted into a grid. A trajectory becomes a sequence of Grid IDs at fixed time intervals (e.g., every 5 minutes).
-- **Base Model (SeqGAN):** * A Generative Adversarial Network tailored for sequences.
+- **Base Model (SeqGAN):** 
+  - A Generative Adversarial Network tailored for sequences.
   - **Generator:** Makes the next "move" (like chess).
   - **Discriminator:** Tries to classify the trajectory as real or fake.
   - **Monte Carlo Search:** Used because you cannot evaluate a trajectory's realism until the entire sequence is complete.
