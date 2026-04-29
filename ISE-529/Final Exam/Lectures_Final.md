@@ -1442,3 +1442,128 @@ Use WinSCP/FileZilla → drag output file from right (HPC) to left (local) → o
 - Examples provided: **CNN on MNIST** (60k handwritten digit images), **RNN**, **SVM**.
 - Use these as templates for HW6; modify with ChatGPT/Google for additional pieces as needed.
 - HW6 is bonus — completing it adds extra credit and the experience is a strong **resume bullet** ("hands-on with HPC cluster computing").
+
+
+
+------
+
+## 4/27 **Final Exam Review: Machine Learning Concepts**
+
+### **1. Neural Network Architecture & Feed-Forward Propagation**
+
+**Example Architecture:**
+
+- **Input Layer ($i$):** 4 neurons ($p=4$). Inputs: $x_1, x_2, x_3, x_4$.
+- **Hidden Layer 1 ($k$):** 2 neurons.
+- **Hidden Layer 2 ($l$):** 3 neurons.
+- **Output Layer ($s$):** 1 neuron.
+
+**Feed-Forward Process:**
+
+Data moves left to right (input to output). At each neuron, you calculate a weighted sum and pass it through an activation function (e.g., ReLU).
+
+- **ReLU Activation Function ($g$):** $g(x) = \max(0, x)$. Outputs $0$ for negative inputs, and returns the input value if it is positive.
+
+- **Calculating Node Output (e.g., 1st neuron in Hidden Layer 1, $k=1$):**
+
+  $$E_{k=1} = \omega_{1,0} + \sum_{i=1}^{4} \omega_{i,1} x_i$$
+
+  *Where $\omega_{1,0}$ is the bias, and $\omega_{i,1}$ are the weights from the input layer.*
+
+  The final output of this node is $A_1 = g(E_{k=1})$.
+
+**Calculating Total Parameters (Weights + Biases):**
+
+To find how many parameters need to be estimated, calculate the dimensions of the weight matrices plus the biases for each layer.
+
+- **Matrix 1 (Input $\to$ Hidden 1):** $(4 \times 2) \text{ weights} + 2 \text{ biases} = 10$
+- **Matrix 2 (Hidden 1 $\to$ Hidden 2):** $(2 \times 3) \text{ weights} + 3 \text{ biases} = 9$
+- **Matrix 3 (Hidden 2 $\to$ Output):** $(3 \times 1) \text{ weights} + 1 \text{ bias} = 4$
+- **Total Parameters:** **23**
+
+------
+
+### **2. Backward Propagation & Model Training**
+
+**Purpose:** To adjust the weight matrices to minimize the total error (Sum of Squared Errors/MSE) between the model's output and the actual target values.
+
+**The Process:**
+
+1. **Calculate the Gradient:** The objective function (total error) is "chopped into small pieces." The gradient determines how much each individual weight contributed to the total error.
+2. **Adjust Weights:** Update the weight matrices using the calculated gradient multiplied by the **learning rate**.
+3. **Iterate:** Repeat the feed-forward and backward propagation process to continually reduce the error.
+4. **Epoch:** Passing the *entire* dataset through the model (forward and backward) constitutes one epoch. Training typically requires many epochs.
+
+------
+
+### **3. Tree Ensembles (Random Forests / Bagging)**
+
+When using bootstrap sampling to create multiple decision trees (e.g., 10 trees), each tree will output a probability of an input $X$ belonging to a specific class.
+
+**Aggregation Methods (How to combine the trees):**
+
+Given a binary classification (e.g., Green vs. Red) and a default threshold of **0.5**:
+
+- **Approach 1: Majority Vote** Look at the discrete prediction of each tree (e.g., if Tree 1 predicts **0.2** for Green, it votes Red. If Tree 2 predicts **0.7** for Green, it votes Green). Count the final votes; the class with the most votes wins.
+
+- **Approach 2: Average Probability**
+
+  Sum the raw probabilities from all trees and divide by the number of trees. Compare this final average to the **0.5** threshold to make the classification.
+
+- *Note:* These two approaches can sometimes yield different final classifications for the same data point.
+
+------
+
+### **4. Decision Trees & Information Gain**
+
+**Concept:** Trees are built by splitting the dataset into subsets. You select the best predictor for each "decision node" based on **Information Gain**.
+
+**Calculation Steps:**
+
+1. Calculate the **Total Entropy** of the response variable.
+2. Calculate the **Weighted Entropy** for each predictor (evaluating the interaction between the predictor and the response).
+3. **Information Gain** = Total Entropy - Weighted Entropy.
+4. Choose the predictor with the *largest* Information Gain to be the decision node.
+
+**Building the Tree:**
+
+- Start at the **Root Node** (highest information gain on the full dataset).
+- Split the dataset into branches based on that node.
+- **Crucial Step:** Reorganize (subset) the data for each branch. Recalculate Information Gain using *only* the data in that specific branch to find the next decision node.
+- Repeat until you reach **Terminal/Leaf Nodes**, which provide the final classification output.
+
+------
+
+### **5. Regularization & Dimension Reduction (Ridge vs. Lasso)**
+
+Regularization adds a penalty term to the objective function to control model complexity.
+
+| **Feature**              | **Lasso (L1 Penalty)**                                       | **Ridge (L2 Penalty)**                                       |
+| ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Penalty Term**         | $\lambda$  $\sum$                                            | $\beta_j$                                                    |
+| **Essential Difference** | Can shrink coefficients **exactly to zero**.                 | Shrinks coefficients close to zero, but **never exactly zero**. |
+| **Model Size**           | Performs feature selection (results in a simpler, smaller model). | Keeps all predictors in the model (results in a full model). |
+
+**Bias-Variance Tradeoff & Complexity Tuning:**
+
+The penalty strength is controlled by a tuning parameter (referred to as $s$ or $\lambda$).
+
+- **Increasing Model Complexity** (Increasing $s$ from 0 $\to \infty$, or decreasing $\lambda$ to 0):
+  - **Training MSE:** Steadily decreases.
+  - **Test MSE:** Decreases initially, then eventually increases (U-shape).
+  - **Variance:** Steadily increases (model becomes highly sensitive to small data changes).
+  - **Squared Bias:** Steadily decreases (model fits the training data better).
+  - **Irreducible Error:** Remains constant (variance inherent to the data itself).
+- **Decreasing Model Complexity** (Increasing $\lambda$ from 0 $\to \infty$):
+  - Forces coefficients closer to zero.
+  - **Training MSE:** Steadily increases.
+  - **Test MSE:** Decreases initially, then increases.
+  - **Variance:** Steadily decreases.
+  - **Bias:** Steadily increases.
+
+------
+
+### **6. Exam Logistics & Tips**
+
+- **No Coding:** You will not be asked to write Python code (e.g., TensorFlow) on the final.
+- **Focus on Interpretation:** While you won't have to perform massive matrix multiplications by hand (e.g., $3\times3$ multiplied by $3\times3$), you *must* know how to read, interpret, and understand the output of these operations and model summaries. Understand the "why" and "how" behind the steps.
