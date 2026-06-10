@@ -822,3 +822,96 @@ Deadlock prevention requires knowing exactly when a transaction started.
 - **Gemma 4:** Google's new 12-billion parameter multimodal AI model. It bypasses traditional vision encoding, uses a decoder-only transformer, and can run locally on standard laptop RAM (4.66GB quantized).
 - **Quasi-Monte Carlo (QMC):** For 2D random number generation, standard Linear Congruential Generators (LCG) can cause clustering. QMC sequences like the **Halton, Sobol, and Hammersley sequences** generate well-separated, evenly distributed random points without needing repulsion algorithms.
 - **Bloom's Taxonomy:** An educational framework. Regurgitating facts is the lowest level of learning. True understanding is at the top of the pyramid: the ability to apply, analyze, evaluate, and **create** new things (e.g., writing your own SQL queries from scratch).
+
+
+
+# 6/9 Lecture
+
+## 📝 Administrative & Exam Logistics
+
+- **Exam Scope:** Covers material up to Transaction Management. Distributed Databases (today's lecture) and ER diagram/normalization drawing will **not** be on the exam.
+- **Format:** 12 questions worth 3 points each. You only need to answer 10 (maximum score is capped at 30, but the extra questions offer a buffer).
+- **Materials:** Open notes. You can bring unlimited printed cheatsheets, but strictly no devices, internet, or AI tools.
+- **Content Focus:** Expect questions on SQL concepts (no writing raw syntax) and Transaction Management (locks, deadlocks). Answer the question directly without adding irrelevant filler.
+
+## 🔒 Transaction Management & Deadlocks
+
+Deadlocks occur when transactions wait indefinitely for locks held by each other. There are three main strategies to handle them:
+
+- **Indifference:** Ignore the possibility of deadlocks and deal with them manually if the system freezes.
+- **Avoidance (Cycle Detection):** Continually simulate and look for cycles before handing out locks. If a cycle is detected, the lock is denied.
+- **Prevention (Timestamping):** Uses timestamps to determine priority (older vs. younger transactions). A transaction may be suspended or killed to prevent a cycle from ever forming.
+
+## 🌍 Distributed Databases Architecture
+
+A distributed database scatters data storage and computation across multiple machines (nodes) to prevent single points of failure and increase speed.
+
+### Processing Types
+
+- **Transaction Processor (TP / TM):** The machine that receives requests and performs calculations or routing.
+- **Data Processor (DP / DM):** The machine that blindly serves data upon request.
+
+### The 4 Architectural Possibilities
+
+| **Processing** | **Data**     | **Description & Example**                                    |
+| -------------- | ------------ | ------------------------------------------------------------ |
+| **Single**     | **Single**   | Old-school IBM mainframes with dumb terminals. Centralized, high risk of a single point of failure. |
+| **Multiple**   | **Single**   | Client-server architecture (LAN). Data lives in one place, but laptops/clients process it locally (e.g., Microsoft SharePoint). |
+| **Multiple**   | **Multiple** | **Fully Distributed.** Modern cloud architecture. Microservices process data that is stored across multiple global servers. |
+| **Single**     | **Multiple** | Impractical/Silly. Storing data globally but forcing all computation through one machine (The "Newton's Cat" error of foolish consistency). |
+
+### Fully Distributed Variations
+
+- **Homogeneous:** All nodes run the exact same database software (e.g., all Oracle).
+- **Heterogeneous:** Nodes use different vendors but the same relational table model (e.g., Postgres, MySQL, SQL Server).
+- **Fully Heterogeneous:** Nodes use entirely different data models (e.g., Relational tables, Graph databases, Vector databases, Document databases).
+
+## ✂️ Data Fragmentation & Replication
+
+**Fragmentation** breaks a single logical table into physical pieces to optimize speed and storage.
+
+- **Horizontal Fragmentation:** Dividing a table by rows. Useful for MapReduce and parallel processing (sending a calculation to 10 machines simultaneously for near-linear speedup).
+- **Vertical Fragmentation:** Dividing a table by columns. Separates frequently accessed data from rarely accessed data (e.g., keeping current grades on fast SSDs and old undergraduate transcripts on cold-storage tape robots like Iron Mountain).
+- **Mixed Fragmentation:** Doing vertical fragmentation first, followed by horizontal fragmentation on the critical columns.
+
+**Replication** is copying data to prevent loss and ensure availability (e.g., Amazon's Dynamo using 3 copies).
+
+- **Full Replication:** Every node has a copy of everything (expensive and heavy overhead).
+- **Partial Replication:** Only critical tables are copied.
+- **Unreplicated:** Zero copies. Highly dangerous.
+- **Master Data Management (MDM):** Designating one "Golden Record" (master copy). Changes happen here and are synchronized to backups.
+- **Push vs. Pull:** The master can "push" updates to replicas immediately, or replicas can periodically "pull" updates from the master.
+
+## 🤝 The Two-Phase Commit Protocol (2PC)
+
+When a transaction spans multiple machines, the system must guarantee **Atomicity** (All or Nothing) so tables do not become corrupted.
+
+- **The Coordinator:** One node acts as the orchestra conductor to manage the transaction.
+- **Write-Ahead Log (WAL):** Before any real changes are made, nodes write the "before" and "after" values to a local log to allow for a clean rollback if needed.
+- **Phase 1 (The Polling/Question Phase):** The coordinator asks all subordinate nodes, "Are you ready to commit?" Each node locally checks its ability and responds with a YES or NO.
+- **Phase 2 (The Execution Phase):** * *Success:* If **all** nodes reply YES (unanimous), the coordinator sends the "Commit" command. Everyone finalizes the transaction.
+  - *Failure:* If even **one** node replies NO, the coordinator sends an "Abort/Rollback" command. All nodes use their WAL to revert to the exact original state.
+
+## 👻 Distribution Transparency (Opacity)
+
+Transparency in databases actually means *opacity*—hiding the complex internal mechanics from the end-user or potential hackers. The system uses a **Distributed Data Dictionary (Catalog)** to map requests behind the scenes.
+
+- **Fragmentation Transparency:** The user has no idea the table is cut into pieces.
+- **Location Transparency:** The user knows it is fragmented but does not know where the fragments live.
+- **Local Mapping Transparency:** The user doesn't know the exact IP addresses hosting the specific fragments.
+- **Performance/Failure Transparency:** If a node dies or a network cable is cut, the system automatically redirects to a replica (failover) without the user experiencing an error.
+
+## ⚖️ CAP Theorem & ACID vs. BASE
+
+Created by Eric Brewer, the CAP theorem states the trade-offs in distributed database design. Today, because Partition Tolerance (P) is an unavoidable reality of networks, engineers must choose between C and A.
+
+| **Concept**                 | **Definition**                                               | **Ideal Use Case**                                           |
+| --------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Consistency (C)**         | Every node returns the exact same, most up-to-date data.     | Financial tech, stock trading, foreign exchange. (Requires shutting down nodes to update). |
+| **Availability (A)**        | The system is always up and accessible, even if some data is stale. | E-commerce catalogs (Amazon), social media.                  |
+| **Partition Tolerance (P)** | The system continues to operate despite network failures (cut cables). | All modern internet distributed systems.                     |
+
+### ACID vs. BASE
+
+- **ACID (Relational DBs):** Prioritizes strong Consistency and Atomicity.
+- **BASE (NoSQL DBs):** Prioritizes Availability (Basically Available, Soft state, Eventual consistency). Data might be out of sync for a moment, but will *eventually* synchronize across the network.
