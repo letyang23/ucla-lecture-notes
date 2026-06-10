@@ -1378,7 +1378,7 @@ Loosely speaking:
   - Determines if the structure can be improved
 - Improves the existing data structure and creates an appropriate database design
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
+
 
 #### A construction company db
 
@@ -1452,8 +1452,6 @@ Table 6.2 - Normal Forms
 | Functional dependence (Generalized definition) | Attribute A determines attribute B if all of the rows in the table that agree in value for attribute A also agree in value for attribute B. |
 | Fully functional dependence (composite key)    | If attribute B is functionally dependent on a composite key A but not on any Subset of that composite key, the attribute B is fully functionally dependent on A. |
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
 ##### Partial dependency, transitive dependency:
 
 ##### Types of Functional Dependencies
@@ -1463,8 +1461,6 @@ Table 6.2 - Normal Forms
   - Straight forward
   - Easy to identify
 - **Transitive dependency:** An attribute functionally depends on another nonkey attribute
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
 
 If (A,B) is a primary key, we have **partial** dependence if  $(A,B) \rightarrow (C,D)$  and  $B \rightarrow C$  [C is only partially dependent on the PK, ie. we only need B to determine C]. In other words, a part of an existing PK is acting like a PK on its own.
 
@@ -1482,8 +1478,6 @@ If X is a primary key, we have a **transitive** dependency if  $X \rightarrow Y$
   - Identify the primary key
   - Identify all dependencies
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
 In other words, "fill in the blanks" so that there are no nulls. Now we have an actual relation (table) [with a value in each cell - no more blanks].
 
 Further, identify the PK! In our example, it is (PROJ\_NUM,EMP\_NUM).
@@ -1496,15 +1490,13 @@ Further, identify the PK! In our example, it is (PROJ\_NUM,EMP\_NUM).
   - Helps to get an overview of all relationships among table's attributes
   - Makes it less likely that an important dependency will be overlooked
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
 **Create a **dependency diagram**, showing relationships (dependencies) between the attributes - this will help us systematically normalize the table.**
 
 ##### Dependency diagram
 
 Indicate full dependencies on the top, and partial and transitive dependencies on the bottom. "Top good, bottom bad". Also, color the PK components in a different color (and underline them). Result:
 
-![](3d590ad29ecfe728f07432e6fcb59064_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 4.11.22 PM.png" style="zoom:80%;" />
 
 **PROJ\_NAME** has only a partial dependency on the PK (since it is only dependent on PROJ\_NUM, which is just a part of the PK).
 
@@ -1522,8 +1514,6 @@ Indicate full dependencies on the top, and partial and transitive dependencies o
 - Some tables contain partial dependencies
   - Subject to data redundancies and various anomalies
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
 ###### 1NF → 2NF: remove partial dependencies
 
 ##### Conversion to Second Normal Form
@@ -1535,13 +1525,11 @@ Indicate full dependencies on the top, and partial and transitive dependencies o
   - Is in 1NF
   - Includes no partial dependencies
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
 ###### 1NF->2NF [cont'd]
 
 We eliminate partial dependencies by creating separate tables of such dependencies, and removing the dependent attributes from the starter table.
 
-![](f3c73e8e478b8b2d9f6a96a970040556_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 4.12.05 PM.png" style="zoom:80%;" />
 
 ###### 2NF->3NF: remove transitive dependencies
 
@@ -1559,14 +1547,12 @@ Whether we eliminate partial dependencies (to create 2NF) or transitive ones (to
   - Is in 2NF
   - Contains no transitive dependencies
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
 ###### 2NF->3NF [cont'd]
 
 Figure 6.5 - Third Normal Form (3NF)  
 Conversion Results
 
-![](b15cf8c50195a52cca59b4645c6f59fa_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 4.13.26 PM.png" style="zoom:80%;" />
 
 #### 'Good' tables
 
@@ -1592,110 +1578,35 @@ We can create a better DB by doing the following augmentations, to the 3NF model
   - **Granularity**: Level of detail represented by the values stored in a table's row
 - Maintain historical accuracy and evaluate using derived attributes
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
 ##### Final result
 
 Here is the result of making the "extra" changes to our 3NF form:
 
 Figure 6.6 - The Completed Database
 
-![](15a7570852cac42d754e4a0e50b1dfbe_img.jpg)
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
+<img src="Slides.assets/Screenshot 2026-06-09 at 4.14.52 PM.png" style="zoom:80%;" />
 
 ##### Final result [cont'd]
 
 Figure 6.6 - The Completed Database
 
-Table name: JOB Database name: Ch06\_ConstructCo
+<img src="Slides.assets/Screenshot 2026-06-09 at 4.15.37 PM.png" style="zoom:80%;" />
 
-![](492e1e7e7e44b6d857688dfa5341dfae_img.jpg)
 
-Table name: JOB
 
-| JOB_CODE | JOB_DESCRIPTION       | JOB_CHG_HOUR |
-| -------- | --------------------- | ------------ |
-| 500      | Programmer            | 35.75        |
-| 501      | Systems Analyst       | 96.75        |
-| 502      | Database Designer     | 105.00       |
-| 503      | Electrical Engineer   | 84.50        |
-| 504      | Mechanical Engineer   | 67.90        |
-| 505      | Civil Engineer        | 55.78        |
-| 506      | Clerical Support      | 26.87        |
-| 507      | DSS Analyst           | 45.95        |
-| 508      | Applications Designer | 48.10        |
-| 509      | Bio Technician        | 34.55        |
-| 510      | General Support       | 18.35        |
 
-Cengage Learning © 2015
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
 
 ##### Final result [cont'd]
 
 Figure 6.6 - The Completed Database
 
-Table name: ASSIGNMENT
-
-Table name: ASSIGNMENT
-
-| ASSIGN_NUM | ASSIGN_DATE | PROJ_NUM | EMP_NUM | ASSIGN_HOURS | ASSIGN_CHG_HOUR | ASSIGN_CHARGE |
-| ---------- | ----------- | -------- | ------- | ------------ | --------------- | ------------- |
-| 1001       | 04-Mar-14   | 15       | 103     | 2.6          | 84.50           | 219.70        |
-| 1002       | 04-Mar-14   | 18       | 118     | 1.4          | 18.36           | 25.70         |
-| 1003       | 05-Mar-14   | 15       | 101     | 2.6          | 105.00          | 278.00        |
-| 1004       | 05-Mar-14   | 22       | 113     | 2.5          | 48.10           | 120.25        |
-| 1005       | 05-Mar-14   | 15       | 103     | 1.9          | 84.50           | 160.55        |
-| 1006       | 05-Mar-14   | 25       | 115     | 4.2          | 96.75           | 406.35        |
-| 1007       | 05-Mar-14   | 22       | 102     | 2.2          | 105.00          | 246.00        |
-| 1008       | 05-Mar-14   | 25       | 101     | 1.2          | 105.00          | 178.50        |
-| 1009       | 05-Mar-14   | 15       | 105     | 2.0          | 105.00          | 210.00        |
-| 1010       | 05-Mar-14   | 15       | 102     | 3.8          | 96.75           | 367.65        |
-| 1011       | 06-Mar-14   | 22       | 104     | 2.6          | 96.75           | 251.55        |
-| 1012       | 06-Mar-14   | 15       | 101     | 2.3          | 105.00          | 241.50        |
-| 1013       | 06-Mar-14   | 25       | 114     | 1.8          | 48.10           | 86.58         |
-| 1014       | 06-Mar-14   | 22       | 111     | 4.0          | 26.87           | 107.48        |
-| 1015       | 06-Mar-14   | 25       | 114     | 3.4          | 48.10           | 163.54        |
-| 1016       | 06-Mar-14   | 18       | 112     | 1.2          | 45.95           | 55.14         |
-| 1017       | 06-Mar-14   | 18       | 118     | 2.0          | 18.36           | 36.72         |
-| 1018       | 06-Mar-14   | 18       | 104     | 2.6          | 96.75           | 251.55        |
-| 1019       | 06-Mar-14   | 15       | 103     | 3.0          | 84.50           | 253.50        |
-| 1020       | 07-Mar-14   | 22       | 105     | 2.7          | 105.00          | 283.50        |
-| 1021       | 08-Mar-14   | 25       | 108     | 4.2          | 96.75           | 406.35        |
-| 1022       | 07-Mar-14   | 25       | 114     | 5.8          | 48.10           | 279.98        |
-| 1023       | 07-Mar-14   | 22       | 108     | 2.4          | 35.75           | 85.80         |
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.13.50 PM.png" alt="Screenshot 2026-06-09 at 6.13.50 PM" style="zoom:80%;" />
 
 ##### Final result [cont'd]
 
 Figure 6.6 - The Completed Database
 
-Table name: EMPLOYEE Database name: Ch06\_ConstructCo
-
-| EMP_NUM | EMP_LNAME  | EMP_FNAME | EMP_INITIAL | EMP_HIREDATE | JOB_CODE |
-| ------- | ---------- | --------- | ----------- | ------------ | -------- |
-| 101     | Neves      | John      | C           | 08-Nov-00    | 502      |
-| 102     | Senior     | David     | H           | 12-Jul-99    | 501      |
-| 103     | Arbough    | June      | E           | 01-Dec-97    | 503      |
-| 104     | Ramoras    | Anne      | K           | 15-Nov-98    | 501      |
-| 105     | Johanson   | Alice     | K           | 01-Feb-94    | 502      |
-| 106     | Smithfield | William   |             | 22-Jun-05    | 500      |
-| 107     | Alonzo     | Maria     | D           | 10-Oct-94    | 500      |
-| 108     | Washington | Ralph     | B           | 22-Aug-99    | 501      |
-| 109     | Smith      | Larry     | W           | 18-Jul-99    | 501      |
-| 110     | Clawko     | Gerald    | A           | 11-Dec-96    | 505      |
-| 111     | Wabash     | Geoff     | B           | 04-Apr-99    | 506      |
-| 112     | Smithson   | Darlene   | M           | 23-Oct-95    | 507      |
-| 113     | Joanbrood  | Delbert   | K           | 15-Nov-94    | 508      |
-| 114     | Jones      | Annelise  |             | 23-Aug-91    | 508      |
-| 115     | Bawangi    | Travis    | B           | 25-Jan-90    | 501      |
-| 116     | Pratt      | Gerald    | L           | 05-Mar-95    | 510      |
-| 117     | Williamson | Angie     | H           | 19-Jun-94    | 509      |
-| 118     | Frommer    | James     | J           | 04-Jan-06    | 510      |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.14.08 PM.png" alt="Screenshot 2026-06-09 at 6.14.08 PM" style="zoom:80%;" />
 
 ### Normalization: summary
 
@@ -1721,8 +1632,6 @@ Cengage Learning © 2015
   - Takes additional input/output (I/O) operations and processing logic
   - Reduces system speed
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
 ### Denormalization [cont'd]
 
 #### Denormalization
@@ -1731,12 +1640,6 @@ Cengage Learning © 2015
   - Data updates are less efficient because tables are larger
   - Indexing is more cumbersome
   - No simple strategies for creating virtual tables known as views
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-1/40 9:35:08 \*\*\*
-
-![](1a9bc67d8c1b132176d58cd7754982b1_img.jpg)![](6e10326caf39add89e2f9358de953e4f_img.jpg)
 
 ## SQL
 
@@ -1789,10 +1692,6 @@ now next page (right Arrow)
 | DROP INDEX                  | Permanently deletes an index                                 |
 | DROP VIEW                   | Permanently deletes a view                                   |
 
-Cengage Learning © 2015
-
-[row next page \(Right Arrow\)](#)
-
 #### Table 7.2 - SQL Data Manipulation Commands
 
 | COMMAND OR OPTION           | DESCRIPTION                                                  |
@@ -1829,7 +1728,7 @@ Cengage Learning © 2015
 
 Here is a nice list of the most useful SQL cmds.
 
-![](10f4e3a2f3c016555ee12a5b556ba834_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.15.33 PM.png" style="zoom:80%;" />
 
 **NUMBER(p,s) [or NUMERIC(p,s)]** denotes a number (including negative values) with upto 'p' number of total digits, including 's' number of them after the decimal point. 'p' is referred to as precision, 's' denotes scale. Eg. NUMERIC(4,2) would range from -99.99 to 99.99, NUMERIC(3,0) would be -999 to 999.
 
@@ -1860,7 +1759,7 @@ Here is a nice list of the most useful SQL cmds.
 
 Figure 7.1 - The Database Model
 
-![](15b94d74577004248532b2f4fd64f535_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.15.57 PM.png" style="zoom:80%;" />
 
 #### Creating a table
 
@@ -2062,8 +1961,6 @@ Table 7.6 - Comparison Operators
 | >=       | Greater than or equal to |
 | <> or != | Not equal to             |
 
-Cengage Learning © 2015
-
 #### Computed columns (an ex of 'feature engineering')
 
 #### Comparison Operators: Computed Columns and Column Aliases
@@ -2078,48 +1975,13 @@ SELECT      P_DESCRIPT, P_QOH, P_PRICE, P_QOH *
 FROM        PRODUCT
 ```
 
-| P_DESCRIPT                          | P_QOH | P_PRICE | Expr1   |
-| ----------------------------------- | ----- | ------- | ------- |
-| Power painter, 15 psi., 3-nozzle    | 8     | 109.99  | 879.92  |
-| 7.25-in. pwr. saw blade             | 32    | 14.99   | 479.68  |
-| 9.00-in. pwr. saw blade             | 18    | 17.49   | 314.82  |
-| Hrd. cloth, 1/4-in., 2x50           | 15    | 39.95   | 599.25  |
-| Hrd. cloth, 1/2-in., 3x50           | 23    | 43.99   | 1011.77 |
-| B&D jigsaw, 12-in. blade            | 8     | 109.92  | 879.36  |
-| B&D jigsaw, 8-in. blade             | 6     | 99.87   | 599.22  |
-| B&D cordless drill, 1/2-in.         | 12    | 38.95   | 467.40  |
-| Claw hammer                         | 23    | 9.95    | 228.85  |
-| Sledge hammer, 12 lb.               | 8     | 14.40   | 115.20  |
-| Rat-tail file, 1/8-in. fine         | 43    | 4.99    | 214.57  |
-| Hicut chain saw, 16 in.             | 11    | 256.99  | 2826.89 |
-| PVC pipe, 3.5-in., 8-ft             | 188   | 5.87    | 1103.56 |
-| 1.25-in. metal screw, 25            | 172   | 6.99    | 1202.28 |
-| 2.5-in. wd. screw, 50               | 237   | 8.45    | 2002.65 |
-| Steel matting, 4'x8'x1/8", .5" mesh | 18    | 119.95  | 2159.10 |
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.18.21 PM.png" alt="Screenshot 2026-06-09 at 6.18.21 PM" style="zoom:50%;" />
 
 ```
 SELECT      P_DESCRIPT, P_QOH, P_PRICE, P_QOH * P_PRICE AS TOTVALUE
 FROM        PRODUCT;
 ```
-
-| P_DESCRIPT                          | P_QOH | P_PRICE | TOTVALUE |
-| ----------------------------------- | ----- | ------- | -------- |
-| Power painter, 15 psi., 3-nozzle    | 8     | 109.99  | 879.92   |
-| 7.25-in. pwvr. saw blade            | 32    | 14.99   | 479.68   |
-| 9.00-in. pwvr. saw blade            | 18    | 17.49   | 314.82   |
-| Hrd. cloth, 1/4-in., 2x50           | 15    | 39.95   | 599.25   |
-| Hrd. cloth, 1/2-in., 3x50           | 23    | 43.99   | 1011.77  |
-| B&D jigsaw, 12-in. blade            | 8     | 109.92  | 879.36   |
-| B&D jigsaw, 8-in. blade             | 6     | 99.87   | 599.22   |
-| B&D cordless drill, 1/2-in.         | 12    | 38.95   | 467.40   |
-| Claw hammer                         | 23    | 9.95    | 228.85   |
-| Sledge hammer, 12 lb.               | 8     | 14.40   | 115.20   |
-| Rat-tail file, 1/8-in. fine         | 43    | 4.99    | 214.57   |
-| Hicut chain saw, 16 in.             | 11    | 256.99  | 2826.89  |
-| PVC pipe, 3.5-in., 8-ft             | 188   | 5.87    | 1103.56  |
-| 1.25-in. metal screw, 25            | 172   | 6.99    | 1202.28  |
-| 2.5-in. wd. screw, 50               | 237   | 8.45    | 2002.65  |
-| Steel matting, 4'x8'x1/8", .5" mesh | 18    | 119.95  | 2159.10  |
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.18.49 PM.png" alt="Screenshot 2026-06-09 at 6.18.49 PM" style="zoom:50%;" />
 
 ```
 SELECT      P_CODE, P_INDATE, P_INDATE + 90 AS EXPDATE
@@ -2147,22 +2009,11 @@ Table 7.7 - The Arithmetic Operators
 | /                   | Divide                                                       |
 | ^                   | Raise to the power of (some applications use ** instead of ^) |
 
-Cengage Learning © 2015
-
 #### Logical (Boolean) operators
 
 Figure 7.12 - Selected PRODUCT Table Attributes: The logical OR
 
-| P_DESCRIPT                  | P_INDATE  | P_PRICE | V_CODE |
-| --------------------------- | --------- | ------- | ------ |
-| 7.25-in. pwr. saw blade     | 13-Dec-13 | 14.99   | 21344  |
-| 9.00-in. pwr. saw blade     | 13-Nov-13 | 17.49   | 21344  |
-| B&D jigsaw, 12-in. blade    | 30-Dec-13 | 109.92  | 24288  |
-| B&D jigsaw, 8-in. blade     | 24-Dec-13 | 99.87   | 24288  |
-| Rat-tail file, 1/8-in. fine | 15-Dec-13 | 4.99    | 21344  |
-| Hicut chain saw, 16 in.     | 07-Feb-14 | 256.99  | 24288  |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.19.28 PM.png" alt="Screenshot 2026-06-09 at 6.19.28 PM" style="zoom:50%;" />
 
 ```
 SELECT P_DESCRIPT, P_INDATE, P_PRICE, V_CODE
@@ -2172,39 +2023,18 @@ WHERE  V_CODE = 21344 OR V_CODE = 24288;
 
 ###### Figure 7.13 - Selected PRODUCT Table Attributes: The Logical AND
 
-| P_DESCRIPTOR                | P_INDATE  | P_PRICE | V_CODE |
-| --------------------------- | --------- | ------- | ------ |
-| B&D cordless drill, 1/2-in. | 20-Jan-14 | 38.95   | 25595  |
-| Claw hammer                 | 20-Jan-14 | 9.95    | 21225  |
-| PVC pipe, 3.5-in., 8-ft     | 20-Feb-14 | 5.87    |        |
-| 1.25-in. metal screw, 25    | 01-Mar-14 | 6.99    | 21225  |
-| 2.5-in. w/d. screw, 50      | 24-Feb-14 | 8.45    | 21231  |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.19.40 PM.png" alt="Screenshot 2026-06-09 at 6.19.40 PM" style="zoom:50%;" />
 
 ```
-
 SELECT    P_DESCRIPTOR, P_INDATE, P_PRICE, V_CODE
 FROM      PRODUCT
 WHERE     P_PRICE < 50
 AND       P_INDATE > '15-Jan-2014';
-
 ```
 
 ###### Figure 7.14 - Selected PRODUCT Table Attributes: The Logical AND and OR
 
-| P_DESCRIPTOR                | P_INDATE  | P_PRICE | V_CODE |
-| --------------------------- | --------- | ------- | ------ |
-| B&D jigsaw, 12-in. blade    | 30-Dec-13 | 109.92  | 24288  |
-| B&D jigsaw, 8-in. blade     | 24-Dec-13 | 99.87   | 24288  |
-| B&D cordless drill, 1/2-in. | 20-Jan-14 | 38.95   | 25595  |
-| Claw hammer                 | 20-Jan-14 | 9.95    | 21225  |
-| Hicut chain saw, 16 in.     | 07-Feb-14 | 256.99  | 24288  |
-| PVC pipe, 3.5-in., 8-ft     | 20-Feb-14 | 5.87    |        |
-| 1.25-in. metal screw, 25    | 01-Mar-14 | 6.99    | 21225  |
-| 2.5-in. w/d. screw, 50      | 24-Feb-14 | 8.45    | 21231  |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.20.20 PM.png" alt="Screenshot 2026-06-09 at 6.20.20 PM" style="zoom:50%;" />
 
 ```
 SELECT    P_DESCRIPT, P_INDATE, P_PRICE, V_CODE  
@@ -2708,26 +2538,7 @@ FROM        PRODUCT
 ORDER BY    P_PRICE;
 ```
 
-| P_CODE   | P_DESCRIPT                          | P_INDATE  | P_PRICE |
-| -------- | ----------------------------------- | --------- | ------- |
-| 54778-2T | Rat-tail file, 1/8-in. fine         | 15-Dec-13 | 4.99    |
-| PVC23DRT | PVC pipe, 3.5-in., 8-ft             | 20-Feb-14 | 5.87    |
-| SM-18277 | 1.25-in. metal screw, 25            | 01-Mar-14 | 6.99    |
-| SW-23118 | 2.5-in. wd. screw, 50               | 24-Feb-14 | 8.45    |
-| 23109-HB | Claw hammer                         | 20-Jan-14 | 9.95    |
-| 20114-AA | Sledge hammer, 12 lb.               | 02-Jan-14 | 14.40   |
-| 13-Q2/P2 | 7.25-in. pwr. saw blade             | 13-Dec-13 | 14.99   |
-| 14-Q1/L3 | 9.00-in. pwr. saw blade             | 13-Nov-13 | 17.49   |
-| 2238/QPD | B&D cordless drill, 1/2-in.         | 20-Jan-14 | 39.95   |
-| 1546-QQ2 | Hrd. cloth, 14-in., 2x50            | 15-Jan-14 | 39.95   |
-| 1558-QW1 | Hrd. cloth, 1/2-in., 3x50           | 15-Jan-14 | 43.99   |
-| 2232/QWE | B&D jigsaw, 8-in. blade             | 24-Dec-13 | 99.67   |
-| 2232/QTY | B&D jigsaw, 12-in. blade            | 30-Dec-13 | 109.92  |
-| 11QER/31 | Power painter, 15 psi., 3-nozzle    | 03-Nov-13 | 109.99  |
-| WR3/TT3  | Steel matting, 4'x8'x1/8", .5" mesh | 17-Jan-14 | 119.95  |
-| 69-VRE-Q | Hicut chain saw, 16 in.             | 07-Feb-14 | 255.99  |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.23.09 PM.png" alt="Screenshot 2026-06-09 at 6.23.09 PM" style="zoom:80%;" />
 
 **The sequence (listing) obtained by specifying several comma-separated attributes for ORDER BY is called a cascading order sequence.**
 
@@ -2737,27 +2548,7 @@ FROM        EMPLOYEE
 ORDER BY    EMP_LNAME, EMP_FNAME, EMP_INITIAL;
 ```
 
-| EMP_LNAME  | EMP_FNAME | EMP_INITIAL | EMP_AREACODE | EMP_PHONE |
-| ---------- | --------- | ----------- | ------------ | --------- |
-| Brandon    | Marie     | G           | 901          | 882-0845  |
-| Diante     | Jorge     | D           | 615          | 890-4567  |
-| Genkazi    | Leighla   | W           | 901          | 569-0093  |
-| Johnson    | Edward    | E           | 615          | 898-4387  |
-| Jones      | Anne      | M           | 615          | 898-3456  |
-| Kolmycz    | George    | D           | 615          | 324-5456  |
-| Lange      | John      | P           | 901          | 504-4430  |
-| Lewis      | Rhonda    | G           | 615          | 324-4472  |
-| Saranda    | Hermine   | R           | 615          | 324-5505  |
-| Smith      | George    | A           | 615          | 890-2984  |
-| Smith      | George    | K           | 901          | 504-3339  |
-| Smith      | Jeanine   | K           | 615          | 324-7883  |
-| Smythe     | Melanie   | P           | 615          | 324-9006  |
-| Vandam     | Rhett     |             | 901          | 675-8993  |
-| Washington | Rupert    | E           | 615          | 890-4925  |
-| Wiesenbach | Paul      | R           | 615          | 897-4358  |
-| Williams   | Robert    | D           | 615          | 890-3220  |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.23.38 PM.png" alt="Screenshot 2026-06-09 at 6.23.38 PM" style="zoom:80%;" />
 
 #### DISTINCT
 
@@ -2777,17 +2568,7 @@ SELECT  DISTINCT V_CODE
 FROM    PRODUCT;
 ```
 
-| V_CODE |
-| ------ |
-|        |
-| 21225  |
-| 21231  |
-| 21344  |
-| 23119  |
-| 24288  |
-| 25595  |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.24.02 PM.png" alt="Screenshot 2026-06-09 at 6.24.02 PM" style="zoom:50%;" />
 
 #### AGGREGATE functions
 
@@ -2803,139 +2584,27 @@ Table 7.8 - Some Basic SQL Aggregate Functions
 | SUM      | The sum of all values for a given column                  |
 | AVG      | The arithmetic mean (average) for a specified column      |
 
-Cengage Learning © 2015
-
 #### Aggregate function examples
 
 How many different vendors supply our products? How many supply cheap (PRICE < 10) products?
 
 Note the third query below: COUNT(\*) counts the # of rows returned by a query (rows where the product costs < 10 units). In contrast, count() counts the # of non-null values of the column.
 
-![](327ba7b8b963c7ef4bc897bc17d6b3e1_img.jpg)
-
-```
-SQL Plus
-
-SQL> SELECT COUNT(DISTINCT U_CODE)
-  2  FROM PRODUCT;
-
-COUNT(DISTINCT U_CODE)
------
-                        6
-
-SQL> SELECT COUNT(DISTINCT U_CODE)
-  2  FROM PRODUCT
-  3  WHERE P_PRICE <= 10.00;
-
-COUNT(DISTINCT U_CODE)
------
-                        3
-
-SQL> SELECT COUNT(*)
-  2  FROM PRODUCT
-  3  WHERE P_PRICE <= 10.00;
-
-COUNT(*)
------
-        5
-
-SQL>
-```
-
-Copyright Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.24.30 PM.png" style="zoom:50%;" />
 
 What is the value for the most expensive item in the product table? Least expensive?
 
 What is the most expensive item (details)? We can't do: WHERE P\_PRICE = MAX(P\_PRICE). This is because MAX() can only be used in a SELECT statement.
 
-```
-
-SQL> SELECT MAX(P_PRICE)
-2 FROM PRODUCT;
-
-MAX(P_PRICE)
------
-256.99
-
-SQL> SELECT MIN(P_PRICE)
-2 FROM PRODUCT;
-
-MIN(P_PRICE)
------
-4.99
-
-SQL> SELECT P_CODE, P_DESCRIPT, P_PRICE
-2 FROM PRODUCT
-3 WHERE P_PRICE = (SELECT MAX(P_PRICE) FROM PRODUCT);
-
-P_CODE      P_DESCRIPT      P_PRICE
------
-89-WRE-Q    Hicut chain saw, 16 in.      256.99
-
-SQL>
-
-```
-
-Cengage Learning © 2015
-
-```
-
-SELECT *
-FROM PRODUCT
-WHERE P_QOH * P_PRICE = (SELECT MAX(P_QOH * P_PRICE) FROM PRODUCT);
-
-```
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.25.46 PM.png" alt="Screenshot 2026-06-09 at 6.25.46 PM" style="zoom:50%;" />
 
 **Sum:**
 
-```
-
-SQL> SELECT SUM(CUS_BALANCE) AS TOTBALANCE FROM CUSTOMER;
-
-TOTBALANCE
------
-2089.28
-
-SQL> SELECT SUM(P_QOH * P_PRICE) AS TOTVALUE FROM PRODUCT;
-
-TOTVALUE
------
-15084.52
-
-SQL>
-
-```
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.26.27 PM.png" alt="Screenshot 2026-06-09 at 6.26.27 PM" style="zoom:50%;" />
 
 **Avg:**
 
-![](9ce71bb1e3da44d64682f0b6f3b7a143_img.jpg)
-
-```
-SQL> SELECT AVG(P_PRICE) FROM PRODUCT;
-
-AVG(P_PRICE)
------
-      56.42125
-
-SQL> SELECT P_CODE, P_DESCRIPT, P_QOH, P_PRICE, U_CODE
-2  FROM PRODUCT
-3  WHERE P_PRICE > (SELECT AVG(P_PRICE) FROM PRODUCT)
-4  ORDER BY P_PRICE DESC;
-
-P_CODE      P_DESCRIPT                                P_QOH      P_PRICE      U_CODE
------
-89-WRE-Q    Hicut chain saw, 16 in.                   11         256.99      24288
-WR3/TT3     Steel matting, 4'x8'x1/6", .5" mesh        18         119.95      25595
-11QER/31    Power painter, 15 psi., 3-nozzle           8         109.99      25595
-2232/QTY    B\&D jigsaw, 12-in. blade                  8         109.92      24288
-2232/QWE    B\&D jigsaw, 8-in. blade                   6          99.87      24288
-
-SQL>
-```
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.26.40 PM.png" style="zoom:50%;" />
 
 #### GROUP BY (itemizing)
 
@@ -2950,72 +2619,13 @@ Cengage Learning © 2015
                    [HAVING *conditionlist*]  
                    [ORDER BY *columnlist* [ASC | DESC]];
 
-```
-
-SQL Plus
-SQL> SELECT P_SALECODE, MIN(P_PRICE)
-2 FROM PRODUCT
-3 GROUP BY P_SALECODE
-4 ORDER BY P_SALECODE;
-
-P MIN(P_PRICE)
------
-1          9.95
-2          4.99
-           5.87
-
-SQL> SELECT P_SALECODE, AVG(P_PRICE)
-2 FROM PRODUCT
-3 GROUP BY P_SALECODE
-4 ORDER BY P_SALECODE;
-
-P AVG(P_PRICE)
------
-1        107.152
-2         47.88
-           15.94
-
-SQL>
-
-```
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.27.04 PM.png" alt="Screenshot 2026-06-09 at 6.27.04 PM" style="zoom:50%;" />
 
 You can think of 'GROUP BY' to mean "CATEGORIZE BY" or "ITEMIZE BY": rather than just a single MIN, MAX, SUM, COUNT or AVG, we're asking for a value PER OCCURRENCE of a GROUP BY value, eg. minimum price PER VENDOR, max GPA PER DEPARTMENT, average earnings PER MAJOR, etc. Specifically, when used with SUM(), GROUP BY is used to request subtotals.
 
 The screenshot shows a SQL Plus window with the following content:
 
-```
-
-SQL> SELECT U_CODE, P_CODE, P_DESCRIPT, P_PRICE
-2 FROM PRODUCT
-3 GROUP BY U_CODE;
-SELECT U_CODE, P_CODE, P_DESCRIPT, P_PRICE
-      x
-ERROR at line 1:
-ORA-00979: not a GROUP BY expression
-
-SQL> SELECT U_CODE, COUNT(DISTINCT P_CODE)
-2 FROM PRODUCT
-3 GROUP BY U_CODE;
-
-  U_CODE COUNT(DISTINCTP_CODE)
------
-21225          2
-21231          1
-21344          3
-23119          2
-24288          3
-25595          3
-          2
-
-7 rows selected.
-
-SQL>
-
-```
-
-Oracle Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.27.22 PM.png" alt="Screenshot 2026-06-09 at 6.27.22 PM" style="zoom:50%;" />
 
 'GROUP BY' used without an aggregate function is meaningless, since there is no aggregate value (MIN, COUNT etc.) to itemize.
 
@@ -3031,79 +2641,7 @@ Note that grouping by multiple columns simply means grouping by all occurrences 
 
 Here is a grocery store receipt where subtotals are displayed itemized, aggregated by product types DELI, GROCERY, MIXED NUTS and PRODUCE (presumably using SUM(), together with GROUP BY):
 
-#### SK SUPER KING MARKETS SUPER KING
-
-Join "Royal Rewards" today  
-and Start Earning Points!
-
-2716 N. San Fernando Rd.  
-Los Angeles, CA. 90065  
-(323) 225-0044  
-Store Hours 7 am - 9 pm  
-www.SuperKingMarkets.com
-
-Purchase \$ 8.74
-
-PIN Used
-
-Debit Card #SXXXXXXXXXX4428  
-Auth # 568771 Payment from primary  
-Lane # 06 Cashier # 766  
-01/29/16 09:34 Ref/Seq # 065808  
-Mrch=912871 Term=001 IC=DC  
-EPS Sequence # 065808
-
-##### DELI
-
-SHAMROCK 2% STRAWBER 1.89 \*
-
-##### GROCERY
-
-DORITOS SPICY NACHO  
-1 @ 2 FOR 5.00 2.50 \*
-
-#### MIXED NUTS
-
-FRIED RED SKIN PEANU  
-0.66 lb @ 1.99/ lb 1.31 \*
-
-#### PRODUCE
-
-BLACKBERRIES BERRY L V 1.99 \*  
-CACAHUATE QUEMADO  
-0.53 lb @ 1.99/ lb 1.05 \*
-
-BALANCE DUE 8.74
-
-Debit Card 8.74  
-Auth Code = 568771
-
-CHANGE 0.00
-
-Total number of items sold = 5
-
-CASHIER NAME: JULIA P.
-
-STORE:00002 REGISTER:006 CASHIER:0766  
-TICKET#:4826 29JAN2016 9:34:32
-
-\*ALL RETURNS AND EXCHANGES CAN ONLY BE  
-ACCEPTED WITHIN 2 DAYS FROM THE DATE OF  
-PURCHASE AND MUST BE WITH RECEIPT.
-
-\*RETURNS OR EXCHANGES OF NON-FOOD ITEMS  
-SHALL BE IN ORIGINAL PACKAGE \*NO CASH  
-REFUND ON ITEMS PAID BY CREDIT CARD
-
-\*NO RETURNS ON BABYFOOD AND FORMULA
-
-ALL SALES ARE FINAL ON ALL
-
-ALCOHOLIC BEVERAGES & TOBACCO
-
-LA County State Tax Rate of 9.00%
-
-![](9acd7ccc1be0bbd5af47889b01cd8f05_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.28.35 PM.png" alt="Screenshot 2026-06-09 at 6.28.35 PM" style="zoom:50%;" />
 
 **While you're at it, see what other DATA you can spot in the receipt! Even a single trip to the store can generate a LOT of data.**
 
@@ -3120,39 +2658,7 @@ Note that **HAVING** can only occur in a query that has a **GROUP BY**, which in
 - Used in conjunction with **GROUP BY** clause in second SQL command set
 - Similar to **WHERE** clause in **SELECT** statement
 
-![](b83b1eb356ecf21fc3c5af4ad6382ec9_img.jpg)
-
-```
-SQL> SELECT U_CODE, COUNT(DISTINCT P_CODE), AVG(P_PRICE)
-  2  FROM PRODUCT
-  3  GROUP BY U_CODE;
-
-U_CODE COUNT(DISTINCTP_CODE) AVG(P_PRICE)
- 
-21225                     2         8.47
-21231                     1         8.45
-21344                     3        12.49
-23119                     2        41.97
-24288                     3   155.593333
-25595                     3        89.63
-                          2       10.135
-
-7 rows selected.
-
-SQL> SELECT U_CODE, COUNT(DISTINCT P_CODE), AVG(P_PRICE)
-  2  FROM PRODUCT
-  3  GROUP BY U_CODE
-  4  HAVING AVG(P_PRICE) < 10;
-
-U_CODE COUNT(DISTINCTP_CODE) AVG(P_PRICE)
- 
-21225                     2         8.47
-21231                     1         8.45
-
-SQL>
-```
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.28.56 PM.png" style="zoom:50%;" />
 
 ### Table joins
 
@@ -3170,38 +2676,7 @@ Cengage Learning © 2015
 - Add alias after table name in FROM clause
   - FROM tablename alias, eg. 'FROM PRODUCT P'
 
-```
-
-SELECT      P_DESCRIPT, P_PRICE, V_NAME, V_CONTACT, V_AREACODE, V_PHONE
-FROM        PRODUCT, VENDOR
-WHERE       PRODUCT.V_CODE = VENDOR.V_CODE;
-
-```
-
-| P_DESCRIPT                          | P_PRICE | V_NAME          | V_CONTACT | V_AREACODE | V_PHONE  |
-| ----------------------------------- | ------- | --------------- | --------- | ---------- | -------- |
-| Claw hammer                         | 9.95    | Bryson, Inc.    | Smithson  | 615        | 223-3234 |
-| 1.25-in. metal screw, 25            | 6.99    | Bryson, Inc.    | Smithson  | 615        | 223-3234 |
-| 2.5-in. wd. screw, 50               | 8.45    | D&E Supply      | Singh     | 615        | 228-3245 |
-| 7.25-in. pwr. saw blade             | 14.99   | Gomez Bros.     | Ortega    | 615        | 889-2546 |
-| 9.00-in. pwr. saw blade             | 17.49   | Gomez Bros.     | Ortega    | 615        | 889-2546 |
-| Rat-tail file, 1/8-in. fine         | 4.99    | Gomez Bros.     | Ortega    | 615        | 889-2546 |
-| Hrd. cloth, 1/4-in., 2x50           | 39.95   | Randssets Ltd.  | Anderson  | 901        | 678-3998 |
-| Hrd. cloth, 1/2-in., 3x50           | 43.99   | Randssets Ltd.  | Anderson  | 901        | 678-3998 |
-| B&D jigsaw, 12-in. blade            | 109.92  | ORDVA, Inc.     | Hakford   | 615        | 898-1234 |
-| B&D jigsaw, 8-in. blade             | 99.87   | ORDVA, Inc.     | Hakford   | 615        | 898-1234 |
-| Hicut chain saw, 16 in.             | 256.99  | ORDVA, Inc.     | Hakford   | 615        | 898-1234 |
-| Power painter, 15 psi., 3-nozzle    | 109.99  | Rubicon Systems | Orton     | 904        | 456-0092 |
-| B&D cordless drill, 1/2-in.         | 38.95   | Rubicon Systems | Orton     | 904        | 456-0092 |
-| Steel matting, 4'x8'x1/8", .5" mesh | 119.85  | Rubicon Systems | Orton     | 904        | 456-0092 |
-
-Cengage Learning © 2015
-
-```
-
-ORDER BY   PRODUCT.P_PRICE;
-
-```
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.29.23 PM.png" alt="Screenshot 2026-06-09 at 6.29.23 PM" style="zoom:80%;" />
 
 ```
 SELECT      CUS_LNAME, INVOICE.INV_NUMBER, INV_DATE, P_DESCRIPT
@@ -3226,107 +2701,15 @@ Need different aliases for the table being queried so that we can use such alias
 
 #### Table, for self-join example
 
-| EMP_NUM | EMP_TITLE | EMP_LNAME   | EMP_FNAME | EMP_INITIAL | EMP_DOB   | EMP_HIRE_DATE | EMP_AREACODE | EMP_PHONE | EMP_MGR |
-| ------- | --------- | ----------- | --------- | ----------- | --------- | ------------- | ------------ | --------- | ------- |
-| 100     | Mr.       | Kolmycz     | George    | D           | 15-Jun-42 | 15-Mar-85     | 615          | 324-5456  |         |
-| 101     | Ms.       | Lewis       | Rhonda    | G           | 19-Mar-65 | 25-Apr-86     | 615          | 324-4472  | 100     |
-| 102     | Mr.       | Yendam      | Rhett     |             | 14-Nov-58 | 20-Dec-90     | 901          | 675-8993  | 100     |
-| 103     | Ms.       | Jones       | Anne      | M           | 16-Oct-74 | 28-Aug-94     | 615          | 898-3456  | 100     |
-| 104     | Mr.       | Lange       | John      | P           | 08-Nov-71 | 20-Oct-94     | 901          | 504-4430  | 105     |
-| 105     | Mr.       | vWilliams   | Robert    | D           | 14-Mar-75 | 08-Nov-96     | 615          | 890-3220  |         |
-| 106     | Mrs.      | Smith       | Jeanine   | K           | 12-Feb-68 | 05-Jan-89     | 615          | 324-7003  | 105     |
-| 107     | Mr.       | Dante       | Jorge     | D           | 21-Aug-74 | 02-Jul-94     | 615          | 890-4567  | 105     |
-| 108     | Mr.       | vWesenbach  | Paul      | R           | 14-Feb-66 | 18-Nov-92     | 615          | 897-4358  |         |
-| 109     | Mr.       | Smith       | George    | K           | 18-Jun-61 | 14-Apr-89     | 901          | 504-3339  | 108     |
-| 110     | Mrs.      | Genkozi     | Leigha    | W           | 19-May-70 | 01-Dec-90     | 901          | 569-0093  | 108     |
-| 111     | Mr.       | vWashington | Rupert    | E           | 03-Jan-66 | 21-Jun-93     | 615          | 890-4925  | 105     |
-| 112     | Mr.       | Johnson     | Edward    | E           | 14-May-61 | 01-Dec-83     | 615          | 898-4387  | 100     |
-| 113     | Ms.       | Smythe      | Melanie   | P           | 15-Sep-70 | 11-May-99     | 615          | 324-9005  | 105     |
-| 114     | Ms.       | Brandon     | Marie     | G           | 02-Nov-56 | 15-Nov-79     | 901          | 882-0845  | 108     |
-| 115     | Mrs.      | Saranda     | Hermine   | R           | 25-Jul-72 | 23-Apr-93     | 615          | 324-5505  | 105     |
-| 116     | Mr.       | Smith       | George    | A           | 08-Nov-65 | 10-Dec-88     | 615          | 890-2984  | 108     |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.29.53 PM.png" alt="Screenshot 2026-06-09 at 6.29.53 PM" style="zoom:80%;" />
 
 #### Self-join example
 
-```
-
-SELECT      E.EMP_NUM, E.EMP_LNAME, E.EMP_MGR, M.EMP_LNAME
-FROM        EMP E, EMP M
-WHERE       E.EMP_MGR=M.EMP_NUM
-ORDER BY    E.EMP_MGR;
-
-```
-
-| EMP_NUM | E.EMP_LNAME | EMP_MGR | M.EMP_LNAME |
-| ------- | ----------- | ------- | ----------- |
-| 112     | Johnson     | 100     | Kolmycz     |
-| 103     | Jones       | 100     | Kolmycz     |
-| 102     | Vandam      | 100     | Kolmycz     |
-| 101     | Lewis       | 100     | Kolmycz     |
-| 115     | Saranda     | 105     | Williams    |
-| 113     | Smythe      | 105     | Williams    |
-| 111     | Washington  | 105     | Williams    |
-| 107     | Dante       | 105     | Williams    |
-| 106     | Smith       | 105     | Williams    |
-| 104     | Lange       | 105     | Williams    |
-| 116     | Smith       | 108     | Wesenbach   |
-| 114     | Brandon     | 108     | Wesenbach   |
-| 110     | Gentkazi    | 108     | Wesenbach   |
-| 109     | Smith       | 108     | Wesenbach   |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.30.25 PM.png" alt="Screenshot 2026-06-09 at 6.30.25 PM" style="zoom:80%;" />
 
 Here is how the join works:
 
-| EMP_NUM | EMP_TITLE  | EMP_LNAME | EMP_FNAME | EMP_INITIAL | EMP_DOB   | EMP_HIRE_DATE | EMP_AREACODE | EMP_PHONE | EMP_JOB |
-| ------- | ---------- | --------- | --------- | ----------- | --------- | ------------- | ------------ | --------- | ------- |
-| 100 Mr. | Kolmycz    | George    | D         |             | 15-Jun-42 | 15-Mar-85 615 |              | 324-5455  | 100     |
-| 101 Mr. | Lewis      | Rhonda    | O         |             | 19-Mar-85 | 25-Apr-85 615 |              | 324-4472  | 100     |
-| 102 Mr. | Vandam     | Rudolf    |           |             | 14-Jul-85 | 20-Dec-92 901 |              | 676-5993  | 100     |
-| 103 Ms. | Jones      | Anne      | M         |             | 16-Oct-74 | 28-Aug-94 615 |              | 698-3456  | 100     |
-| 104 Mr. | Lange      | John      | P         |             | 08-Nov-71 | 20-Oct-94 901 |              | 504-4430  | 105     |
-| 105 Mr. | Williams   | Robert    | D         |             | 14-Mar-75 | 05-Nov-95 615 |              | 696-3220  |         |
-| 106 Ms. | Smith      | Jeanne    | K         |             | 12-Feb-85 | 05-Jun-89 615 |              | 324-7803  | 105     |
-| 107 Mr. | Dante      | Jorge     | D         |             | 21-Aug-74 | 02-Jul-94 615 |              | 690-4567  | 105     |
-| 108 Mr. | Wesenbach  | Paul      | R         |             | 14-Feb-66 | 18-Nov-92 615 |              | 697-4359  |         |
-| 109 Mr. | Smith      | George    | K         |             | 15-Jun-61 | 14-Apr-89 901 |              | 504-3339  | 108     |
-| 110 Ms. | Gentkazi   | Leigha    | W         |             | 19-May-70 | 01-Dec-92 901 |              | 699-0003  | 108     |
-| 111 Mr. | Washington | Rupert    | E         |             | 03-Jun-66 | 21-Jun-93 615 |              | 690-4925  | 105     |
-| 112 Mr. | Johnson    | Edward    | E         |             | 14-May-61 | 01-Dec-83 615 |              | 698-4307  | 100     |
-| 113 Ms. | Smythe     | Melanie   | P         |             | 15-Sep-70 | 11-May-99 615 |              | 324-9006  | 105     |
-| 114 Ms. | Brandon    | Marie     | O         |             | 02-Nov-55 | 15-Nov-79 901 |              | 682-8945  | 108     |
-| 115 Ms. | Saranda    | Hermine   | R         |             | 25-Jul-72 | 23-Apr-93 615 |              | 324-5505  | 105     |
-| 116 Mr. | Smith      | George    | A         |             | 08-Nov-85 | 10-Dec-88 615 |              | 690-2984  | 108     |
-
-Cengage Learning © 2015
-
-**E**
-
-| EMP_NUM | EMP_TITLE  | EMP_LNAME | EMP_FNAME | EMP_INITIAL | EMP_DOB   | EMP_HIRE_DATE | EMP_AREACODE | EMP_PHONE | EMP_JOB |
-| ------- | ---------- | --------- | --------- | ----------- | --------- | ------------- | ------------ | --------- | ------- |
-| 100 Mr. | Kolmycz    | George    | D         |             | 15-Jun-42 | 15-Mar-85 615 |              | 324-5455  | 100     |
-| 101 Mr. | Lewis      | Rhonda    | O         |             | 19-Mar-85 | 25-Apr-85 615 |              | 324-4472  | 100     |
-| 102 Mr. | Vandam     | Rudolf    |           |             | 14-Jul-85 | 20-Dec-92 901 |              | 676-5993  | 100     |
-| 103 Ms. | Jones      | Anne      | M         |             | 16-Oct-74 | 28-Aug-94 615 |              | 698-3456  | 100     |
-| 104 Mr. | Lange      | John      | P         |             | 08-Nov-71 | 20-Oct-94 901 |              | 504-4430  | 105     |
-| 105 Mr. | Williams   | Robert    | D         |             | 14-Mar-75 | 05-Nov-95 615 |              | 696-3220  |         |
-| 106 Ms. | Smith      | Jeanne    | K         |             | 12-Feb-85 | 05-Jun-89 615 |              | 324-7803  | 105     |
-| 107 Mr. | Dante      | Jorge     | D         |             | 21-Aug-74 | 02-Jul-94 615 |              | 690-4567  | 105     |
-| 108 Mr. | Wesenbach  | Paul      | R         |             | 14-Feb-66 | 18-Nov-92 615 |              | 697-4359  |         |
-| 109 Mr. | Smith      | George    | K         |             | 15-Jun-61 | 14-Apr-89 901 |              | 504-3339  | 108     |
-| 110 Ms. | Gentkazi   | Leigha    | W         |             | 19-May-70 | 01-Dec-92 901 |              | 699-0003  | 108     |
-| 111 Mr. | Washington | Rupert    | E         |             | 03-Jun-66 | 21-Jun-93 615 |              | 690-4925  | 105     |
-| 112 Mr. | Johnson    | Edward    | E         |             | 14-May-61 | 01-Dec-83 615 |              | 698-4307  | 100     |
-| 113 Ms. | Smythe     | Melanie   | P         |             | 15-Sep-70 | 11-May-99 615 |              | 324-9006  | 105     |
-| 114 Ms. | Brandon    | Marie     | O         |             | 02-Nov-55 | 15-Nov-79 901 |              | 682-8945  | 108     |
-| 115 Ms. | Saranda    | Hermine   | R         |             | 25-Jul-72 | 23-Apr-93 615 |              | 324-5505  | 105     |
-| 116 Mr. | Smith      | George    | A         |             | 08-Nov-85 | 10-Dec-88 615 |              | 690-2984  | 108     |
-
-Cengage Learning © 2015
-
-**M**
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.30.35 PM.png" alt="Screenshot 2026-06-09 at 6.30.35 PM" style="zoom:80%;" />
 
 Sooo... are joins 'evil'? Not really :)
 
@@ -3334,61 +2717,11 @@ Sooo... are joins 'evil'? Not really :)
 
 Now that you're familiar with SQL syntax, you will appreciate knowing how it compares with a regular programming language such as C++. Shown below is such a comparison, using C# which lets us write code in an imperative (command-oriented) manner as well a declarative (result-oriented) one [this is from a book on functional programming]:
 
-##### Listing 1.3 Imperative data processing (C#)
-
-```
-List<string> res = new List<string>();           #1
-foreach(Product p in Products) {               #2
-    if (p.UnitPrice > 75.0M) {
-        res.Add(String.Format("{0} - ${1}",
-            p.ProductName, p.UnitPrice));        #3
-    }
-}
-return res;
-#1 Create resulting list
-#2 Iterate over products
-#3 Add information to list of results
-```
-
-You'll probably need to read the code carefully to understand what it does, but that's not the only aspect we want to improve. The code is written as a sequence of some basic imperative commands. For example, the first statement creates new list (#1), the second iterates over all products (#2) and a later one adds element to the list (#3). However, we'd like to be able to describe the problem at a higher level. In more abstract terms, the code just filters a collection and returns some information about every returned product.
-
-In C# 3.0, we can write the same code using query expression syntax. This version is closer to our real goal—it uses the same idea of filtering and transforming the data. You can see the code in listing 1.4.
-
-###### Listing 1.4 Declarative data processing (C#)
-
-```
-var res = from p in Products                     #1
-           where p.UnitPrice > 75.0M
-           select string.Format("{0} - ${1}",
-            p.ProductName, p.UnitPrice);         #2
-return res;
-#1 Filter products using predicate
-#2 Return information about product
-```
-
-The expression that calculates the result (`res`) is composed from basic operators such as `where` or `select`. These operators take other expressions as an argument, because they need to know exactly what we want to filter or select as a result.
-
-©Manning Publications Co.
-
-
-
-1/25 9:35:42 \*\*\*
-
-![](5f946b9310b589e34d571919bc96318a_img.jpg)![](6eb1d75070eca2cf2573ce42d49da140_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.31.00 PM.png" alt="Screenshot 2026-06-09 at 6.31.00 PM" style="zoom:80%;" />
 
 ### More SQL
 
-# Ch.8
-
-11e
-
-## Database Systems Design, Implementation, and Management
-
-![](26d99c1e7a42cd8b86582a751365aa32_img.jpg)
-
 # Chapter 8 Advanced SQL
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
 
 ### Learning Objectives
 
@@ -3438,89 +2771,21 @@ b.low_end AND b.high_end;
 
 Table 8.1 - SQL Join Expression Styles
 
-| JOIN CLASSIFICATION | JOIN TYPE      | SQL SYNTAX EXAMPLE                           | DESCRIPTION                                                  |
-| ------------------- | -------------- | -------------------------------------------- | ------------------------------------------------------------ |
-| CROSS               | CROSS JOIN     | SELECT *<br>FROM T1, T2                      | Returns the Cartesian product of T1 and T2 (old style)       |
-|                     |                | SELECT *<br>FROM T1 CROSS JOIN T2            | Returns the Cartesian product of T1 and T2                   |
-| INNER               | Old-style JOIN | SELECT *<br>FROM T1, T2<br>WHERE T1.C1=T2.C1 | Returns only the rows that meet the join condition in the WHERE clause (old style); only rows with matching values are selected |
-|                     | NATURAL JOIN   | SELECT *<br>FROM T1 NATURAL JOIN T2          | Returns only the rows with matching values in the matching columns; the matching columns must have the same names and similar data types |
-|                     | JOIN USING     | SELECT *<br>FROM T1 JOIN T2 USING (C1)       | Returns only the rows with matching values in the columns indicated in the USING clause |
-|                     | JOIN ON        | SELECT *<br>FROM T1 JOIN T2 ON T1.C1=T2.C1   | Returns only the rows that meet the join condition indicated in the ON clause |
-
-Cengage Learning © 2015
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-5
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.33.21 PM.png" alt="Screenshot 2026-06-09 at 6.33.21 PM" style="zoom:80%;" />
 
 ##### Outer vs inner vs full ('both') JOINS
 
 ## Table 8.1 - SQL Join Expression Styles
 
-| JOIN CLASSIFICATION | JOIN TYPE  | SQL SYNTAX EXAMPLE                                        | DESCRIPTION                                                  |
-| ------------------- | ---------- | --------------------------------------------------------- | ------------------------------------------------------------ |
-| OUTER               | LEFT JOIN  | SELECT *<br>FROM T1 LEFT OUTER JOIN T2<br>ON T1.C1=T2.C1  | Returns rows with matching values and includes all rows from the left table (T1) with unmatched values |
-|                     | RIGHT JOIN | SELECT *<br>FROM T1 RIGHT OUTER JOIN T2<br>ON T1.C1=T2.C1 | Returns rows with matching values and includes all rows from the right table (T2) with unmatched values |
-|                     | FULL JOIN  | SELECT *<br>FROM T1 FULL OUTER JOIN T2<br>ON T1.C1=T2.C1  | Returns rows with matching values and includes all rows from both tables (T1 and T2) with unmatched values |
-
-Cengage Learning © 2015
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-6
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.33.39 PM.png" alt="Screenshot 2026-06-09 at 6.33.39 PM" style="zoom:80%;" />
 
 ##### Full (left+right outer) JOIN example
 
-For example, the following query lists the product code, vendor code, and vendor name for all products and includes all product rows (products without matching vendors) as well as all vendor rows (vendors without matching products):
-
-```
-SELECT      P_CODE, VENDOR.V_CODE, V_NAME
-FROM        VENDOR FULL JOIN PRODUCT ON VENDOR.V_CODE = PRODUCT.V_CODE;
-```
-
-The SQL code and its results are shown in Figure 8.12.
-
-**FIGURE 8.12** FULL JOIN results
-
-The screenshot shows the Oracle SQL\*Plus interface with a query window. The query is a FULL JOIN between the VENDOR and PRODUCT tables on the V\_CODE column. The results are displayed in a table with three columns: P\_CODE, V\_CODE, and V\_NAME. The results show 21 rows, including products without vendors (e.g., 11QER/31, 13-U2/P2) and vendors without products (e.g., 25595 Rubicon Systems, 21344 Gomez Bros.).
-
-| P_CODE   | V_CODE | V_NAME          |
-| -------- | ------ | --------------- |
-| 11QER/31 | 25595  | Rubicon Systems |
-| 13-U2/P2 | 21344  | Gomez Bros.     |
-| 14-Q1/L9 | 21344  | Gomez Bros.     |
-| 1546-UQ2 | 23119  | Randsets Ltd.   |
-| 1558-QW1 | 23119  | Randsets Ltd.   |
-| 2232/RTV | 24288  | ORUVA, Inc.     |
-| 2232/QME | 24288  | ORUVA, Inc.     |
-| 2238/QPD | 25595  | Rubicon Systems |
-| 23100-H8 | 21225  | Bryson, Inc.    |
-| 54778-2T | 21344  | Gomez Bros.     |
-| 89-WRE-Q | 24288  | ORUVA, Inc.     |
-| SM-18277 | 21225  | Bryson, Inc.    |
-| SM-23116 | 21231  | D&E Supply      |
-| VR3/TT3  | 25595  | Rubicon Systems |
-|          | 22567  | Dane Supply     |
-|          | 21226  | SuperLoe, Inc.  |
-|          | 24804  | Bracknan Bros.  |
-|          | 25501  | Danal Supplies  |
-|          | 25443  | B&H, Inc.       |
-| 23114-AA |        |                 |
-| PUC23DRT |        |                 |
-
-21 rows selected.
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.33.55 PM.png" alt="Screenshot 2026-06-09 at 6.33.55 PM" style="zoom:80%;" />
 
 ### 'SELECT' subqueries
 
-| SELECT SUBQUERY EXAMPLES                                     | EXPLANATION                                                  |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| INSERT INTO PRODUCT<br>SELECT * FROM P;                      | Inserts all rows from Table P into the PRODUCT table. Both tables must have the same attributes. The subquery returns all rows from Table P. |
-| UPDATE PRODUCT<br>SET P_PRICE = (SELECT AVG(P_PRICE)<br>FROM PRODUCT)<br>WHERE V_CODE IN (SELECT V_CODE<br>FROM VENDOR<br>WHERE V_AREACODE = '615') | Updates the product price to the average product price, but only for products provided by vendors who have an area code equal to 615. The first subquery returns the average price; the second subquery returns the list of vendors with an area code equal to 615. |
-| DELETE FROM PRODUCT<br>WHERE V_CODE IN (SELECT V_CODE<br>FROM VENDOR<br>WHERE V_AREACODE = '615') | Deletes the PRODUCT table rows provided by vendors with an area code equal to 615. The subquery returns the list of vendor codes with an area code equal to 615. |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.34.32 PM.png" alt="Screenshot 2026-06-09 at 6.34.32 PM" style="zoom:50%;" />
 
 #### Subqueries and Correlated Queries
 
@@ -3540,35 +2805,11 @@ Cengage Learning © 2015
 - If the query returns more than a single value, the DBMS will generate an error
 - Can be used in combination with joins
 
-**FIGURE 8.13** WHERE subquery example![](754016c567b25212578018d56b4f5e74_img.jpg)
+**FIGURE 8.13** WHERE subquery example
 
-The screenshot shows the Oracle SQL\*Plus interface. The first query filters products by price relative to the average price. The second query joins customer, invoice, and product tables to find customers who have purchased a 'Claw hammer'.
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.34.52 PM.png" alt="Screenshot 2026-06-09 at 6.34.52 PM" style="zoom:50%;" />
 
-```
-Oracle SQL*Plus
-File Edit Search Options Help
-SQL> SELECT P_CODE, P_PRICE FROM PRODUCT
-2  WHERE P_PRICE >= (SELECT AVG(P_PRICE) FROM PRODUCT);
 
-P_CODE      P_PRICE
------
-11QER/31     109.99
-2232/QTV     109.92
-2232/QWE      99.87
-89-WRE-Q     256.99
-WR3/TT3      119.95
-
-SQL> SELECT DISTINCT CUS_CODE, CUS_LNAME, CUS_FNAME
-2  FROM CUSTOMER JOIN INVOICE USING (CUS_CODE)
-3          JOIN LINE USING (INV_NUMBER)
-4          JOIN PRODUCT USING (P_CODE)
-5  WHERE P_CODE IN (SELECT P_CODE FROM PRODUCT WHERE P_DESCRIPT = 'Claw hammer');
-
-CUS_CODE CUS_LNAME      CUS_FNAME
------
-10011 Dunne      Leona
-10014 Orlando    Myron
-```
 
 ##### IN, HAVING subqueries
 
@@ -3579,72 +2820,13 @@ CUS_CODE CUS_LNAME      CUS_FNAME
 - HAVING subqueries
   - HAVING clause restricts the output of a GROUP BY query by applying conditional criteria to the grouped rows
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-11
-
 **Compare against a LIST of values..**
 
-**FIGURE  
-8.14**
-
-##### **IN subquery example**
-
-```
-
-Oracle SQL*Plus
-File Edit Search Options Help
-SQL> SELECT DISTINCT CUS_CODE, CUS_LNAME, CUS_FNAME
-  2  FROM CUSTOMER JOIN INVOICE USING (CUS_CODE)
-  3  JOIN LINE USING (INV_NUMBER)
-  4  JOIN PRODUCT USING (P_CODE)
-  5  WHERE P_CODE IN (SELECT P_CODE FROM PRODUCT
-  6  WHERE P_DESCRIPT LIKE '%hammer%' OR P_DESCRIPT LIKE '%saw%');
-
-CUS_CODE CUS_LNAME      CUS_FNAME
- 
-10011 Dunne          Leona
-10012 Smith          Kathy
-10014 Orlando        Hyron
-10015 O'Brian        Any
-SQL>
-
-```
-
-![](0e38ae54c6bdb931c90a3cc6081be47e_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.37.34 PM.png" alt="Screenshot 2026-06-09 at 6.37.34 PM" style="zoom:50%;" />
 
 As we saw earlier, this restricts the results of a GROUP BY clause. Eg. here's how to list all products sold, whose totals are greater than the average quantity sold:
 
-**FIGURE  
-8.15**
-
-##### **HAVING subquery example**
-
-```
-
-Oracle SQL*Plus
-File Edit Search Options Help
-SQL> SELECT P_CODE, SUM(LINE_UNITS)
-  2  FROM LINE
-  3  GROUP BY P_CODE
-  4  HAVING SUM(LINE_UNITS) > (SELECT AVG(LINE_UNITS) FROM LINE);
-
-P_CODE      SUM(LINE_UNITS)
- 
-13-Q2/P2          8
-23109-HB          5
-54778-2T          6
-PUC23DRT         17
-SM-18277          3
-WR3/TT3          3
-
-6 rows selected.
-
-SQL>
-
-```
-
-![](6f049c98cae71a6b0fa24769bd039368_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.38.02 PM.png" alt="Screenshot 2026-06-09 at 6.38.02 PM" style="zoom:50%;" />
 
 #### ALL, ANY (inequality comparisons)
 
@@ -3660,26 +2842,7 @@ Recall that 'IN' is an equality comparison against a list. To do **inequality co
 
 Eg. "which products do we own [in our store], whose value is more than ALL other products's values supplied by vendors in Florida?"
 
-**FIGURE  
-8.16**
-
-##### **Multirow subquery operator example**
-
-```
-
-Oracle SQL*Plus
-File Edit Search Options Help
-SQL> SELECT P_CODE, P_QOH*P_PRICE
-2 FROM PRODUCT
-3 WHERE P_QOH*P_PRICE > ALL
-4 (SELECT P_QOH*P_PRICE FROM PRODUCT
-5  WHERE V_CODE IN (SELECT V_CODE FROM VENDOR WHERE V_STATE = 'FL'));
-
-P_CODE      P_QOH*P_PRICE
------
-89-WRE-Q      2826.89
-
-```
+##### <img src="Slides.assets/Screenshot 2026-06-09 at 6.38.45 PM.png" alt="Screenshot 2026-06-09 at 6.38.45 PM" style="zoom:80%;" />
 
 Note that 'greater than ALL' is eqvt to 'greater than the largest of'. 'ALL' is used to select rows [plural in general] that comparison-succeed against all values in a list.
 
@@ -3715,27 +2878,7 @@ A **SELECT** query that appears in **FROM**, creates a **\*\*virtual table\*\***
 
 ###### All customers who bought both specified products
 
-FIGURE 8.17 FROM subquery example
-
-![](27875b8e8885121a94211923afb973d6_img.jpg)
-
-```
-Oracle SQL*Plus
-File Edit Search Options Help
-SQL> SELECT DISTINCT CUSTOMER.CUS_CODE, CUSTOMER.CUS_LNAME
-2 FROM CUSTOMER,
-3 (SELECT INVOICE.CUS_CODE
-4 FROM INVOICE NATURAL JOIN LINE WHERE P_CODE = '19-Q2/P2') CP1, (SELECT INVOICE.CUS_CODE
-5 FROM INVOICE NATURAL JOIN LINE WHERE P_CODE = '23109-HB') CP2
-6 WHERE CUSTOMER.CUS_CODE = CP1.CUS_CODE AND
-7       CP1.CUS_CODE = CP2.CUS_CODE;
-
-CUS_CODE CUS_LNAME
------
-10014 Orlando
-
-SQL> |
-```
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.39.24 PM.png" alt="Screenshot 2026-06-09 at 6.39.24 PM" style="zoom:67%;" />
 
 ##### Attribute list subqueries
 
@@ -3753,9 +2896,6 @@ These are also known as 'column subqueries' or 'inline subqueries'.
 **FIGURE 8.18** Inline subquery example
 
 ```
-
-Oracle SQL*Plus
-File Edit Search Options Help
 SQL> SELECT P_CODE, P_PRICE, (SELECT AVG(P_PRICE) FROM PRODUCT) AS AVGPRICE,
 2      P_PRICE-(SELECT AVG(P_PRICE) FROM PRODUCT) AS DIFF
 3      FROM PRODUCT;
@@ -3782,15 +2922,11 @@ WR3/TT3        119.95     56.42125    63.52875
 16 rows selected.
 
 SQL>
-
 ```
 
 **FIGURE 8.19** Another example of an inline subquery
 
 ```
-
-Oracle SQL*Plus
-File Edit Search Options Help
 SQL> SELECT P_CODE, SUM(LINE_UNITS*LINE_PRICE) AS SALES,
 2      (SELECT COUNT(*) FROM EMPLOYEE) AS ECOUNT,
 3      SUM(LINE_UNITS*LINE_PRICE)/(SELECT COUNT(*) FROM EMPLOYEE) AS CONTRIB
@@ -3813,7 +2949,6 @@ WR3/TT3        359.85         17  21.1676471
 10 rows selected.
 
 SQL>
-
 ```
 
 ##### Correlated subqueries
@@ -3823,10 +2958,6 @@ SQL>
 - Executes once for each row in the outer query
 - Inner query references a column of the outer subquery
 - Can be used with the EXISTS special operator
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-21
 
 **In a correlated subquery, the inner (sub) query is repeatedly run, for each row of the outer query! The inner is said to be (co-)related with the outer query when it references a column in the outer query's table. This is in effect, like a double (nested) 'for' loop..**
 
@@ -3850,84 +2981,11 @@ WHERE salary > (
 
 **In the above, the outer query "passes in", for each employee (each row), the employee's dept. [which the inner query refers to as Bob.department]. The inner query selects all salaries for that dept., computes the average, compares it with the passed-in employee's salary; if the test passes, the outer query selects the employee's # and name.**
 
-Until now, all subqueries you have learned execute independently. That is, each subquery in a command sequence executes in a serial fashion, one after another. The inner subquery executes first; its output is used by the outer query, which then executes until the last outer query executes (the first SQL statement in the code).
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.40.46 PM.png" alt="Screenshot 2026-06-09 at 6.40.46 PM" style="zoom:67%;" /><img src="Slides.assets/Screenshot 2026-06-09 at 6.45.36 PM.png" alt="Screenshot 2026-06-09 at 6.45.36 PM" style="zoom:67%;" />
 
-In contrast, a **correlated subquery** is a subquery that executes once for each row in the outer query. That process is similar to the typical nested loop in a programming language. For example:
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.46.54 PM.png" alt="Screenshot 2026-06-09 at 6.46.54 PM" style="zoom:80%;" />
 
-```
-FOR X = 1 TO 2
-    FOR Y = 1 TO 3
-        PRINT "X = "X, "Y = "Y
-    END
-END
-```
-
-1. It initiates the outer query.
-2. For each row of the outer query result set, it executes the inner query by passing the outer row to the inner query.
-
-That process is the opposite of that of the subqueries as you have already seen. The query is called a *correlated* subquery because the inner query is *related* to the outer query by the fact that the inner query references a column of the outer subquery.
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-To see the correlated subquery in action, suppose that you want to know all product sales in which the units sold value is greater than the average units sold value *for that product* (as opposed to the average for *all* products). In that case, the following procedure must be completed:
-
-1. Compute the average units sold for a product.
-2. Compare the average computed in Step 1 to the units sold in each sale row, and then select only the rows in which the number of units sold is greater.
-
-The following correlated query completes the preceding two-step process:
-
-```
-SELECT  INV_NUMBER, P_CODE, LINE_UNITS
-FROM    LINE LS
-WHERE   LS.LINE_UNITS > (SELECT AVG(LINE_UNITS)
-                        FROM LINE LA
-                        WHERE LA.P_CODE = LS.P_CODE);
-```
-
-```
-
-SQL> SELECT INU_NUMBER, P_CODE, LINE_UNITS
- 2 FROM LINE LS
- 3 WHERE LS.LINE_UNITS > (SELECT AVG(LINE_UNITS)
- 4                         FROM LINE LA
- 5                         WHERE LA.P_CODE = LS.P_CODE);
-
-```
-
-| INU_NUMBER | P_CODE   | LINE_UNITS |
-| ---------- | -------- | ---------- |
-| 1003       | 13-Q2/P2 | 5          |
-| 1004       | 54778-2T | 3          |
-| 1004       | 23109-HB | 2          |
-| 1005       | PVC23DRT | 12         |
-
-```
-
-SQL> SELECT INU_NUMBER, P_CODE, LINE_UNITS,
- 2         (SELECT AVG(LINE_UNITS) FROM LINE LX WHERE LX.P_CODE = LS.P_CODE) AS AVG
- 3 FROM LINE LS
- 4 WHERE LS.LINE_UNITS > (SELECT AVG(LINE_UNITS)
- 5                         FROM LINE LA
- 6                         WHERE LA.P_CODE = LS.P_CODE);
-
-```
-
-| INU_NUMBER | P_CODE   | LINE_UNITS | AVG         |
-| ---------- | -------- | ---------- | ----------- |
-| 1003       | 13-Q2/P2 | 5          | 2.666666667 |
-| 1004       | 54778-2T | 3          | 2           |
-| 1004       | 23109-HB | 2          | 1.25        |
-| 1005       | PVC23DRT | 12         | 8.5         |
-
-```
-
-SQL>
-
-```
-
-In the top query and its result in Figure 8.14, note that the LINE table is used more than once, so you must use table aliases. In this case, the inner query computes the average units sold of the product that matches the P\_CODE of the outer query P\_CODE. That is, the inner query runs once, using the first product code found in the outer LINE table, and returns the average sale for that product. When the number of units sold in the outer LINE row is greater than the average computed, the row is added to the output. Then the inner query runs again, this time using the second product code found in the outer LINE table. The process repeats until the inner query has run for all rows in the outer LINE table. In this case, the inner query will be repeated as many times as there are rows in the outer query.
-
-To verify the results and to provide an example of how you can combine subqueries, you can add a correlated inline subquery to the previous query. (See the second query and its results in Figure 8.14.) As you can see, the new query contains a correlated inline subquery that computes the average units sold for each product. You not only get an answer, you can also verify that the answer is correct.
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.47.18 PM.png" alt="Screenshot 2026-06-09 at 6.47.18 PM" style="zoom:67%;" />
 
 **In the second query above, we have TWO correlated subqueries (that are identical), both of which need to run for every row of the main query.**
 
@@ -3954,122 +3012,7 @@ To verify the results and to provide an example of how you can combine subquerie
 
 **If the columns below are in two different tables, the intersection of them would list items in both (eg. History, Physics...):**
 
-**MAJORS**
-
-African American and Diaspora Studies  
- American Studies  
- Anthropology  
- Architecture and the Built Environment  
- Art  
- Asian Studies  
- Biochemistry and Chemical Biology  
- Biological Sciences  
- Chemistry  
- Cinema and Media Arts  
- Classical and Mediterranean Studies  
- Communication of Science and Technology  
- Communication Studies  
- Earth and Environmental Sciences  
- Ecology, Evolution, and Organismal Biology  
- Economics  
- Economics and History  
- English  
- Environmental Sociology  
- European Studies  
- European Studies: Russia and Eastern Europe  
- French  
- French and European Studies  
- Gender and Sexuality Studies  
- German Studies  
- German and European Studies  
- History  
- History of Art  
- Italian and European Studies  
- Jewish Studies  
- Latin American Studies  
- Latino and Latina Studies  
- Law, History, and Society  
- Mathematics  
- Medicine, Health, and Society  
- Molecular and Cellular Biology  
- Neuroscience  
- Philosophy  
- Physics  
- Political Science  
- Psychology  
- Public Policy Studies  
- Religious Studies  
- Russian Studies  
- Sociology  
- Spanish  
- Spanish and European Studies  
- Spanish and Portuguese  
- Theatre
-
-**MINORS**
-
-African American and Diaspora Studies  
- American Studies  
- Anthropology  
- Arabic Language  
- Architecture and the Built Environment  
- Art  
- Asian Studies  
- Astronomy  
- Biological Sciences  
- Brazilian Studies  
- Business\*  
- Chemistry  
- Chinese Language and Culture  
- Cinema and Media Arts  
- Communication of Science and Technology  
- Communication Studies  
- Data Science\*\*  
- Earth and Environmental Sciences  
- Economics  
- English: Creative Writing  
- English: Literary Studies  
- Environmental and Sustainability Studies  
- European Studies  
- French  
- Gender and Sexuality Studies  
- German Studies  
- History  
- History of Architecture  
- History of Art  
- Islamic Studies  
- Italian Studies  
- Japanese Language and Culture  
- Jewish Studies  
- Korean Language and Culture  
- Latin American Studies  
- Latino and Latina Studies  
- Mathematics  
- Medicine, Health, and Society  
- Mediterranean Archaeology  
- Mediterranean Studies  
- Nanoscience and Nanotechnology\*\*\*  
- Neuroscience  
- Philosophy  
- Physics  
- Political Science  
- Portuguese  
- Psychology  
- Religious Studies  
- Russian Studies  
- Scientific Computing\*\*\*  
- Sociology  
- South Asian Language and Culture  
- Spanish  
- Theatre
-
-**50% ADD A MINOR TO THEIR PRIMARY DEGREE**
-
-\*Jointly administered by the four undergraduate schools and Owen Graduate School of Management
-
-\*\*Jointly administered by the four undergraduate schools
-
-![](8bac45758dc61d93b9aa6f7f38dfe986_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.48.53 PM.png" alt="Screenshot 2026-06-09 at 6.48.53 PM" style="zoom:50%;" />
 
 #### Relational Set Operators
 
@@ -4093,32 +3036,7 @@ African American and Diaspora Studies
 
 #### Creating a Virtual Table with the CREATE VIEW Command
 
-![](1bef24b7d805ed6e497f8681e3af9f44_img.jpg)
-
-```
-SQL> CREATE VIEW PRICEGT50 AS
-  2     SELECT P_DESCRIPT, P_QOH, P_PRICE
-  3     FROM PRODUCT
-  4     WHERE P_PRICE > 50.00;
-
-View created.
-
-SQL> SELECT * FROM PRICEGT50;
-
-P_DESCRIPT                                P_QOH    P_PRICE
------
-Power painter, 15 psi., 3-nozzle             8      109.99
-B\&D jigsaw, 12-in. blade                    8      109.92
-B\&D jigsaw, 8-in. blade                     6       99.87
-Hicut chain saw, 16 in.                     11     256.99
-Steel matting, 4'x8'x1/6", .5" mesh          18     119.95
-
-SQL>
-```
-
-Cengage Learning © 2015
-
-© 2015 Cengage Learning. All rights reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.49.23 PM.png" style="zoom:50%;" />
 
 #### Queries: summary
 
@@ -4126,7 +3044,7 @@ We looked at several variations of queries and subqueries (SELECT, WHERE, HAVING
 
 Most interestingly, a SELECT subquery can appear at the top (SELECT), middle (FROM) or bottom (WHERE) of a parent query, which provides a flexible way to express **complex logic** (since such subqueries can be recursively nested):
 
-![](7d0d8045a2883a3db26b12404a569cda_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.49.48 PM.png" style="zoom:50%;" />
 
 ### SQL functions (built-ins)
 
@@ -4161,88 +3079,11 @@ Conversion functions
 
 ###### Figure 8.27 - Oracle Sequence
 
-```
-
-SQL> CREATE SEQUENCE CUS_CODE_SEQ START WITH 20010 NOCACHE;
-Sequence created.
-
-SQL> CREATE SEQUENCE INU_NUMBER_SEQ START WITH 4010 NOCACHE;
-Sequence created.
-
-SQL> SELECT * FROM USER_SEQUENCES;
-
-```
-
-| SEQUENCE_NAME  | MIN_VALUE | MAX_VALUE   | INCREMENT_BY | C    | O    | CACHE_SIZE | LAST_NUMBER |
-| -------------- | --------- | ----------- | ------------ | ---- | ---- | ---------- | ----------- |
-| CUS_CODE_SEQ   | 1         | 1.00000E+27 | 1            | N    | N    | 0          | 20010       |
-| INU_NUMBER_SEQ | 1         | 1.00000E+27 | 1            | N    | N    | 0          | 4010        |
-
-```
-
-SQL>
-
-```
-
-Cengage Learning © 2015
-
-```
-
-INSERT INTO CUSTOMER
-VALUES (CUS_CODE_SEQ.NEXTVAL, 'Connery', 'Sean', NULL, '615', '898-2007', 0.00);
-
-```
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.50.24 PM.png" alt="Screenshot 2026-06-09 at 6.50.24 PM" style="zoom:50%;" />
 
 **NEXTVAL returns the current value, then does ++ (ie. it does 'post increment', ie. C++ as opposed to ++C); CURRVAL on the other hand, just fetches the current value (does not ++ it).**
 
-```
-
-SQL> INSERT INTO CUSTOMER
-  2 VALUES (CUS_CODE_SEQ.NEXTVAL, 'Connery', 'Sean', NULL, '615', '898-2007', 0.00);
-
-1 row created.
-
-SQL> SELECT * FROM CUSTOMER WHERE CUS_CODE = 20010;
-
-  CUS_CODE CUS_LNAME      CUS_FNAME      C CUS CUS_PHON CUS_BALANCE
- 
-     20010 Connery        Sean             615 898-2007           0
-
-SQL> INSERT INTO INVOICE
-  2 VALUES (INU_NUMBER_SEQ.NEXTVAL CURRVAL, 20010, SYSDATE);
-
-1 row created.
-
-SQL> SELECT * FROM INVOICE WHERE INU_NUMBER = 4010;
-
-INU_NUMBER CUS_CODE INU_DATE
- 
-      4010    20010 25-JUL-11
-
-SQL> INSERT INTO LINE
-  2 VALUES (INU_NUMBER_SEQ.CURRVAL, 1, '13-Q2/P2', 1, 14.99);
-
-1 row created.
-
-SQL> INSERT INTO LINE
-  2 VALUES (INU_NUMBER_SEQ.CURRVAL, 2, '23109-HB', 1, 9.95);
-
-1 row created.
-
-SQL> SELECT * FROM LINE WHERE INU_NUMBER = 4010;
-
-INU_NUMBER LINE_NUMBER P_CODE   LINE_UNITS LINE_PRICE
- 
-      4010           1 13-Q2/P2          1      14.99
-      4010           2 23109-HB          1       9.95
-
-SQL> COMMIT;
-
-Commit complete.
-
-```
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.50.48 PM.png" alt="Screenshot 2026-06-09 at 6.50.48 PM" style="zoom:50%;" />
 
 ### Procedural Language SQL (PL/SQL)
 
@@ -4275,53 +3116,7 @@ PL/SQL can be used to create:
 
 #### Block creation example
 
-```
-
-SQL> BEGIN
-2  INSERT INTO UENDOR
-3  VALUES (25678, 'Microsoft Corp.', 'Bill Gates', '765', '546-8484', 'WA', 'N');
-4  END;
-5  /
-
-PL/SQL procedure successfully completed.
-
-SQL> SET SERVEROUTPUT ON
-SQL>
-SQL> BEGIN
-2  INSERT INTO UENDOR
-3  VALUES (25772, 'Clue Store', 'Issac Hayes', '456', '323-2009', 'UA', 'N');
-4  DBMS_OUTPUT.PUT_LINE('New Vendor Added!');
-5  END;
-6  /
-New Vendor Added!
-
-PL/SQL procedure successfully completed.
-
-SQL> SELECT * FROM UENDOR;
-
-  U_CODE U_NAME                                U_CONTACT      U_A U_PHONE U_ U
------
-25678 Microsoft Corp.                        Bill Gates      765 546-8484 WA N
-25772 Clue Store                             Issac Hayes     456 323-2009 UA N
-21225 Bryson, Inc.                           Smithson        615 223-3234 TN Y
-21226 SuperLoo, Inc.                         Flushing        904 215-8995 FL N
-21231 D&E Supply                             Singh           615 228-3245 TN Y
-21344 Gomez Bros.                           Ortega          615 889-2546 KY N
-22567 Dome Supply                            Smith           901 678-1419 GA N
-23119 Randsets Ltd.                         Anderson        901 678-3998 GA Y
-24004 Brackman Bros.                        Browning        615 228-1410 TN N
-24288 ORDUA, Inc.                            Hakford         615 898-1234 TN Y
-25443 B&K, Inc.                             Smith           904 227-0093 FL N
-25501 Damal Supplies                         Smythe          615 890-3529 TN N
-25595 Rubicon Systems                       Orton           904 456-0092 FL Y
-
-13 rows selected.
-
-SQL>
-
-```
-
-ie website, in whole or in part.
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.51.23 PM.png" alt="Screenshot 2026-06-09 at 6.51.23 PM" style="zoom:50%;" />
 
 ### Triggers
 
@@ -4334,81 +3129,15 @@ ie website, in whole or in part.
   - Triggering level - **Statement-** and **row-level**
   - Triggering action - PL/SQL code enclosed between the BEGIN and END keywords
 
-- *The triggering timing:* BEFORE or AFTER. This timing indicates when the trigger's PL/SQL code executes—in this case, before or after the triggering statement is completed.
-- *The triggering event:* The statement that causes the trigger to execute (INSERT, UPDATE, or DELETE).
-- *The triggering level:* The two types of triggers are statement-level triggers and row-level triggers.
-  - A statement-level trigger is assumed if you omit the FOR EACH ROW keywords. This type of trigger is executed once, before or after the triggering statement is completed. This is the default case.
-  - A row-level trigger requires use of the FOR EACH ROW keywords. This type of trigger is executed once for each row affected by the triggering statement. (In other words, if you update 10 rows, the trigger executes 10 times.)
-- *The triggering action:* The PL/SQL code enclosed between the BEGIN and END keywords. Each statement inside the PL/SQL code must end with a semicolon ( ; ).
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.51.57 PM.png" alt="Screenshot 2026-06-09 at 6.51.57 PM" style="zoom:50%;" />
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.52.13 PM.png" style="zoom:50%;" />
 
-```
-CREATE OR REPLACE TRIGGER trigger_name
-[BEFORE / AFTER] [DELETE / INSERT / UPDATE OF column_name] ON table_name
-[FOR EACH ROW]
-[DECLARE]
-[variable_name data type[:=initial_value]]
-BEGIN
-PL/SQL instructions;
-.....
-END;
-```
 
-![](83b97774a950a930d18b56acaf2271db_img.jpg)
 
-The screenshot shows a SQL Plus window titled "SQL Plus". The command prompt shows the following SQL code being entered and executed:
-
-```
-SQL> CREATE OR REPLACE TRIGGER TRG_PRODUCT_REORDER
-2  AFTER INSERT OR UPDATE OF P_QOH ON PRODUCT
-3  BEGIN
-4      UPDATE PRODUCT
-5          SET P_REORDER = 1
-6          WHERE P_QOH <= P_MIN;
-7  END;
-8  /
-```
-
-The output of the command is "Trigger created." followed by the prompt "SQL>".
-
-Cengage Learning © 2015
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-![](594192dda931f926e12f903fdc68e896_img.jpg)
-
-```
-SQL> SELECT P_CODE, P_DESCRIPT, P_QOH, P_MIN, P_MIN_ORDER, P_REORDER
-2 FROM PRODUCT
-3 WHERE P_CODE = '11QER/31';
-
-P_CODE      P_DESCRIPT                P_QOH P_MIN P_MIN_ORDER  P_REORDER
------
-11QER/31    Power painter, 15 psi., 3-nozz      8     5         25         0
-
-SQL> UPDATE PRODUCT
-2 SET P_QOH = 4
-3 WHERE P_CODE = '11QER/31';
-
-1 row updated.
-
-SQL> SELECT P_CODE, P_DESCRIPT, P_QOH, P_MIN, P_MIN_ORDER, P_REORDER
-2 FROM PRODUCT
-3 WHERE P_CODE = '11QER/31';
-
-P_CODE      P_DESCRIPT                P_QOH P_MIN P_MIN_ORDER  P_REORDER
------
-11QER/31    Power painter, 15 psi., 3-nozz      4     5         25         1
-
-SQL>
-```
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.52.51 PM.png" alt="Screenshot 2026-06-09 at 6.52.51 PM" style="zoom:50%;" />
 
 Our trigger worked! [look at P\_REORDER]
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
 
 #### Triggers
 
@@ -4426,102 +3155,9 @@ Our trigger worked! [look at P\_REORDER]
   - Reduce network traffic and increase performance
   - Reduce code duplication by means of code isolation and code sharing
 
-```
-CREATE OR REPLACE PROCEDURE procedure_name [(argument [IN/OUT] data-type, ...)]  
-    [IS/AS]  
-    [variable_namedata type[:=initial_value] ]  
-  
-BEGIN  
-    PL/SQL or SQL statements;  
-    ...  
-END;
-```
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.53.13 PM.png" style="zoom:67%;" />
 
-![](4cf8a531519256450498baa217dfa98c_img.jpg)
-
-The screenshot shows a window titled "SQL Plus" with a command prompt interface. The user has entered a series of SQL commands to create a procedure named PRC\_PROD\_DISCOUNT. The commands are: SQL> CREATE OR REPLACE PROCEDURE PRC\_PROD\_DISCOUNT, followed by a line number 2 and AS BEGIN, then line 3 with UPDATE PRODUCT, line 4 with SET P\_DISCOUNT = P\_DISCOUNT + .05, line 5 with WHERE P\_QOH >= P\_MIN \* 2;, line 6, line 7 with DBMS\_OUTPUT.PUT\_LINE ('\* \* Update finished \* \*');, line 8 with END;, and line 9 with /. The response "Procedure created." is displayed. The prompt SQL> is shown again at the bottom.
-
-```
-SQL> CREATE OR REPLACE PROCEDURE PRC_PROD_DISCOUNT  
-2 AS BEGIN  
-3     UPDATE PRODUCT  
-4         SET P_DISCOUNT = P_DISCOUNT + .05  
-5         WHERE P_QOH >= P_MIN * 2;  
-6  
-7     DBMS_OUTPUT.PUT_LINE ('* * Update finished * *');  
-8 END;  
-9 /  
-  
-Procedure created.  
-  
-SQL>
-```
-
-Cengage Learning © 2015
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-```
-
-SQL Plus
-SQL> SELECT P_CODE, P_DESCRIPT, P_QOH, P_MIN, P_DISCOUNT FROM PRODUCT;
-
-P_CODE   P_DESCRIPT                     P_QOH P_MIN P_DISCOUNT
- 
-11QER/31 Power painter, 15 psi., 3-nozz    29     5       0.00
-13-Q2/P2 7.25-in. pwr. saw blade           32    15       0.05
-14-Q1/L3 9.00-in. pwr. saw blade           18    12       0.00
-1546-QQ2 Hrd. cloth, 1/4-in., 2x50         15     8       0.00
-1558-QW1 Hrd. cloth, 1/2-in., 3x50         23     5       0.00
-2232/QTY B&D jigsaw, 12-in. blade           8     5       0.05
-2232/QWE B&D jigsaw, 8-in. blade            6     7       0.05
-2238/QPD B&D cordless drill, 1/2-in.       12     5       0.05
-23109-HB Claw hammer                       23    10       0.10
-23114-AA Sledge hammer, 12 lb.              8    10       0.05
-54778-2T Rat-tail file, 1/8-in. fine       43    20       0.00
-89-WRE-Q Hicut chain saw, 16 in.           11     5       0.05
-PUC23DRT PVC pipe, 3.5-in., 8-ft          188    75       0.00
-SM-18277 1.25-in. metal screw, 25         172    75       0.00
-SW-23116 2.5-in. wd. screw, 50            237   100       0.00
-WR3/TT3  Steel matting, 4'x8'x1/6", .5"    18     5       0.10
-
-16 rows selected.
-
-SQL> EXEC PRC_PROD_DISCOUNT;
-* Update finished *
-
-PL/SQL procedure successfully completed.
-
-SQL> SELECT P_CODE, P_DESCRIPT, P_QOH, P_MIN, P_DISCOUNT FROM PRODUCT;
-
-P_CODE   P_DESCRIPT                     P_QOH P_MIN P_DISCOUNT
- 
-11QER/31 Power painter, 15 psi., 3-nozz    29     5       0.05
-13-Q2/P2 7.25-in. pwr. saw blade           32    15       0.10
-14-Q1/L3 9.00-in. pwr. saw blade           18    12       0.00
-1546-QQ2 Hrd. cloth, 1/4-in., 2x50         15     8       0.00
-1558-QW1 Hrd. cloth, 1/2-in., 3x50         23     5       0.05
-2232/QTY B&D jigsaw, 12-in. blade           8     5       0.05
-2232/QWE B&D jigsaw, 8-in. blade            6     7       0.05
-2238/QPD B&D cordless drill, 1/2-in.       12     5       0.10
-23109-HB Claw hammer                       23    10       0.15
-23114-AA Sledge hammer, 12 lb.              8    10       0.05
-54778-2T Rat-tail file, 1/8-in. fine       43    20       0.05
-89-WRE-Q Hicut chain saw, 16 in.           11     5       0.10
-PUC23DRT PVC pipe, 3.5-in., 8-ft          188    75       0.05
-SM-18277 1.25-in. metal screw, 25         172    75       0.05
-SW-23116 2.5-in. wd. screw, 50            237   100       0.05
-WR3/TT3  Steel matting, 4'x8'x1/6", .5"    18     5       0.15
-
-16 rows selected.
-
-SQL>
-
-```
-
-Cengage Learning © 2015
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.54.16 PM.png" alt="Screenshot 2026-06-09 at 6.54.16 PM" style="zoom:80%;" />
 
 #### Stored functions
 
@@ -4544,7 +3180,7 @@ END;
 
 Once such a function is defined, it can be CALLED inside triggers or in stored procedures..
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
+
 
 The following is an example from  
 <http://www.tutorialspoint.com/plsql>.  
@@ -4598,30 +3234,9 @@ Where is this all going, "given agentic AI"? Here is a glimpse:
 - [a writeup](#), and a [brief](#)
 - [scrshot1](#), [scrshot2](#)
 
-
-
-![](1ced737a3eeca5ab275642da3e5b996e_img.jpg)![](57302a491521a084f79994df3ea42df7_img.jpg)
-
 # TM[Transaction Management]
 
-![](71e137816b04eee83d7e7d3d801c77c2_img.jpg)
-
-**A different kind of TM :)**
-
-## Ch.10
-
-11e
-
-Database Systems  
-Design, Implementation, and Management
-
-![](0a6f460089e77a95cab9f66d7624ae47_img.jpg)
-
-Coronel | Morris
-
-Chapter 10  
-Transaction Management and  
-Concurrency Control
+## Ch.10 Transaction Management and Concurrency Control
 
 ### What is a 'transaction'?
 
@@ -4646,7 +3261,7 @@ Concurrency Control
 
 'ACID' (+S) is an acronym to express the desirable properties of a transaction:
 
-![](2de302a7002e3a73e2da68f075f39286_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.56.34 PM.png" style="zoom:67%;" />
 
 ### COMMIT, ROLLBACK
 
@@ -4671,22 +3286,7 @@ Concurrency Control
   - A program's abnormal termination
   - A system failure
 
-A Transaction Log
-
-| TRL_ID | TRX_NUM | PREV_PTR | NEXT_PTR | OPERATION | TABLE                   | ROW ID   | ATTRIBUTE    | BEFORE VALUE | AFTER VALUE |
-| ------ | ------- | -------- | -------- | --------- | ----------------------- | -------- | ------------ | ------------ | ----------- |
-| 341    | 101     | Null     | 352      | START     | ****Start Transaction   |          |              |              |             |
-| 352    | 101     | 341      | 363      | UPDATE    | PRODUCT                 | 1558-QW1 | PROD_QOH     | 25           | 23          |
-| 363    | 101     | 352      | 365      | UPDATE    | CUSTOMER                | 10011    | CUST_BALANCE | 525.75       | 615.73      |
-| 365    | 101     | 363      | Null     | COMMIT    | **** End of Transaction |          |              |              |             |
-
-↑  
- TRL\_ID = Transaction log record ID  
- TRX\_NUM = Transaction number  
- PTR = Pointer to a transaction log record ID  
- (Note: The transaction number is automatically assigned by the DBMS.)
-
-Cengage Learning © 2015
+ <img src="Slides.assets/Screenshot 2026-06-09 at 6.57.13 PM.png" alt="Screenshot 2026-06-09 at 6.57.13 PM" style="zoom:80%;" />
 
 ### Concurrency - 'many at once'
 
@@ -4718,23 +3318,7 @@ Cengage Learning © 2015
 Consider the following pair of transactions, starting with 35 units of an item:  
 purchase 100 units, then sell 30 units:
 
-| TRANSACTION            | COMPUTATION                   |
-| ---------------------- | ----------------------------- |
-| T1: Purchase 100 units | $PROD\_QOH = PROD\_QOH + 100$ |
-| T2: Sell 30 units      | $PROD\_QOH = PROD\_QOH - 30$  |
-
-Cengage Learning © 2015
-
-| TIME | TRANSACTION | STEP                   | STORED VALUE |
-| ---- | ----------- | ---------------------- | ------------ |
-| 1    | T1          | Read PROD_QOH          | 35           |
-| 2    | T1          | $PROD\_QOH = 35 + 100$ |              |
-| 3    | T1          | Write PROD_QOH         | 135          |
-| 4    | T2          | Read PROD_QOH          | 135          |
-| 5    | T2          | $PROD\_QOH = 135 - 30$ |              |
-| 6    | T2          | Write PROD_QOH         | 105          |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.58.34 PM.png" alt="Screenshot 2026-06-09 at 6.58.34 PM" style="zoom:80%;" />
 
 If the transactions T1 and T2 happen one after another (ie. serially, not concurrently), the PROD\_QOH value would/should be 105, as shown above.
 
@@ -4744,16 +3328,7 @@ Three different kinds of errors are possible, when interleaved transactions are 
 
 'Lost update' problem:
 
-| TIME | TRANSACTION | STEP                         | STORED VALUE |
-| ---- | ----------- | ---------------------------- | ------------ |
-| 1    | T1          | Read PROD_QOH                | 35           |
-| 2    | T2          | Read PROD_QOH                | 35           |
-| 3    | T1          | $PROD\_QOH = 35 + 100$       |              |
-| 4    | T2          | $PROD\_QOH = 35 - 30$        |              |
-| 5    | T1          | Write PROD_QOH (lost update) | 135          |
-| 6    | T2          | Write PROD_QOH               | 5            |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.59.01 PM.png" alt="Screenshot 2026-06-09 at 6.59.01 PM" style="zoom:67%;" />
 
 Here, instead of 105, our QOH comes out to be 5, which is incorrect.
 
@@ -4761,24 +3336,11 @@ Here, instead of 105, our QOH comes out to be 5, which is incorrect.
 
 Consider this rollback situation:
 
-| TRANSACTION            | COMPUTATION                                 |
-| ---------------------- | ------------------------------------------- |
-| T1: Purchase 100 units | $PROD\_QOH = PROD\_QOH + 100$ (Rolled back) |
-| T2: Sell 30 units      | $PROD\_QOH = PROD\_QOH - 30$                |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.59.27 PM.png" alt="Screenshot 2026-06-09 at 6.59.27 PM" style="zoom:80%;" />
 
 Proper rollback (with sequential transactions):
 
-| TIME | TRANSACTION | STEP                   | STORED VALUE |
-| ---- | ----------- | ---------------------- | ------------ |
-| 1    | T1          | Read PROD_QOH          | 35           |
-| 2    | T1          | $PROD\_QOH = 35 + 100$ |              |
-| 3    | T1          | Write PROD_QOH         | 135          |
-| 4    | T1          | *****ROLLBACK*****     | 35           |
-| 5    | T2          | Read PROD_QOH          | 35           |
-| 6    | T2          | $PROD\_QOH = 35 - 30$  |              |
-| 7    | T2          | Write PROD_QOH         | 5            |
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.59.38 PM.png" alt="Screenshot 2026-06-09 at 6.59.38 PM" style="zoom:80%;" />
 
 Cengage Learning © 2015
 
@@ -4786,17 +3348,7 @@ Here the total is 5, which is correct - the QOH goes from 35 to 135, gets rolled
 
 'Uncommitted data' problem (improper rollback):
 
-| TIME | TRANSACTION | STEP                                     | STORED VALUE |
-| ---- | ----------- | ---------------------------------------- | ------------ |
-| 1    | T1          | Read PROD_QOH                            | 35           |
-| 2    | T1          | $PROD\_QOH = 35 + 100$                   |              |
-| 3    | T1          | Write PROD_QOH                           | 135          |
-| 4    | T2          | Read PROD_QOH<br>(Read uncommitted data) | 135          |
-| 5    | T2          | $PROD\_QOH = 135 - 30$                   |              |
-| 6    | T1          | *****ROLLBACK*****                       | 35           |
-| 7    | T2          | Write PROD_QOH                           | 105          |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 6.59.54 PM.png" alt="Screenshot 2026-06-09 at 6.59.54 PM" style="zoom:80%;" />
 
 Here, the total comes out to 105, when it should have been 5.
 
@@ -4804,11 +3356,7 @@ Here, the total comes out to 105, when it should have been 5.
 
 Consider the following fix (of a typo made earlier - an incorrect order of 10 units was placed for 1558-QW1 by mistake, instead of ordering 1546-QQ2; now we're fixing that error):
 
-| TRANSACTION T1                       | TRANSACTION T2                                               |
-| ------------------------------------ | ------------------------------------------------------------ |
-| SELECT SUM(PROD_QOH)<br>FROM PRODUCT | UPDATE PRODUCT<br>SET PROD_QOH = PROD_QOH + 10<br>WHERE PROD_CODE = 1546-QQ2 |
-|                                      | UPDATE PRODUCT<br>SET PROD_QOH = PROD_QOH - 10<br>WHERE PROD_CODE = 1558-QW1 |
-|                                      | COMMIT;                                                      |
+<img src="Slides.assets/Screenshot 2026-06-09 at 7.00.19 PM.png" alt="Screenshot 2026-06-09 at 7.00.19 PM" style="zoom:80%;" />
 
 Cengage Learning © 2015
 
@@ -4816,39 +3364,13 @@ In the above, T1 is a transaction that sums up QOH; T2 is the 'correction' trans
 
 Proper retrieval of modified data:
 
-| PROD_CODE    | BEFORE<br>PROD_QOH | AFTER<br>PROD_QOH |
-| ------------ | ------------------ | ----------------- |
-| 11QER/31     | 8                  | 8                 |
-| 13-Q2/P2     | 32                 | 32                |
-| 1546-QQ2     | 15                 | (15 + 10) → 25    |
-| 1558-QW1     | 23                 | (23 - 10) → 13    |
-| 2232-QTY     | 8                  | 8                 |
-| 2232-QWE     | 6                  | 6                 |
-| <b>Total</b> | <b>92</b>          | <b>92</b>         |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 7.00.33 PM.png" alt="Screenshot 2026-06-09 at 7.00.33 PM" style="zoom:80%;" />
 
 The summing transaction gets proper totals for both affected products, so the total (of 92) is correct.
 
 'Inconsistent retrievals' problem (improper ("before update") retrieval of modified data):
 
-| TIME | TRANSACTION | ACTION                                    | VALUE | TOTAL       |
-| ---- | ----------- | ----------------------------------------- | ----- | ----------- |
-| 1    | T1          | Read PROD_QOH for PROD_CODE = '11QER/31'  | 8     | 8           |
-| 2    | T1          | Read PROD_QOH for PROD_CODE = '13-Q2/P2'  | 32    | 40          |
-| 3    | T2          | Read PROD_QOH for PROD_CODE = '1546-QQ2'  | 15    |             |
-| 4    | T2          | PROD_QOH = 15 + 10                        |       |             |
-| 5    | T2          | Write PROD_QOH for PROD_CODE = '1546-QQ2' | 25    |             |
-| 6    | T1          | Read PROD_QOH for PROD_CODE = '1546-QQ2'  | 25    | (After) 65  |
-| 7    | T1          | Read PROD_QOH for PROD_CODE = '1558-QW1'  | 23    | (Before) 88 |
-| 8    | T2          | Read PROD_QOH for PROD_CODE = '1558-QW1'  | 23    |             |
-| 9    | T2          | PROD_QOH = 23 - 10                        |       |             |
-| 10   | T2          | Write PROD_QOH for PROD_CODE = '1558-QW1' | 13    |             |
-| 11   | T2          | ***** COMMIT *****                        |       |             |
-| 12   | T1          | Read PROD_QOH for PROD_CODE = '2232-QTY'  | 8     | 96          |
-| 13   | T1          | Read PROD_QOH for PROD_CODE = '2232-QWE'  | 6     | 102         |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 7.59.26 PM.png" alt="Screenshot 2026-06-09 at 7.59.26 PM" style="zoom:80%;" />
 
 T1 should be doing 65+13 (which would be correct), but instead does 65+23 (which makes it incorrect) - in other words, T1 retrieves the correct value (25) for 1546-QQ2, but gets the incorrect value (23) for 1558-QW1.
 
@@ -4894,19 +3416,19 @@ A serializable schedule makes concurrency immaterial (non-issue).
 
 Figure 10.3 - Database-Level Locking Sequence
 
-![](5f7af51e0b3ffa52311e075a23684fe3_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 7.59.51 PM.png" style="zoom:80%;" />
 
 Figure 10.4 - An Example of a Table-Level Lock
 
-![](ecc2b08e0d193ae74ff8a8241a83fb01_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.00.02 PM.png" style="zoom:80%;" />
 
 ### Figure 10.5 - An Example of a Page-Level Lock
 
-![](b7ad33d883b9848a765e0abcc9ddc938_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.00.11 PM.png" style="zoom:80%;" />
 
 ### Figure 10.6 - An Example of a Row-Level Lock
 
-![](e80b1f0d2748dacbe9d5fc551da02feb_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.00.20 PM.png" style="zoom:80%;" />
 
 #### Locking: types [unlocked, locked\_read, locked\_write]
 
@@ -4987,7 +3509,7 @@ Not OK (OK in programming, though!):
 
 Figure 10.7 - Two-Phase Locking Protocol
 
-![](491c4b332cae19f28c7e922759c0f88b_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.00.49 PM.png" style="zoom:80%;" />
 
 #### Deadlocks..
 
@@ -5000,33 +3522,13 @@ Figure 10.7 - Two-Phase Locking Protocol
   - Deadlock detection
   - Deadlock avoidance
 - Choice of deadlock control method depends on database environment
-
-- *Deadlock prevention.* A transaction requesting a new lock is aborted when there is the possibility that a deadlock can occur. If the transaction is aborted, all changes made by this transaction are rolled back and all locks obtained by the transaction are released. The transaction is then rescheduled for execution. Deadlock prevention works because it avoids the conditions that lead to deadlocking.
-- *Deadlock detection.* The DBMS periodically tests the database for deadlocks. If a deadlock is found, the "victim" transaction is aborted (rolled back and restarted) and the other transaction continues.
-- *Deadlock avoidance.* The transaction must obtain all of the locks it needs before it can be executed. This technique avoids the rolling back of conflicting transactions by requiring that locks be obtained in succession. However, the serial lock assignment required in deadlock avoidance increases action response times.
+- <img src="Slides.assets/Screenshot 2026-06-09 at 8.01.30 PM.png" alt="Screenshot 2026-06-09 at 8.01.30 PM" style="zoom:80%;" />
 
 Here is how/why a deadlock occurs:
 
 Table 10.13 - How a Deadlock Condition is Created
 
-| TIME | TRANSACTION | REPLY | LOCK STATUS |          |
-| ---- | ----------- | ----- | ----------- | -------- |
-| 0    |             |       | Data X      | Data Y   |
-| 1    | T1:LOCK(X)  | OK    | Unlocked    | Unlocked |
-| 2    | T2:LOCK(Y)  | OK    | Locked      | Unlocked |
-| 3    | T1:LOCK(Y)  | WAIT  | locked      | Locked   |
-| 4    | T2:LOCK(X)  | WAIT  | locked      | Locked   |
-| 5    | T1:LOCK(Y)  | WAIT  | locked      | Locked   |
-| 6    | T2:LOCK(X)  | WAIT  | locked      | Locked   |
-| 7    | T1:LOCK(Y)  | WAIT  | locked      | Locked   |
-| 8    | T2:LOCK(X)  | WAIT  | locked      | Locked   |
-| 9    | T1:LOCK(Y)  | WAIT  | locked      | Locked   |
-| ...  | .....       | ..... |             | .....    |
-| ...  | .....       | ..... |             | .....    |
-| ...  | .....       | ..... |             | .....    |
-| ...  | .....       | ..... |             | .....    |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.01.15 PM.png" alt="Screenshot 2026-06-09 at 8.01.15 PM" style="zoom:80%;" />
 
 In the above, we see that T1 locks X, T2 locks Y, then deadlock occurs because T1 wants Y and T2 wants X. Maybe you are thinking - why can't each of them release what they are holding (since they might be done with it), and grab what they want next (ie. T1 would release X, T2 would release Y)? BECAUSE THEY CAN'T - they NEED to access what the other has, BEFORE they can release what they have. Eg. T1 might
 
@@ -5046,17 +3548,7 @@ In contrast, timestamping-based schemes **prevent** deadlocks (see the 'Deadlock
 
 Earlier we noted that the 2PL scheme cannot prevent deadlock creation. Here is an example of how a deadlock could occur (at the end of step 5):
 
-An important and unfortunate property of 2PL schedulers is that they are subject to *deadlocks*. For example, suppose a 2PL scheduler is processing transactions  $T_1$  and  $T_3$
-
-$T_1: r_1[x] \rightarrow w_1[y] \rightarrow c_1$        $T_3: w_3[y] \rightarrow w_3[x] \rightarrow c_3$
-
-and consider the following sequence of events:
-
-1. Initially, neither transaction holds any locks.
-2. The scheduler receives  $r_1[x]$  from the TM. It sets  $rl_1[x]$  and submits  $r_1[x]$  to the DM.
-3. The scheduler receives  $w_3[y]$  from the TM. It sets  $wl_3[y]$  and submits  $w_3[y]$  to the DM.
-4. The scheduler receives  $w_3[x]$  from the TM. The scheduler does not set  $wl_3[x]$  because it conflicts with  $rl_1[x]$  which is already set. Thus  $w_3[x]$  is **delayed**.
-5. The scheduler receives  $w_1[y]$  from the TM. As in (4),  $w_1[y]$  must be **delayed**.
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.06.15 PM.png" alt="Screenshot 2026-06-09 at 8.06.15 PM" style="zoom:67%;" />
 
 ##### Deadlock prevention
 
@@ -5084,12 +3576,7 @@ Deadlock] prevention using T/O - timestamp ordering:
 
 Two different schemes (Wait or Die, Wound or Wait) for requesting access.
 
-| TRANSACTION REQUESTING LOCK | TRANSACTION OWNING LOCK  | WAIT/DIE SCHEME<br>older/younger                             | WOUND/WAIT SCHEME<br>older/younger                           |
-| --------------------------- | ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| T1 (11548789)<br>older      | T2 (19562545)<br>younger | <ul style="list-style-type: none"> <li>• T1 waits until T2 is completed and T2 releases its locks.</li> </ul> | <ul style="list-style-type: none"> <li>• T1 preempts/rolls back T2.</li> <li>• T2 is rescheduled using the same time stamp.</li> </ul> |
-| T2 (19562545)<br>younger    | T1 (11548789)<br>older   | <ul style="list-style-type: none"> <li>• T2 dies (rolls back).</li> <li>• T2 is rescheduled using the same time stamp.</li> </ul> | <ul style="list-style-type: none"> <li>• T2 waits until T1 is completed and T1 releases its locks.</li> </ul> |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.06.41 PM.png" alt="Screenshot 2026-06-09 at 8.06.41 PM" style="zoom:80%;" />
 
 - Top row: older transaction requests a lock
 - Bottom row: newer transaction is requesting
@@ -5098,9 +3585,7 @@ Cengage Learning © 2015
 
 #### Optimistic Concurrency Control (OCC):
 
-![](d019f7011b290eab4ed0293f4972df51_img.jpg)
-
-![](852f70019b8d1837b2a15c007a780f82_img.jpg)![](dbf3fdd95bc408437e1d396d9ea8befd_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.08.57 PM.png" style="zoom:50%;" />
 
 ## Distributed DBs
 
@@ -5110,27 +3595,14 @@ Cengage Learning © 2015
 
 **what is the architecture?**
 
-11e
-
-**Database Systems**  
-**Design, Implementation, and Management**
-
-![](27d093344eaf2ffba7d815d186301dc7_img.jpg)
-
-Coronel | Morris
-
-Chapter 12
-
 Distributed Database Management  
 Systems
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
 
 ### C vs D
 
 'Centralized' DBs - no longer popular/useful...
 
-![](faa19fa09003307090f38a25ece74252_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.17.58 PM.png" style="zoom:67%;" />
 
 ### Factors Affecting the Centralized Database Systems
 
@@ -5139,10 +3611,6 @@ Systems
 - Rapid growth of social and network technologies
 - Digitization resulting in multiple types of data
 - Innovative business intelligence through analysis of data
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-6
 
 Two factors in particular, necessitated change:
 
@@ -5161,10 +3629,6 @@ So now we have **DDBMSs - distributed DBMSs.**
   - Required that corporate data be stored in a single central site
   - Data access provided through dumb terminals
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-4
-
 ### Factors That Aided DDBMS to Cope With Technological Advancement
 
 Acceptance of Internet as a platform for business
@@ -5174,10 +3638,6 @@ Mobile wireless revolution
 Usage of application as a service
 
 Focus on mobile business intelligence
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-7
 
 ### Advantages and Disadvantages of DDBMS
 
@@ -5210,15 +3670,9 @@ Focus on mobile business intelligence
 - **Distributed database:** Stores logically related database over two or more physically independent sites via computer network
 - **Database fragments:** Database composed of many parts in distributed database system
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.18.49 PM.png" style="zoom:67%;" />
 
-10
-
-![](6a0568674e792609ca7e6c1533614862_img.jpg)
-
-Cengage Learning © 2015
-
-![](d1ba2b47c5ebc10187d8e9089eacca4d_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.19.03 PM.png" style="zoom:67%;" />
 
 **Distributed processing AND data storage -> 'fully' distributed.**
 
@@ -5233,7 +3687,7 @@ Cengage Learning © 2015
 - Validates data for specific conditions
 - Presents data in required format
 
-![](9ec7afb8bd1d2648de277cd79293d4c1_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.19.19 PM.png" style="zoom:67%;" />
 
 **Two fragments, two sites - but each user thinks they have a single (their own) local version (transparent access).**
 
@@ -5249,11 +3703,7 @@ Cengage Learning © 2015
 - **Data processor (DP)** or **data manager (DM)**
 - **Software** component on a system that stores and retrieves data from its location
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-14
-
-![](543dbf9a0f62120aacfce4baebce2b06_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.19.29 PM.png" style="zoom:50%;" />
 
 A set of protocols is used by the DDBMS, to enable the TPs and DPs to communicate with each other.
 
@@ -5263,16 +3713,7 @@ A set of protocols is used by the DDBMS, to enable the TPs and DPs to communicat
 
 ### Data and processing distribution: 3 variations
 
-### 12.6 LEVELS OF DATA AND PROCESS DISTRIBUTION
-
-Current database systems can be classified on the basis of how process distribution and data distribution are supported. For example, a DBMS may store data in a single site (using a centralized DB) or in multiple sites (using a distributed DB), and may support data processing at one or more sites. Table 12.2 uses a simple matrix to classify database systems according to data and process distribution. These types of processes are discussed in the sections that follow.
-
-**TABLE 12.2 Database Systems: Levels of Data and Process Distribution**
-
-|                       | SINGLE-SITE DATA                             | MULTIPLE-SITE DATA                              |
-| --------------------- | -------------------------------------------- | ----------------------------------------------- |
-| Single-site process   | Host DBMS                                    | Not applicable<br>(Requires multiple processes) |
-| Multiple-site process | File server<br>Client/server DBMS (LAN DBMS) | Fully distributed<br>Client/server DDBMS        |
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.19.47 PM.png" alt="Screenshot 2026-06-09 at 8.19.47 PM" style="zoom:50%;" />
 
 #### SP/SD
 
@@ -5283,11 +3724,7 @@ Current database systems can be classified on the basis of how process distribut
 - Processing restricted on end user's side
 - DBMS is accessed by dumb terminals
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-15
-
-![](96954411d4782a218972e74ed4cd4495_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.20.16 PM.png" style="zoom:50%;" />
 
 #### MP/SD [note: no SP/MD!]
 
@@ -5301,13 +3738,9 @@ Current database systems can be classified on the basis of how process distribut
   - Processing is distributed
   - Supports data at multiple sites
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-17
-
 **Not truly 'distributed' (data I/O is centralized).**
 
-![](710a9cf1a991f4226fbe1e73ea3cb6a6_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.20.34 PM.png" style="zoom:50%;" />
 
 #### MP/MD ['fully distributed']
 
@@ -5318,19 +3751,15 @@ Current database systems can be classified on the basis of how process distribut
   - **Heterogeneous**: Integrate different types of DBMSs
   - **Fully heterogeneous**: Support different DBMSs, each supporting different data model
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-19
-
 "The whole enchilada!".. Comes in three varieties.
 
-![](ce40278b52f481852760dc1d6d474569_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.20.46 PM.png" style="zoom:67%;" />
 
 The above schematic is same as the one you saw earlier..
 
 **In a fully distributed database, the TPs (that request data) are distributed, as are the DPs (that serve data), like so [you saw this in an earlier slide]:**
 
-![](12b3831f83d090aaff6aecb06354f250_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.20.59 PM.png" style="zoom:50%;" />
 
 **The DDBMS uses protocols to transport across its network, commands as well as data, from distributed DPs and TPs: it receives data requests from multiple TPs, collects/synchronizes data (needed by multiple TPs) from multiple DPs, and intelligently routes to multiple TPs, the data (collected from multiple DPs) they requested. In other words, since transactions need data, the DDBMS acts as a switch, shuttling and routing data, from multiple DPs, to multiple TPs.**
 
@@ -5343,10 +3772,6 @@ The above schematic is same as the one you saw earlier..
 - Restrictions on the number of distinct databases that may be accessed
 - Restrictions on the database model that may be accessed
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-20
-
 **DDBMs span the spectrum from homegenous to fully heterogenous, and tend to come with restrictions.**
 
 ### Distributed concurrency control
@@ -5356,15 +3781,11 @@ The above schematic is same as the one you saw earlier..
 - Concurrency control is important in distributed databases environment
   - Due to multi-site multiple-process operations that create inconsistencies and deadlocked transactions
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-26
-
 **TP must ensure that all parts of a transaction (across sites) are completed, before doing a COMMIT.**
 
 #### Problem!
 
-![](4628881725ec2d73799a0521cb4036c5_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.21.21 PM.png" style="zoom:50%;" />
 
 Can't COMMIT the entire transaction, can't ROLLBACK it either! Solution: **2PC**.
 
@@ -5377,10 +3798,6 @@ Can't COMMIT the entire transaction, can't ROLLBACK it either! Solution: **2PC**
 - Requires that each DP's transaction log entry be written before database fragment is updated
 - **DO-UNDO-REDO protocol**: Roll transactions back and forward with the help of the system's transaction log entries
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-28
-
 #### Two-Phase Commit Protocol (2PC)
 
 - **Write-ahead protocol**: Forces the log entry to be written to permanent storage before actual operation takes place
@@ -5389,39 +3806,15 @@ Can't COMMIT the entire transaction, can't ROLLBACK it either! Solution: **2PC**
   - Preparation
   - The final COMMIT
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-29
-
 #### 2PC: steps
 
 The following is the sequence of steps (phase I, phase2) that are used to effect a complete distributed transaction (keep clicking on the >| button):
 
-Click anywhere to show/hide controls:  
- \* <<, >>: first/last frame  
- \* <\*1, >\*1: play once from curr, rev/fwd  
- \* <, >: play (loop) rev/fwd  
- \* <|, >|: prev/next frame  
- \* fps -/+ : decr/incr fps  
- \* ??: HUD toggle  
- \* ||: halt  
- Note — fps steps: 0.125,0.25,0.5,1,5,7,10,12,15,18,20,24,28,30
-
-![](24798c5a4bf2c6cc826162e3668c4252_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.21.49 PM.png" alt="Screenshot 2026-06-09 at 8.21.49 PM" style="zoom:50%;" />
 
 And here's how a transaction is aborted, when one of the participating nodes is unable to commit a sub-transaction:
 
-Click anywhere to show/hide controls:  
- \* <<, >>: first/last frame  
- \* <\*1, >\*1: play once from curr, rev/fwd  
- \* <, >: play (loop) rev/fwd  
- \* <|, >|: prev/next frame  
- \* fps -/+ : decr/incr fps  
- \* ??: HUD toggle  
- \* ||: halt  
- Note — fps steps: 0.125,0.25,0.5,1,5,7,10,12,15,18,20,24,28,30
-
-![](4839b8dd9d072ebd0ca746f0f3fef8f9_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.22.09 PM.png" style="zoom:50%;" />
 
 In the two phase commit protocol, as the name implies, there are two phases:
 
@@ -5440,11 +3833,11 @@ In the two phase commit protocol, as the name implies, there are two phases:
 
 ### "What distribution? We have NO distribution!"
 
-![](34921caa1996eef32dd520e93a1e64b8_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.22.33 PM.png" style="zoom:50%;" />
 
 DDBMSs are designed to HIDE distribution specifics - this feature is called 'transparency', and can be classified into different kinds.
 
-![](5f445e5f4b652a887cab7ede472eba7d_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.22.42 PM.png" style="zoom:50%;" />
 
 **Fragmentation transparency:** end user does not know that the data is fragmented.
 
@@ -5469,10 +3862,6 @@ DDBMSs are designed to HIDE distribution specifics - this feature is called 'tra
   - **Network latency:** delay imposed by the amount of time required for a data packet to make a round trip
   - **Network partitioning:** delay imposed when nodes become suddenly unavailable due to a network failure
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-31
-
 **We also need to take into account, network delay and network failure ("partitioning") when planning for or evaluating transparency.**
 
 ### Transaction Transparency
@@ -5480,10 +3869,6 @@ DDBMSs are designed to HIDE distribution specifics - this feature is called 'tra
 - Ensures database transactions will maintain distributed database's integrity and consistency
 - Ensures transaction completed only when all database sites involved complete their part
 - Distributed database systems require complex mechanisms to manage transactions
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-24
 
 ### Distributed DB design
 
@@ -5495,10 +3880,6 @@ DDBMSs are designed to HIDE distribution specifics - this feature is called 'tra
   - Which fragments to replicate
 - Data allocation**
   - Where to locate those fragments and replicas
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-32
 
 **Partition (divide), replicate (copy)? Where to store the partitions/copies?**
 
@@ -5524,10 +3905,6 @@ DDBMSs are designed to HIDE distribution specifics - this feature is called 'tra
   - Pull replication
 - Helps restore lost data
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-34
-
 #### Data Replication Scenarios
 
 ##### Fully replicated database
@@ -5541,10 +3918,6 @@ DDBMSs are designed to HIDE distribution specifics - this feature is called 'tra
 ##### Unreplicated database
 
 - Stores each database fragment at a single site
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-35
 
 You can read more about replication, [here](#).
 
@@ -5575,10 +3948,6 @@ You can read more about replication, [here](#).
 - **Basically available, soft state, eventually consistent (BASE)**
   - Data changes are not immediate but propagate slowly through the system until all replicas are consistent
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-37
-
 **Consistency:** always correct data.
 
 **Availability:** requests are always filled.
@@ -5591,14 +3960,7 @@ In the 'ACID' (Atomicity, Consistency, Isolation, Durability) world of older rel
 
 In today's 'BASE' (Basically Available, Soft\_state, Eventually\_consistent) model of non-relational (eg. NoSQL) DBs, we prefer to sacrifice consistency in favor of availability.
 
-| DBMS TYPE              | CONSISTENCY                                                 | AVAILABILITY | PARTITION TOLERANCE | TRANSACTION MODEL | TRADE-OFF                                     |
-| ---------------------- | ----------------------------------------------------------- | ------------ | ------------------- | ----------------- | --------------------------------------------- |
-| Centralized DBMS       | High                                                        | High         | N/A                 | ACID              | No distributed data processing                |
-| Relational DDBMS (2PC) | High                                                        | Relaxed      | High                | ACID              |                                               |
-|                        | Sacrifices availability to ensure consistency and isolation |              |                     |                   |                                               |
-| NoSQL DDBMS            | Relaxed                                                     | High         | High                | BASE              | Sacrifices consistency to ensure availability |
-
-Cengage Learning © 2015
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.23.55 PM.png" alt="Screenshot 2026-06-09 at 8.23.55 PM" style="zoom:50%;" />
 
 Eric Brewer came up with CAP - here is his 2000 presentation on it [look at the slide on page 4!], and here is his update on it more than a decade later.
 
@@ -5606,45 +3968,19 @@ See this, and this for more.
 
 ### Date's '12 commandments' for distributed DBMSs
 
-| RULE NUMBER | RULE NAME                                 | RULE EXPLANATION                                             |
-| ----------- | ----------------------------------------- | ------------------------------------------------------------ |
-| 1           | <i>Local-site independence</i>            | Each local site can act as an independent, autonomous, centralized DBMS. Each site is responsible for security, concurrency control, backup, and recovery. |
-| 2           | <i>Central-site independence</i>          | No site in the network relies on a central site or any other site. All sites have the same capabilities. |
-| 3           | <i>Failure independence</i>               | The system is not affected by node failures. The system is in continuous operation even in the case of a node failure or an expansion of the network. |
-| 4           | <i>Location transparency</i>              | The user does not need to know the location of data to retrieve those data. |
-| 5           | <i>Fragmentation transparency</i>         | Data fragmentation is transparent to the user, who sees only one logical database. The user does not need to know the name of the database fragments to retrieve them. |
-| 6           | <i>Replication transparency</i>           | The user sees only one logical database. The DDBMS transparently selects the database fragment to access. To the user, the DDBMS manages all fragments transparently. |
-| 7           | <i>Distributed query processing</i>       | A distributed query may be executed at several different DP sites. Query optimization is performed transparently by the DDBMS. |
-| 8           | <i>Distributed transaction processing</i> | A transaction may update data at several different sites, and the transaction is executed transparently. |
-| 9           | <i>Hardware independence</i>              | The system must run on any hardware platform.                |
-| 10          | <i>Operating system independence</i>      | The system must run on any operating system platform.        |
-| 11          | <i>Network independence</i>               | The system must run on any network platform.                 |
-| 12          | <i>Database independence</i>              | The system must support any vendor's database product.       |
+<img src="Slides.assets/Screenshot 2026-06-09 at 8.24.14 PM.png" alt="Screenshot 2026-06-09 at 8.24.14 PM" style="zoom:50%;" />
 
 Think of these more as checklist items, rather than commandments.
-
-1/12 9:36:11 \*\*\*
-
-![](0a1144412c3d8c3cebb87477007b84eb_img.jpg)![](aadfab5cbe068adc0353a761a185ff6b_img.jpg)
 
 ## Database connectivity
 
 ## Ch.14
 
-11e
-
 **Database Systems**  
 **Design, Implementation, and Management**
 
-![](2b39cfde3d5d5b789d8be1e2a0e372a2_img.jpg)
-
-Coronel | Morris
-
-Chapter 14  
-Database Connectivity and Web  
-Technologies
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
+Chapter 14 
+Database Connectivity and Web Technologies
 
 ## Learning Objectives
 
@@ -5656,20 +3992,12 @@ Technologies
   - What Extensible Markup Language (XML) is and why it is important for Web database development
   - About cloud computing and how it enables the database-as-a-service model
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-2
-
 ### Early days
 
 ### Database Connectivity
 
 - **Database middleware:** Provides an interface between the application program and the database
 - Data repository/source - Data management application (eg. Oracle RDBMS) that is used to store data generated by an application program
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-3
 
 ### Various connectivity options
 
@@ -5678,10 +4006,6 @@ Technologies
 - M'soft: OLE-DB
 - M'soft: ADO.NET
 - JDBC (from Sun)
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-4
 
 ### Native SQL Connectivity
 
@@ -5697,11 +4021,7 @@ Technologies
 
 ODBC, OLE-DB and ADO.NET form the backbone of the MS UDA architecture
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-5
-
-[and this is a contemporary 'UDA' :)]
+**[and this is a contemporary 'UDA' :)]**
 
 #### ODBC, DAO+Jet, RDO
 
@@ -5710,19 +4030,11 @@ ODBC, OLE-DB and ADO.NET form the backbone of the MS UDA architecture
   - Allows Windows application to access relational data sources by using SQL via standard **application programming interface (API)**
   - Too much of a 'low level' API, so need something more
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-7
-
 #### ODBC, DAO+Jet, RDO
 
 - **Data Access Objects (DAO):** Object-oriented API used to access MS Access, MS FoxPro, and dBase databases from Visual Basic programs
   - Provides an optimized interface that expose functionality of **Jet** data engine to programmers
   - DAO interface can be used to access other relational style data sources as well
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-8
 
 **JET: 'Joint Engine Technology', later became ACE.**
 
@@ -5733,27 +4045,15 @@ ODBC, OLE-DB and ADO.NET form the backbone of the MS UDA architecture
 - **Dynamic-link libraries (DLLs)**
   - Implements ODBC, DAO, and RDO as shared code that is dynamically linked to the Windows operating environment
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-9
-
 #### Components of ODBC Architecture
 
 - High-level ODBC API through which application programs access ODBC functionality
 - Driver manager that is in charge of managing all database connections
 - ODBC driver that communicates directly to DBMS
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-10
-
 ## Figure 14.2 - Using ODBC, DAO, and RDO to access databases
 
-![](5d18e168996dc3ae3f595f348261e80e_img.jpg)
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-11
+<img src="Slides.assets/Screenshot 2026-06-09 at 9.58.45 PM.png" style="zoom:75%;" />
 
 ### Microsoft: OLE-DB
 
@@ -5765,10 +4065,6 @@ ODBC, OLE-DB and ADO.NET form the backbone of the MS UDA architecture
   - Consumers (request data)
   - Providers (produce data – from data sources)
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-13
-
 #### Object Linking and Embedding for Database (OLE-DB)
 
 - Does not provide support for scripting languages
@@ -5776,19 +4072,11 @@ ODBC, OLE-DB and ADO.NET form the backbone of the MS UDA architecture
   - High-level application-oriented interface to interact with OLE-DB, DAO, and RDO
   - Unified interface to access data from any programming language that uses the underlying OLE-DB objects
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-14
-
 **COM was modeled after OMG's CORBA... Here is more...**
 
 # Figure 14.5 - OLE-DB Architecture
 
-![](1f94fa97697122830275fb74bbe6f718_img.jpg)
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-15
+<img src="Slides.assets/Screenshot 2026-06-09 at 9.59.16 PM.png" style="zoom:50%;" />
 
 ### Microsoft: ADO.NET;
 
@@ -5799,10 +4087,6 @@ ODBC, OLE-DB and ADO.NET form the backbone of the MS UDA architecture
   - Component-based platform for developing distributed, heterogeneous, interoperable applications
   - Manipulates any type of data using any combination of network, operating system, and programming language
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-16
-
 #### ADO.NET
 
 - Features critical for the development of distributed applications
@@ -5811,11 +4095,7 @@ ODBC, OLE-DB and ADO.NET form the backbone of the MS UDA architecture
     - DataSet is internally stored in XML format
     - Data in DataSet could be made persistent as XML documents
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-17
-
-
+<img src="Slides.assets/Screenshot 2026-06-09 at 9.59.58 PM.png" alt="Screenshot 2026-06-09 at 9.59.58 PM" style="zoom:50%;" />
 
 #### Not-Microsoft: JDBC
 
@@ -5824,10 +4104,6 @@ ODBC, OLE-DB and ADO.NET form the backbone of the MS UDA architecture
 - **Java:** Object-oriented programming language that runs on top of web browser software, on smartphones, on the desktop and on servers
 - **JDBC:** Application programming interface that allows a Java program to interact with a wide range of data sources – a simple URL is all is needed to connect to a db
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-19
-
 #### Advantages of JDBC
 
 - Company can leverage existing technology and personnel training
@@ -5835,17 +4111,9 @@ ODBC, OLE-DB and ADO.NET form the backbone of the MS UDA architecture
 - Allows programmers to use their SQL skills to manipulate the data in the company's databases
 - Provides a way to connect to databases through an ODBC driver
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-20
-
 Figure 14.7 - JDBC Architecture
 
-![](470b612d7c5c8f18f60ddf220b78e272_img.jpg)
-
-© 2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-23
+<img src="Slides.assets/Screenshot 2026-06-09 at 10.00.27 PM.png" style="zoom:50%;" />
 
 Here is some sample code that uses the JDBC API:
 
@@ -5891,8 +4159,6 @@ public class HW2 {
 }
 ```
 
-© 2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
 After we create a connection, we can create a statement, execute a query, get back a result set and iterate through it:
 
 ```
@@ -5903,8 +4169,6 @@ Statement myStmt = myConn.createStatement();
 
 ResultSet myRslt= myStmt.executeQuery("....");
 ```
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
 
 **Here is a complete example.**
 
@@ -5917,8 +4181,6 @@ ResultSet myRslt= myStmt.executeQuery("....");
   - Increase customer satisfaction through creation of web-based support services
   - Allow anywhere, anytime data access using mobile smart devices via the Internet
   - Yield fast and effective information dissemination through universal access
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.24
 
 **Why? One word: "e-Commerce" :)**
 
@@ -5937,29 +4199,17 @@ ResultSet myRslt= myStmt.executeQuery("....");
   - Also known as **web-to-database middleware**
   - Provides its services to the web server in a way that is totally transparent to the client browser
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-27
-
 #### Web-to-Database Middleware
 
-![](136dccf3666a75086068fdbbf4a72c58_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 10.01.09 PM.png" style="zoom:50%;" />
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-28
-
-
+<img src="Slides.assets/Screenshot 2026-06-09 at 10.01.22 PM.png" style="zoom:67%;" />
 
 #### Middleware: server-adj.
 
 Figure 14.9 - Web Server CGI and API Interfaces
 
-![](4141e32339a99ae82b6360896250e1fc_img.jpg)
-
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-29
+<img src="Slides.assets/Screenshot 2026-06-09 at 10.01.55 PM.png" alt="Screenshot 2026-06-09 at 10.01.55 PM" style="zoom:67%;" />
 
 Here is Perl 'CGI' script to interface w/ a DB.
 
@@ -5979,10 +4229,6 @@ As an FYI note, Java provides very many ways to connect a client to a DB via a w
   - Create dynamic web search pages
   - Enforce referential integrity
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-32
-
 **A 'web application server' is a specialized server that interfaces with web services such as databases, search engines. The client (eg browser) can query these data sources and have results generated dynamically.**
 
 #### Features of Web Application Servers
@@ -5995,17 +4241,13 @@ As an FYI note, Java provides very many ways to connect a client to a DB via a w
 - Performance and fault - tolerant features
 - Database access with transaction management capabilities
 
-©2015 Cengage Learning. All Rights Reserved. May not be scanned, copied or duplicated, or posted to a publicly accessible website, in whole or in part.
-
-33
-
 **Examples of web application servers: WebLogic, ColdFusion/JRun, WebSphere Application Server, WebObjects, IIS, WildFly (JBoss), Tomcat, Jetty..**
 
 **Each web application server (WAS) offers its own programming environment. Eg. CFML can be used to consume web services and present results for the end user (likewise for DB result sets).**
 
 **Here is a ColdFusion syntax sample, and roundtrip dataflow:**
 
-
+<img src="Slides.assets/Screenshot 2026-06-09 at 10.02.33 PM.png" alt="Screenshot 2026-06-09 at 10.02.33 PM" style="zoom:50%;" />
 
 ### Modern connectivity
 
@@ -6015,103 +4257,14 @@ As an FYI note, Java provides very many ways to connect a client to a DB via a w
 
 ### Modern architecture styles:
 
-Top 6 Most Popular API Architecture Styles
+<img src="Slides.assets/Screenshot 2026-06-09 at 10.02.48 PM.png" alt="Screenshot 2026-06-09 at 10.02.48 PM" style="zoom:50%;" />
 
-ByteByteGo.com
+<img src="Slides.assets/Screenshot 2026-06-09 at 10.03.13 PM.png" alt="Screenshot 2026-06-09 at 10.03.13 PM" style="zoom:80%;" />
 
-| Style     | Illustration | Use Cases                                    |
-| --------- | ------------ | -------------------------------------------- |
-| SOAP      |              | XML-based for enterprise applications        |
-| RESTful   |              | Resource-based for web servers               |
-| GraphQL   |              | Query language reduce network load           |
-| gRPC      |              | High performance for microservices           |
-| WebSocket |              | Bi-directional for low-latency data exchange |
-| Webhook   |              | Asynchronous for event-driven application    |
-
-Alex Xu • Following
-
-Follow me for system design & ...
-
-1h • Edited •
-
-Top 6 most popular API architecture styles.
-
-With billions of API calls made every day, understanding API architecture styles has never been more important. In this video, we take a closer look at these styles. They are the backbone of our interconnected digital world. We will talk about:
-
-- SOAP
-- RESTful
-- GraphQL
-- gRPC
-- WebSocket
-- Webhook
-
-Watch & subscribe here: <https://lnkd.in/e2Jwg9w8>
-
-...
-
-Subscribe to our weekly newsletter to get a Free System Design PDF (158 pages): <https://bit.ly/42Ex9oZ>
-
-#systemdesign #coding #interviewtips
-
-![](7e8207b282f35e6bd6035d8fe543a775_img.jpg)
-
-ByteByteGo  
-230,288 followers  
-2d •
-
-What is GraphQL? Is it a replacement for the REST API?
-
-The diagram below shows the quick comparison between REST and GraphQL.
-
-- ◆ GraphQL is a query language for APIs developed by Meta. It provides a complete description of the data in the API and gives clients the power to ask for exactly what they need.
-- ◆ GraphQL servers sit in between the client and the backend services.
-- ◆ GraphQL can aggregate multiple REST requests into one query. GraphQL server organizes the resources in a graph.
-- ◆ GraphQL supports queries, mutations (applying data modifications to resources), and subscriptions (receiving notifications on schema modifications).
-
-### REST v.s. GraphQL
-
-[blog.bytebytego.com](https://blog.bytebytego.com)
-
-![](ea32354ab94fb7e4fdb2e08cb39b1846_img.jpg)
-
-REST
-
-![](746339de60a18834270b45f3928c3e8a_img.jpg)
-
-GraphQL
-
-![](3dfd0a5f4b8b5b87052f927cfda939dc_img.jpg)
-
-Vladimir Romanov
-
-#### Most Utilized API Architectures
-
-![](a8e2aac7919c9dda82a304bfacc58dc8_img.jpg)
-
-MQTT is a lightweight, publish-subscribe protocol optimized for low-bandwidth or unstable networks, often used in IoT applications.
-
-![](e70285b7d75f2ab0c351640618082c0d_img.jpg)
-
-SOAP is a protocol using XML for web services communication, typically over HTTP or SMTP.
-
-![](b9416a482697626c9fdfb87263256c2c_img.jpg)
-
-GraphQL uses one flexible endpoint for client-specified data, minimizes excess fetching, and provides structured results with schemas.
-
-![](6aff6f81d7404196a8fb5521d5662aca_img.jpg)
-
-A Webhook API enables real-time data communication by sending automated messages or payloads to specified URLs in response to events or triggers.
-
-![](51c35ae4c2ca74c7fcbe9a0db1893dd5_img.jpg)
-
-REST API is a set of conventions for building web services using standard HTTP methods, emphasizing stateless communication and resource-oriented URLs.
-
-![](98daa92e8115229e723dab8e8ec5dbc6_img.jpg)
-
-A WebSocket API allows for real-time, two-way communication between a client and server over a single, long-lived connection.
+<img src="Slides.assets/Screenshot 2026-06-09 at 10.05.38 PM.png" alt="Screenshot 2026-06-09 at 10.05.38 PM" style="zoom:80%;" />
 
 The top-3 cloud vendors (plus Oracle, IBM) offer a variety of (micro)services upon which businesses run:
 
-![](603738e78a489658732e33631dd15f17_img.jpg)
+<img src="Slides.assets/Screenshot 2026-06-09 at 10.04.10 PM.png" style="zoom:75%;" />
 
 Hot off the press: MCP.
