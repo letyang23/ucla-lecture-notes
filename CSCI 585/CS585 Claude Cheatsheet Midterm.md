@@ -3615,3 +3615,266 @@ Bathroom / 7-Eleven key = lock manager · Hawaii $100 deal = multi-table atomic 
 ## 14. Homework aside (peripheral, not exam)
 
 Prof recommended a **local LLM for HW** (HW1 ER-diagram generation, HW2 SQL): Google **Gemma** (audio: *"gamma 4," 12B* variant) — **decoder-only transformer**, **~4.66 GB RAM**, **no GPU**, runs on a standard laptop, **~7 GB download** (fits a flash drive), **Q4-quantized**, does **reasoning + tool calling**; vs. the older ~27B version that needed full vision/audio encoders. Run via Ollama: `ollama run gemma3:12b`. Swap it in if your prompt isn't producing a clean ER diagram.
+
+
+
+# CS585 Lecture 9 — Distributed Databases & Transaction Management (Cheatsheet)
+
+> Lecture covered: deadlock handling, two-phase commit (2PC), distributed-DB architecture, fragmentation, transparency, replication, CAP, ACID/BASE, C.J. Date's 12 rules.
+
+------
+
+## ⚠️ EXAM SCOPE (exam = next day, on paper)
+
+| Item                | Detail                                                       |
+| ------------------- | ------------------------------------------------------------ |
+| **Format**          | Paper + pen only. **All devices OFF.** No Gradescope/scan/upload — leave paper on desk and walk away. |
+| **Questions**       | **12 questions × 3 pts = 36 possible.** Answer **≥ 10** (may attempt 11–12). Total is **capped at 30** — extra questions just raise your odds of hitting 30. |
+| **Time**            | ~**5 min/question**. Starts **3:00 pm** sharp; attendance taken, no proxies. |
+| **Cheat sheet**     | Allowed, **unlimited pages** — but keep it minimal/targeted (answers aren't copy-pasteable from any one slide). |
+| **ON the exam**     | **ER diagrams** (skip overlapping/disjoint specialization constraints), **SQL concepts** (NOT writing SQL syntax — understanding of what commands do, the "heart" of SQL, possibly >1 SQL question), **Transaction management** (locks, 2PL, deadlocks). |
+| **NOT on the exam** | **All of today's distributed-DB material** (2PC, CAP, replication, transparency, connectivity). Only goes *up to* transaction management. |
+| **Hint**            | Prof posts a short story with **12 hints (1 per question)**; can guess on Piazza. |
+| **Big tip**         | **RTFM = answer the \*exact\* question.** No irrelevant filler. Running out of time = you wrote too much. |
+
+------
+
+## 1. Transaction Management & Deadlocks ✅ (on exam)
+
+**Goal:** Each transaction runs *as if isolated*, even though others are intertwined/competing for the same data.
+
+- **Locking** = lock the data so others wait; if you can lock without deadlock, you proceed and others queue.
+- **Two-Phase Locking (2PL):**
+  - **Phase 1 — Growing / lock-acquisition:** acquire locks, cannot release any yet.
+  - **Phase 2 — Shrinking / lock-release:** release locks, cannot acquire any new ones.
+  - (Prof also mentions an **execution phase** as a third stage.)
+
+### Three ways to handle deadlock
+
+| Strategy                    | When it acts                     | How it works                                                 |
+| --------------------------- | -------------------------------- | ------------------------------------------------------------ |
+| **Indifference**            | Never                            | Don't care — let deadlocks happen, find them later in the **log**. |
+| **Avoidance (= Detection)** | During locking                   | Constantly look for a **cycle** in the wait-for graph; before granting the next lock, check if it creates a cycle → if so, **break the cycle** / don't grant. Reliable but **slow** (always scanning). |
+| **Prevention**              | During locking (timestamp-based) | Every transaction gets a **timestamp** (young vs old). When a transaction wants a lock another holds, either **make it wait** or **kill it and send it to the back**. **No cycles ever form** (wait-die / wound-wait style). |
+
+> Key contrast: **Avoidance/Detection** = let it nearly happen, watch for cycles. **Prevention** = timestamp ordering, cycles are impossible. **Indifference** = ignore + recover from log.
+
+------
+
+## 2. History: Centralized → Distributed
+
+- **1960s — IBM mainframes:** one room held CPU (fridge-sized) + magnetic tapes + line printer + a "fat" terminal. Database, CPU, and data all in **one place** = **centralized**.
+- **Dumb terminals** (e.g., **Wyse**): no CPU, no memory — just send SQL, display results. Monochrome amber/green, plain ASCII keyboard. People city-wide logged in via wire to the *one* machine.
+- **Why centralized is bad:** all eggs in one basket. More users → crash / disk full; fire/flood destroys everything (unless remote backup).
+- **Why distribute:** like the internet — scatter, copy, survive. Modern scale (WhatsApp/TikTok/Facebook = **billions**, not millions) makes any single machine fail.
+- **Timeline:** Mainframe (60s) → Minicomputer VAX/PDP (70s) → PC/Mac (80s) → phones/tablets → watches.
+- **Cyclic irony:** we're swinging *back* toward "single-point" boxes — **NVIDIA DGX Spark / desktop "supercomputers"** put cloud-class GPU power on your desk (single point of failure, but physically secured). Driven partly by **cloud as a liability** (data-center locations are known → physically attackable).
+
+------
+
+## 3. Distributed Processing vs Distributed Data
+
+**Two independent things get distributed:**
+
+1. **Data** — tables/fragments live on multiple machines (each with its own IP).
+2. **Computation (processing)** — work happens across multiple machines (e.g., microservices, booking a flight touches many systems).
+
+- **Fully distributed** = *both* data and processing distributed.
+- **DDBMS** needs ≥ 2 physically independent sites communicating (usually via **TCP/IP**).
+- **CDN (Content Delivery Network):** keep **copies** near users (amazon.co.uk near UK, amazon.co.jp near Japan) → faster, no single point of failure.
+
+**Node roles (a machine can be either or both):**
+
+- **Data Processor (DP) / Data Manager:** only *serves data* (give me rows 1–20), no computation.
+- **Transaction Processor (TP) / Transaction Manager:** only *does computation*; needs data sent to it.
+
+------
+
+## 4. Fragmentation
+
+A **fragment** = a *piece* of a table (NOT a copy). `UNION` of all fragments = the original table. Logically it's still **one table**; the distribution layer hides the pieces.
+
+| Type           | What's cut                                            | Reason                                                       |
+| -------------- | ----------------------------------------------------- | ------------------------------------------------------------ |
+| **Horizontal** | **Rows** (e.g., 10M rows → many pieces)               | **Parallel processing / speedup** (→ MapReduce). The *only* reason to do it. |
+| **Vertical**   | **Columns**                                           | Keep **rarely-used columns** out of the way (save disk / load time). The *only* reason to do it. |
+| **Mixed**      | Vertical first, then horizontal on the important part | Combine both. (Doing it the opposite way is essentially pointless.) |
+
+### MapReduce intuition (avg salary across 100k employees)
+
+- Single machine: one `for` loop summing all rows → slow.
+- Fragmented: send each machine **"sum your column, report back"** → get sub-totals A, B, C in **parallel** → combine `(A+B+C)/N` (trivial).
+- **3 fragments ≈ 3× faster; N fragments ≈ N× faster**, but **sublinear** (aggregation/"reduce" cost) — like **Amdahl's Law**.
+- Magic number **86,400** = seconds/day (the gulf between "1 second" and "1 day").
+- Fragments behave like a mini-table; the **MapReduce algorithm coordinates** them.
+
+------
+
+## 5. The 4-Way Matrix (Processing × Data)
+
+|                            | **Single Data**                                              | **Distributed Data**                                         |
+| -------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Single Processing**      | **IBM Mainframe** (1960s) — everything in one place. Obsolete/bad. | **Impractical** ❌ — all data scattered but forced to one machine to compute → machine crashes. **Newton's-cat case.** Only 3 of 4 are used. |
+| **Distributed Processing** | **Client-Server LAN** (1980s) — **SharePoint / file-server / Dropbox / Google Drive**. Data central, compute on many laptops; save back to the master. | **Fully Distributed** — microservices + data everywhere. The modern ideal. |
+
+> **Newton's-cat story / "Foolish consistency":** Newton wanted two cat-flaps (big + small). The carpenter said "one flap fits both." Newton insisted "if the big cat can't fit the small hole, the small cat shouldn't use the big hole" — a **category error**. Moral: don't insist on symmetry/consistency when it isn't practical. → **Emerson, \*Self-Reliance\* (1841): "A foolish consistency is the hobgoblin of little minds."**
+
+------
+
+## 6. Networking: Reverse Proxy & Protocols
+
+- **Reverse proxy / API gateway:** you hit "Amazon.com," but it forwards your request to many hidden machines (catalog, recommendations, users, images), gathers results, returns them. You never see the real IPs (**on purpose**).
+- **Protocol** = a fixed packet format. Everything (web/FTP/email/Bitcoin) becomes **IP packets** at the bottom layer.
+- **Layering:** `HTTP → TCP → IP packets`. Packets are **numbered**, can travel/arrive **out of order**, and are **reassembled by sorting**. Every packet carries the destination IP → only the right machine accepts it.
+
+------
+
+## 7. Two-Phase Commit (2PC) — main topic 🌟 (NOT on this exam)
+
+Solves: a transaction spans multiple machines — **all must succeed or none** (else tables corrupt).
+
+- **Coordinator** + **subordinates/participants**. The coordinator **can be one of the participating machines** (no dedicated machine needed).
+
+| Phase       | Name                                      | Action                                                       |
+| ----------- | ----------------------------------------- | ------------------------------------------------------------ |
+| **Phase 1** | **Voting / Polling / Question / Prepare** | Coordinator asks **"Can you commit? Are you ready?"** Each node does local work, writes the log, but **does NOT commit**, then votes **yes/no**. |
+| **Phase 2** | **Commit (or Abort)**                     | If **all** vote **yes** → coordinator says **commit** → all commit → all **acknowledge (done)**. If **any** votes **no** → coordinator says **abort** → all **rollback**. |
+
+- **All-or-nothing across machines.** After an abort, it's **clean as if nothing happened** → *train-track analogy* (can't tell which way the train went by looking at the rails).
+- **Voting rules:** simplest = **unanimous yes**; alternatives = simple majority (50%), two-thirds, **Raft** (majority). (Analogy: changing an exam date requires *every* student to agree — one "no" blocks it.)
+- **9/11 coordination analogy** (prof's): one operative says "too much police" → the coordinator calls the *whole* operation off. Maximize impact = all-or-nothing.
+
+### Write-Ahead Log (WAL)
+
+- **Rule: record the change in the log BEFORE committing.** Enables rollback.
+- Example: `x = 2 → x = 4`. Log stores **(variable name, before, after)**. To roll back, restore "before." Without a log, the old value is overwritten → can't undo.
+- Analogy: neural-net training stores before/after weights → could "untrain" back to a random/zero state (your brain can't do this — that's why AI ≠ human memory).
+
+### 2PC failure handling
+
+- **Coordinator dies:** responses are sent to **all coordinators** (1 lead + backups); only the **lead acts**. On **timeout**, a **backup coordinator springs into action**. Timeouts everywhere.
+- **WAL itself fails:** can't roll back (rare). Still **lower probability of disaster** than doing nothing.
+
+------
+
+## 8. 2PL + 2PC Combined = how it really works
+
+- Each machine still runs **local locking (2PL)** — **no deadlock across machines**.
+- **2PC** coordinates the commit **across machines**.
+- Together = the modern standard. **No alternative solution exists.**
+
+------
+
+## 9. Transparency (really "Opacity")
+
+Hide all internal details from users/attackers. ("**Yes, we have no bananas**" → "we have *no* distribution" — admit nothing.) The more you expose, the easier you are to hack.
+
+### a) Distribution transparency — 3 levels
+
+1. **Fragmentation transparency:** outsider doesn't know *if/how* a table is fragmented.
+2. **Location transparency:** doesn't know *where* (which IPs) fragments live.
+3. **Local-mapping transparency:** doesn't know the exact **IP ↔ fragment** mapping.
+
+- **Data Dictionary / Distributed Data Catalog:** the *internal, protected* table that knows locations, fragments, and mapping; it **routes** incoming transactions. The **transaction processor / API gateway** has access to it. (REST API call → API gateway → right machine.)
+
+### b) Performance / Failure transparency
+
+- **Performance:** slowdown (RAM maxed, slow Wi-Fi/network) — user sees only a slight glitch.
+- **Failure:** a machine fails → switch to a backup → user **doesn't know**. (Google handles ~6B+ searches/day; machines fail constantly, search still works.)
+- **Partition** = network split (a **graph partition** / bipartite cut) — a transaction can't reach data across the cut link. **Bad.** This is the **P** in CAP (**partition tolerance**).
+- **Replica copy / failover:** keep a duplicate node; on failure, **fail over** to it. Now **consistency** is the hard part (avoid stale/old data).
+- **Amazon Dynamo: N = 3** — every datum on 1 main + 2 backups, all synchronized.
+
+### c) Transaction transparency
+
+- User has no idea about the transaction management: how many transactions, who's coordinator, where things ran.
+- Enabled by the **3-tier architecture: front-end → middleware → back-end.** Nobody touches the DB directly.
+
+------
+
+## 10. Replication & Allocation
+
+**Three vocab words:**
+
+- **Partition / Fragment** = **divide** (tables into pieces).
+- **Replication** = **copy** (pieces or whole tables).
+- **Allocation** = **what copy/fragment goes where** (a map, based on **use cases**).
+
+> When you make copies, all are equally valid — but designate one as the **master copy / "golden record."**
+
+### Master Data Management (MDM)
+
+- One **master machine**; reflect every read/write to the others **ASAP** (ideally instant) → all stay in sync; if the master breaks, switch quickly. (Wait too long → backups go stale, like a 2-day-old Dropbox.) (Joke: don't add "A" → **MDMA** = ecstasy.)
+
+| Sync method          | How                                                          |
+| -------------------- | ------------------------------------------------------------ |
+| **Push replication** | Master **pushes** changes out to followers (like `git push`). |
+| **Pull replication** | Followers periodically **pull/ask** the master "what changed?" |
+
+### Replication amount
+
+| Mode                                                | Verdict                                             |
+| --------------------------------------------------- | --------------------------------------------------- |
+| **Full replication** (all tables, all the time)     | ❌ Costly, constant sync.                            |
+| **No replication** (single copy)                    | ❌ Lose it = gone (the "secrets on one phone" case). |
+| **Partial replication** (copy only valuable tables) | ✅ **Goldilocks** — best.                            |
+
+- **Master–slave** vs **peer-to-peer**: peer-to-peer is most complex (any node can change, then pushes out) — hard to keep consistent, but everything is available everywhere.
+
+### Data allocation strategies
+
+- **Centralized allocation:** everything one site → ❌ horrible (all eggs/one basket).
+- **Partitioned allocation:** fragment + place copies across multiple sites → **geographic redundancy** (AWS regions, e.g., **us-east-1**).
+- **Partitioned + replicated:** fragment *and* copy *and* distribute (essentially the same idea, finer-grained).
+- **AWS SLA "five nines" = 99.999% uptime** (~seconds/year of downtime). If Amazon misses it, it **pays out millions** → strong incentive to keep copies instantly available.
+
+### Physical-storage angle (vertical fragmentation reason)
+
+- Rarely-used columns (e.g., undergrad transcript) → push to **cheap/slow storage**; keep hot columns on fast storage. Not all fragments live on the same medium.
+- **Tape robots:** room of slots, each holding a 50–100 GB magnetic tape; a robot moves on **x/y/z** to fetch a tape, load it into a reader, read, and return it. Cheap, barcoded, climate-controlled, **halon fire suppression**.
+- **Iron Mountain:** off-site backup vaulting — started because **Steve Jobs** shipped Mac OS source code to the **Rocky Mountains** (fear of the **Hayward Fault** earthquake in the Bay Area). Now offers backup, shredding, cloud, armed-guard security.
+
+------
+
+## 11. CAP Theorem (NOT on this exam)
+
+- **Eric Brewer, ~2000 (PODC keynote, San Jose):** drew a triangle on one slide. Not a real mathematical theorem — the community named it.
+
+| Letter                      | Meaning                                                 | Prized by                                                    |
+| --------------------------- | ------------------------------------------------------- | ------------------------------------------------------------ |
+| **C — Consistency**         | Every node returns the **same/latest** data (no delta). | **Fintech / stock trading** (one source of truth; they *shut down*, update all tables, reopen). |
+| **A — Availability**        | Node is always reachable/responsive.                    | **Amazon** (stale price OK — a $20 item in Japan vs a missed $18 US sale just gets reconciled later). |
+| **P — Partition tolerance** | System keeps working when the network splits.           | Unavoidable on the internet.                                 |
+
+- **Pick any 2 of 3** → CA / CP / AP.
+- **Brewer, 12 years later (~2012, IEEE Computer):** "CAP is misleading." On the internet, **P is unavoidable**, so the real trade-off is **C vs A** ("one of two").
+- **Sharks biting undersea fiber-optic cables** (2014 Google example) = a real partition; the internet has redundancy so packets **reroute**.
+- **PACELC** (bonus, beyond scope): extends CAP — *if Partition → choose A or C; Else → choose Latency or Consistency.* Adds **latency**; mostly theoretical.
+
+------
+
+## 12. ACID vs BASE
+
+| **ACID** (relational DBs — strong guarantees)                | **BASE** (NoSQL — Mongo, Couch)                  |
+| ------------------------------------------------------------ | ------------------------------------------------ |
+| **A**tomicity — all of a transaction happens, or none does   | **B**asically **A**vailable — system rarely down |
+| **C**onsistency — integrity / keys match (same "C" as CAP's C) | **S**oft state                                   |
+| **I**solation — transactions don't interfere                 | **E**ventual consistency                         |
+| **D**urability — committed data persists                     |                                                  |
+
+- **Soft state ≈ eventual consistency:** two copies diverge momentarily after a write, but given time they converge; meanwhile both stay **available** (no shutdown to sync).
+- Chemistry joke: **acid vs base (alkali).** In CAP terms, picking **A** ≈ BASE-style; the **C** of CAP maps to ACID's **C**.
+
+------
+
+## 13. C.J. Date's 12 Rules (last slide)
+
+- **C.J. Date** authored *Database Systems* (same title as the course text). His **12 "rules"** are really a **checklist** for a distributed DB — the more boxes you tick, the more secure/robust.
+- Theme = **transparency**: the user can't guess the **DB vendor** (e.g., Oracle 5.2 → known bugs / SQL-injection vectors), **hardware/OS independence** (Linux? Mac?), fragmentation, location, mapping, # of copies, where transactions are distributed.
+- **Hide behind an API, hide behind a web server → the database is secure.**
+
+------
+
+### One-line recap
+
+> Lock locally (**2PL**), commit globally (**2PC**); fragment for speed (horizontal) or thrift (vertical); replicate **partially** with a **master/golden record** (push or pull); hide everything (**transparency**); accept you can only get **2 of CAP** (really **C vs A**); relational = **ACID**, NoSQL = **BASE**.
